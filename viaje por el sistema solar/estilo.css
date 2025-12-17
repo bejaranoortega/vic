@@ -1,0 +1,65 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #020617, #000);
+  color: white;
+  overflow-x: hidden;
+}
+
+.contenedor {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+p {
+  max-width: 700px;
+  margin: auto;
+}
+
+.planeta {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 50%;
+  margin: 20px 0;
+}
+
+.botones {
+  margin-top: 25px;
+}
+
+.boton {
+  display: inline-block;
+  padding: 12px 22px;
+  margin: 8px;
+  background: #2563eb;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.boton:hover {
+  background: #1d4ed8;
+}
+
+/* 🚀 Animación de despegue */
+.despegue {
+  animation: despegar 2s forwards;
+}
+
+@keyframes despegar {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120vh);
+    opacity: 0;
+  }
+}
