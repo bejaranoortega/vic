@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Vic ❤️</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden; 
+        }
+
+        /* Fondo animado base */
+        .fondo-animado {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, #7a0b2e, #4a093b, #1d0322, #8b104e, #5b0e42);
+            background-size: 400% 400%;
+            animation: moverColores 15s ease infinite;
+            z-index: 1;
+            transition: all 0.5s ease;
+        }
+
+        @keyframes moverColores {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #contenedor-emojis {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 2;
+            pointer-events: none; 
+        }
+
+        /* Tarjeta de Cristal */
+        .tarjeta-vidrio {
+            position: relative;
+            z-index: 3; 
+            margin: 0 auto;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 85%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            border-radius: 25px;
+            padding: 45px 30px;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); 
+            color: white;
+            box-sizing: border-box; 
+            transition: all 0.5s ease;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+        }
+
+        #texto-razon {
+            font-size: 21px;
+            line-height: 1.5; 
+            min-height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 25px 0;
+            font-weight: 400;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            transition: opacity 0.4s ease;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            color: white;
+            padding: 15px 35px;
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-radius: 30px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Estilo especial cuando el botón avisa que viene el final */
+        button.alerta-final {
+            background: rgba(214, 51, 132, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 15px rgba(214, 51, 132, 0.6);
+            animation: pulsoBoton 1s infinite alternate;
+        }
+
+        @keyframes pulsoBoton {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        .emoji {
+            position: absolute;
+            bottom: -50px;
+            font-size: 24px;
+            animation: flotar linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes flotar {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+        }
+
+        /* ========================================================
+           EFECTOS DEL GRAN FINAL ("LUCES Y TODO")
+           ======================================================== */
+        
+        /* Modificamos el fondo para que las luces giren como locas */
+        .gran-final .fondo-animado {
+            animation: moverColoresRapido 3s linear infinite;
+        }
+        @keyframes moverColoresRapido {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        /* La tarjeta empieza a brillar con luces neón bailando */
+        .gran-final .tarjeta-vidrio {
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            background: rgba(0, 0, 0, 0.3);
+            animation: lucesBailando 0.8s ease infinite alternate;
+        }
+        @keyframes lucesBailando {
+            0% { box-shadow: 0 0 25px #ff007f, 0 0 50px #ff007f, inset 0 0 15px #ff007f; }
+            100% { box-shadow: 0 0 50px #00f0ff, 0 0 100px #00f0ff, inset 0 0 25px #00f0ff; }
+        }
+
+        /* Texto gigante animado para Elienai */
+        .texto-elienai {
+            font-size: 38px;
+            font-weight: 800;
+            line-height: 1.2;
+            color: #ffffff;
+            text-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f, 0 0 40px #ff007f;
+            animation: latidoCorazon 0.4s ease infinite alternate;
+            margin-bottom: 15px;
+        }
+
+        .subtexto-final {
+            font-size: 20px;
+            font-weight: 400;
+            text-shadow: 0 0 8px #00f0ff;
+        }
+
+        @keyframes latidoCorazon {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.08); }
+        }
+
+        /* --- SOPORTE PARA MÓVILES --- */
+        @media (max-width: 600px) {
+            .tarjeta-vidrio {
+                width: 92%;
+                padding: 35px 20px;
+                border-radius: 20px;
+            }
+            h1 { font-size: 28px; }
+            #texto-razon {
+                font-size: 19px; 
+                min-height: 120px;
+                margin: 20px 0;
+            }
+            button {
+                padding: 14px 25px;
+                font-size: 16px;
+                width: 100%; 
+            }
+            .texto-elienai {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fondo-animado"></div>
+    <div id="contenedor-emojis"></div>
+
+    <div class="tarjeta-vidrio">
+        <h1 id="titulo-principal">Para Vic ❤️</h1>
+        <div id="texto-razon">Toca el botón para saber qué pienso...</div>
+        <button id="boton-accion" onclick="mostrarRazon()">¿Por qué te amo?</button>
+    </div>
+
+    <script>
+        // Array base con tus textos editados incorporados
+        const razonesOriginales = [
+            "Por ser la niña más linda de todas, incluso a través de una pantalla.",
+            "Because siempre estás ahí para mí, sin importar los kilómetros que nos separen.",
+            "Simplemente por existir y haber coincidido conmigo en este mundo virtual.",
+            "Porque te amo muchísimo, la distancia no cambia nada de lo que siento.",
+            "Porque me haces sonreír al celular como un tonto cada vez que me llega tu mensaje.",
+            "Por tus audios de voz, que son mi canción favorita.",
+            "Porque me aguantas todos los días por chat.",
+            "Por las ganas inmensas que tengo de darte ese abrazo que nos debemos.",
+            "Porque me encantas, así de simple y así de fuerte, sin importar la distancia.",
+            "Porque eres mi persona favorita en todo internet y en el mundo entero.",
+            "Porque me haces sentir que todo es mejor si tú estás al otro lado de la pantalla.",
+            "Por los videos y tiktoks que me mandas porque te acordaste de mí.",
+            "Porque desde que llegaste a mis chats, mi vida tiene mucho más color.",
+            "Por lo mucho que me inspiras a ser mejor para el día que por fin nos veamos.",
+            "Porque aunque no pueda tomar tu mano ahora, siento que estás conmigo.",
+            "Por la paciencia que nos tenemos cuando el internet falla o no hay luz xd.",
+            "Porque ver el 'Escribiendo...' debajo de tu nombre me alegra el día entero.",
+            "Por cómo suena mi nombre cuando lo dices en una nota de voz.",
+            "Porque me haces sentir especial y querido, rompiendo cualquier distancia.",
+            "Por tus buenas noches y tus buenos días que nunca me fallan.",
+            "Por que te amo bro te amo tanto mucho mucho muchoooooooo te amooo.",
+            "Por la confianza tan bonita que hemos construido a pesar de estar lejos.",
+            "Porque tienes los ojos más hermosos que he visto en cualquier foto o video.",
+            "Por la ternura que transmites en cada mensaje que me escribes.",
+            "Porque sé que toda esta espera valdrá la pena el día que estemos juntos."
+        ];
+
+        // Hacemos una copia dinámica de la lista para ir vaciándola (Garantiza NO REPETIR)
+        let razonesDisponibles = [...razonesOriginales];
+        let intervaloEmojis = 300; // Velocidad normal de emojis
+        let creadorId = setInterval(crearEmoji, intervaloEmojis);
+
+        function mostrarRazon() {
+            const elementoTexto = document.getElementById("texto-razon");
+            const boton = document.getElementById("boton-accion");
+            
+            elementoTexto.style.opacity = 0; 
+            
+            setTimeout(() => {
+                // Selecciona un índice al azar de los que quedan disponibles
+                const indiceAleatorio = Math.floor(Math.random() * razonesDisponibles.length);
+                
+                // Extrae la razón de la lista usando splice (así se elimina y no se repite jamás)
+                const razonSeleccionada = razonesDisponibles.splice(indiceAleatorio, 1)[0];
+                
+                elementoTexto.innerText = "✨ " + razonSeleccionada + " ✨";
+                elementoTexto.style.opacity = 1; 
+
+                // Si ya no quedan más frases para la próxima, preparamos el botón del final
+                if (razonesDisponibles.length === 0) {
+                    boton.innerText = "Ver sorpresa final... ✨";
+                    boton.className = "alerta-final";
+                    boton.onclick = activarGranFinal;
+                }
+            }, 400);
+        }
+
+        function activarGranFinal() {
+            // Añadimos la clase al body para activar las animaciones de luces CSS
+            document.body.className = "gran-final";
+            
+            const tarjeta = document.querySelector(".tarjeta-vidrio");
+            
+            // Reemplazamos todo el contenido interno de la tarjeta por el mega mensaje
+            tarjeta.innerHTML = `
+                <div class="texto-elienai">Te amo Elienai te amooooooooooooo</div>
+                <div class="subtexto-final">❤️ Eres y siempre serás lo mejor de mi vida entera ❤️</div>
+            `;
+            
+            // Rompemos el reloj anterior y creamos uno ultra rápido para generar una tormenta de emojis
+            clearInterval(creadorId);
+            setInterval(crearEmoji, 40); 
+        }
+
+        function crearEmoji() {
+            const contenedor = document.getElementById('contenedor-emojis');
+            const emoji = document.createElement('div');
+            
+            const tiposEmojis = ['❤️', '💕', '✨', '🥰', '💖', '🥺', '💌', '👑'];
+            emoji.innerText = tiposEmojis[Math.floor(Math.random() * tiposEmojis.length)];
+            
+            emoji.className = 'emoji';
+            emoji.style.left = Math.random() * 100 + 'vw';
+            
+            const duracion = Math.random() * 3 + 3; // Un poco más rápidos para mayor dinamismo
+            emoji.style.animationDuration = duracion + 's';
+            emoji.style.fontSize = (Math.random() * 20 + 15) + 'px';
+
+            contenedor.appendChild(emoji);
+
+            setTimeout(() => {
+                emoji.remove();
+            }, duracion * 1000);
+        }
+    </script>
+
+</body>
+</html>
