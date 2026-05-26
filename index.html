@@ -3,218 +3,616 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¿Te casas conmigo? ❤️</title>
+    <title>🐷 Peppa Pig – La Intro Oficial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #fbeee6; /* Fondo crema romántico */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #6dd5fa 0%, #a8edff 55%, #b8f0a0 100%);
+            font-family: 'Fredoka One', 'Arial Rounded MT Bold', 'Comic Sans MS', sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
+            justify-content: center;
+            gap: 22px;
             overflow: hidden;
             position: relative;
         }
 
-        .card {
-            text-align: center;
-            background: white;
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            max-width: 450px;
-            width: 90%;
-            z-index: 10;
-            border: 2px solid #f5b7b1;
-            transition: all 0.3s ease;
-        }
-
-        h1 {
-            color: #cd6155;
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-            font-weight: 600;
-        }
-
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            height: 60px;
-            position: relative;
-        }
-
-        button {
-            padding: 12px 35px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: transform 0.1s ease;
-        }
-
-        .btn-si {
-            background-color: #2ec4b6;
-            color: white;
-            box-shadow: 0 5px 15px rgba(46, 196, 182, 0.4);
-        }
-
-        .btn-si:active {
-            transform: scale(0.95);
-        }
-
-        .btn-no {
-            background-color: #e74c3c;
-            color: white;
-            position: absolute;
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
-            transition: all 0.2s ease;
-            left: 55%; /* Posición inicial */
-        }
-
-        /* Lienzo para los fuegos artificiales */
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        /* ── FONDO SVG (colinas + sol + nubes) ── */
+        .bg-scene {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
             pointer-events: none;
-            z-index: 5;
         }
 
-        .hidden {
-            display: none !important;
+        /* ── MARCO DE TV ── */
+        .tv {
+            position: relative;
+            z-index: 5;
+            width: min(860px, 96vw);
+            aspect-ratio: 16 / 10;
+            background: linear-gradient(175deg, #a8eeff 0%, #5cc8f5 100%);
+            border-radius: 38px;
+            border: 14px solid #ff8ab4;
+            outline: 5px solid #e8426e;
+            box-shadow:
+                0 0 0 8px rgba(255,138,180,0.25),
+                0 22px 55px rgba(0,0,0,0.28),
+                inset 0 3px 18px rgba(255,255,255,0.35);
+            overflow: hidden;
+        }
+
+        /* Nubes dentro de la TV */
+        .tv-cloud {
+            position: absolute;
+            background: rgba(255,255,255,0.82);
+            border-radius: 100px;
+        }
+        .tv-cloud::before, .tv-cloud::after {
+            content: '';
+            position: absolute;
+            background: rgba(255,255,255,0.82);
+            border-radius: 50%;
+        }
+        .tv-cloud.a { width: 120px; height: 40px; top: 28px; left: 6%; }
+        .tv-cloud.a::before { width: 65px; height: 58px; top: -28px; left: 18px; }
+        .tv-cloud.a::after  { width: 50px; height: 45px; top: -20px; left: 60px; }
+
+        .tv-cloud.b { width: 150px; height: 48px; top: 35px; right: 7%; }
+        .tv-cloud.b::before { width: 75px; height: 65px; top: -32px; left: 22px; }
+        .tv-cloud.b::after  { width: 58px; height: 50px; top: -24px; left: 76px; }
+
+        /* Sol dentro de la TV */
+        .tv-sun {
+            position: absolute;
+            top: 18px; left: 46%;
+            width: 78px; height: 78px;
+            background: radial-gradient(circle, #fffde7, #fdd835);
+            border-radius: 50%;
+            box-shadow: 0 0 0 12px rgba(253,216,53,0.25), 0 0 35px rgba(253,216,53,0.6);
+            animation: sunPulse 3s ease-in-out infinite;
+        }
+        @keyframes sunPulse {
+            0%,100% { box-shadow: 0 0 0 12px rgba(253,216,53,0.25), 0 0 35px rgba(253,216,53,0.6); }
+            50%     { box-shadow: 0 0 0 22px rgba(253,216,53,0.15), 0 0 60px rgba(253,216,53,0.5); }
+        }
+
+        /* Suelo verde dentro de la TV */
+        .tv-ground {
+            position: absolute;
+            bottom: 0; left: -8%; right: -8%;
+            height: 36%;
+            background: linear-gradient(180deg, #7bd148 0%, #5aab30 100%);
+            border-radius: 55% 55% 0 0;
+        }
+
+        /* ── SUBTÍTULO ── */
+        .subtitle {
+            position: absolute;
+            top: 18px; left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.97);
+            border: 3.5px solid #ff6fa3;
+            border-radius: 50px;
+            padding: 11px 28px;
+            font-size: clamp(0.95rem, 2.4vw, 1.55rem);
+            color: #333;
+            text-align: center;
+            white-space: nowrap;
+            box-shadow: 0 6px 0 #ffc6db, 0 10px 22px rgba(0,0,0,0.1);
+            z-index: 20;
+            display: none;
+            max-width: 88%;
+            white-space: normal;
+        }
+
+        /* ── LOGO ── */
+        .logo-wrap {
+            position: absolute;
+            top: 48%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.55);
+            z-index: 30;
+            text-align: center;
+            pointer-events: none;
+        }
+        .logo-wrap.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* ── ESCENARIO ── */
+        .stage {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 58%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 0;
+            padding: 0 20px 8px;
+            z-index: 10;
+        }
+
+        /* ── PERSONAJES ── */
+        .char-wrap {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            opacity: 0;
+            transform: translateY(50px) scale(0.4);
+            transition: opacity 0.5s ease, transform 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.4);
+            transform-origin: bottom center;
+            flex-shrink: 0;
+        }
+        .char-wrap.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        /* El bounce de hablar se aplica al SVG directo, no al wrapper */
+        .char-wrap.talking svg {
+            animation: bounce 0.38s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 18px rgba(255,255,255,0.9));
+            transform-origin: bottom center;
+        }
+        @keyframes bounce {
+            from { transform: translateY(0) scale(1); }
+            to   { transform: translateY(-22px) scale(1.06); }
+        }
+
+        /* ── BOTÓN ── */
+        .btn {
+            position: relative;
+            z-index: 10;
+            background: #ff3d7f;
+            color: #fff;
+            border: none;
+            padding: 15px 42px;
+            border-radius: 50px;
+            font-family: 'Fredoka One', sans-serif;
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            cursor: pointer;
+            box-shadow: 0 8px 0 #be1056, 0 14px 30px rgba(255,61,127,0.38);
+            transition: transform 0.1s, box-shadow 0.1s;
+            letter-spacing: 0.3px;
+        }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); }
+        .btn:active:not(:disabled) { transform: translateY(5px); box-shadow: 0 3px 0 #be1056; }
+        .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+        /* ── CONFETTI ── */
+        .confetti {
+            position: fixed;
+            border-radius: 2px;
+            animation: fall linear forwards;
+            z-index: 100;
+            pointer-events: none;
+        }
+        @keyframes fall {
+            0%   { transform: translateY(-30px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(900deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <canvas id="fireworksCanvas"></canvas>
+<!-- Fondo animado con SVG -->
+<svg class="bg-scene" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <!-- Colinas traseras -->
+    <path d="M0,900 C180,780 380,840 580,800 C780,760 980,820 1180,790 C1310,775 1400,800 1440,790 L1440,900 Z" fill="#88d14a" opacity="0.6"/>
+    <!-- Colinas delanteras -->
+    <path d="M0,900 C100,855 280,870 460,850 C640,830 840,860 1020,845 C1200,830 1360,855 1440,845 L1440,900 Z" fill="#6dc549"/>
+    <!-- Florecitas decorativas -->
+    <circle cx="150" cy="875" r="7" fill="#ff89b0"/>
+    <circle cx="320" cy="865" r="5" fill="#fff176"/>
+    <circle cx="550" cy="880" r="6" fill="#ff89b0"/>
+    <circle cx="900" cy="870" r="7" fill="#fff176"/>
+    <circle cx="1200" cy="878" r="5" fill="#ff89b0"/>
+    <circle cx="1380" cy="868" r="6" fill="#fff176"/>
+</svg>
 
-    <div class="card" id="mainCard">
-        <h1 id="questionText">¿Te casas conmigo? ❤️</h1>
-        
-        <div class="btn-container">
-            <button class="btn-si" style="position: absolute; right: 55%;" onclick="celebrate()">SÍ</button>
-            
-            <button class="btn-no" id="btnNo" onmouseover="moveButton()" onclick="moveButton()">NO</button>
-        </div>
+<div class="tv" id="tv">
+    <div class="tv-sun"></div>
+    <div class="tv-cloud a"></div>
+    <div class="tv-cloud b"></div>
+
+    <!-- SUBTÍTULO -->
+    <div class="subtitle" id="subtitle"></div>
+
+    <!-- LOGO -->
+    <div class="logo-wrap" id="logo">
+        <svg viewBox="0 0 340 115" width="300" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+                    <feDropShadow dx="3" dy="6" stdDeviation="3" flood-color="rgba(0,0,0,0.22)"/>
+                </filter>
+            </defs>
+            <!-- Fondo blanco redondeado -->
+            <rect x="5" y="8" width="330" height="100" rx="28" fill="rgba(255,255,255,0.92)" filter="url(#shadow)"/>
+            <text x="170" y="82"
+                  text-anchor="middle"
+                  font-family="'Fredoka One', Arial Rounded MT Bold, sans-serif"
+                  font-size="62"
+                  fill="#ff3d7f"
+                  stroke="white"
+                  stroke-width="7"
+                  paint-order="stroke">Peppa Pig</text>
+            <!-- Cerdito pequeño decorativo -->
+            <circle cx="48" cy="58" r="20" fill="#ffb3c6"/>
+            <ellipse cx="48" cy="66" rx="12" ry="9" fill="#ffa0be"/>
+            <circle cx="44" cy="65" r="3" fill="#e05080"/>
+            <circle cx="52" cy="65" r="3" fill="#e05080"/>
+            <circle cx="43" cy="52" r="6" fill="white"/>
+            <circle cx="53" cy="52" r="6" fill="white"/>
+            <circle cx="44" cy="52" r="3.5" fill="#222"/>
+            <circle cx="54" cy="52" r="3.5" fill="#222"/>
+            <ellipse cx="36" cy="44" rx="7" ry="9" fill="#ffb3c6"/>
+            <ellipse cx="60" cy="44" rx="7" ry="9" fill="#ffb3c6"/>
+        </svg>
     </div>
 
-    <script>
-        // --- LÓGICA PARA ESCAPAR DEL BOTÓN "NO" ---
-        function moveButton() {
-            const btnNo = document.getElementById('btnNo');
-            
-            // Calculamos posiciones aleatorias dentro de la ventana del navegador
-            // Restamos parte del tamaño para evitar que se salga de los bordes de la pantalla
-            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - 40) + 20;
-            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight - 40) + 20;
-            
-            // Cambiamos el comportamiento a fixed para que se mueva libre por toda la pantalla externa a la tarjeta
-            btnNo.style.position = 'fixed';
-            btnNo.style.left = x + 'px';
-            btnNo.style.top = y + 'px';
-        }
+    <!-- SUELO -->
+    <div class="tv-ground"></div>
 
-        // --- LÓGICA DE FUEGOS ARTIFICIALES (CANVAS) ---
-        const canvas = document.getElementById('fireworksCanvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        let animationId;
+    <!-- ══════════ ESCENARIO ══════════ -->
+    <div class="stage">
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        <!-- GEORGE (izquierda, el más pequeño) -->
+        <div class="char-wrap" id="cGeorge">
+            <svg width="88" height="142" viewBox="0 0 88 142" xmlns="http://www.w3.org/2000/svg">
+                <!-- Orejas -->
+                <ellipse cx="26" cy="28" rx="11" ry="13" fill="#ffb3c6"/>
+                <ellipse cx="62" cy="28" rx="11" ry="13" fill="#ffb3c6"/>
+                <ellipse cx="26" cy="28" rx="6"  ry="7.5" fill="#ff89a8"/>
+                <ellipse cx="62" cy="28" rx="6"  ry="7.5" fill="#ff89a8"/>
+                <!-- Cabeza -->
+                <ellipse cx="44" cy="54" rx="31" ry="29" fill="#ffb3c6"/>
+                <!-- Hocico -->
+                <ellipse cx="44" cy="67" rx="18" ry="13" fill="#ffa0be"/>
+                <circle cx="38" cy="66" r="4"   fill="#d0406a"/>
+                <circle cx="50" cy="66" r="4"   fill="#d0406a"/>
+                <!-- Ojos -->
+                <circle cx="33" cy="48" r="8"   fill="white"/>
+                <circle cx="55" cy="48" r="8"   fill="white"/>
+                <circle cx="35" cy="48" r="5"   fill="#1a1a2e"/>
+                <circle cx="57" cy="48" r="5"   fill="#1a1a2e"/>
+                <circle cx="37" cy="46" r="1.6" fill="white"/>
+                <circle cx="59" cy="46" r="1.6" fill="white"/>
+                <!-- Sonrisa -->
+                <path d="M34,73 Q44,81 54,73" stroke="#b03060" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <!-- Cuerpo – peto azul -->
+                <rect x="14" y="79" width="60" height="44" rx="12" fill="#4a8fd4"/>
+                <!-- Tirantes -->
+                <rect x="26" y="77" width="10" height="14" rx="4" fill="#3370b8"/>
+                <rect x="52" y="77" width="10" height="14" rx="4" fill="#3370b8"/>
+                <!-- Bolsillo del peto -->
+                <rect x="30" y="86" width="28" height="18" rx="5" fill="#3370b8"/>
+                <!-- Brazos -->
+                <ellipse cx="8"  cy="98" rx="8" ry="17" fill="#ffb3c6" transform="rotate(12 8 98)"/>
+                <ellipse cx="80" cy="98" rx="8" ry="17" fill="#ffb3c6" transform="rotate(-12 80 98)"/>
+                <!-- Piernas -->
+                <rect x="20" y="117" width="17" height="22" rx="8" fill="#ffb3c6"/>
+                <rect x="51" y="117" width="17" height="22" rx="8" fill="#ffb3c6"/>
+                <!-- Zapatos -->
+                <ellipse cx="28" cy="139" rx="13" ry="7" fill="#1a1a2e"/>
+                <ellipse cx="59" cy="139" rx="13" ry="7" fill="#1a1a2e"/>
+            </svg>
+        </div>
 
-        class Particle {
-            constructor(x, y, color) {
-                this.x = x;
-                this.y = y;
-                this.color = color;
-                // Velocidad y dirección aleatoria
-                const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 6 + 2;
-                this.vx = Math.cos(angle) * speed;
-                this.vy = Math.sin(angle) * speed;
-                this.gravity = 0.12;
-                this.alpha = 1;
-                this.decay = Math.random() * 0.015 + 0.015;
-            }
+        <!-- MAMÁ CERDITA (segundo desde la izquierda, alta) -->
+        <div class="char-wrap" id="cMama">
+            <svg width="118" height="200" viewBox="0 0 118 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Moño / peinado -->
+                <ellipse cx="59" cy="14" rx="20" ry="15" fill="#ffb3c6"/>
+                <ellipse cx="38" cy="20" rx="13" ry="11" fill="#ffb3c6"/>
+                <ellipse cx="80" cy="20" rx="13" ry="11" fill="#ffb3c6"/>
+                <!-- Orejas -->
+                <ellipse cx="22" cy="42" rx="13" ry="15" fill="#ffb3c6"/>
+                <ellipse cx="96" cy="42" rx="13" ry="15" fill="#ffb3c6"/>
+                <ellipse cx="22" cy="42" rx="7"  ry="9"  fill="#ff89a8"/>
+                <ellipse cx="96" cy="42" rx="7"  ry="9"  fill="#ff89a8"/>
+                <!-- Cabeza -->
+                <ellipse cx="59" cy="72" rx="40" ry="38" fill="#ffb3c6"/>
+                <!-- Hocico -->
+                <ellipse cx="59" cy="88" rx="22" ry="16" fill="#ffa0be"/>
+                <circle cx="51" cy="87" r="5.5" fill="#d0406a"/>
+                <circle cx="67" cy="87" r="5.5" fill="#d0406a"/>
+                <!-- Ojos con pestañas -->
+                <circle cx="45" cy="63" r="9.5" fill="white"/>
+                <circle cx="73" cy="63" r="9.5" fill="white"/>
+                <circle cx="47" cy="63" r="6"   fill="#1a1a2e"/>
+                <circle cx="75" cy="63" r="6"   fill="#1a1a2e"/>
+                <circle cx="49" cy="61" r="2"   fill="white"/>
+                <circle cx="77" cy="61" r="2"   fill="white"/>
+                <!-- Pestañas -->
+                <line x1="37" y1="57" x2="33" y2="52" stroke="#1a1a2e" stroke-width="2.2" stroke-linecap="round"/>
+                <line x1="43" y1="54" x2="42" y2="49" stroke="#1a1a2e" stroke-width="2.2" stroke-linecap="round"/>
+                <line x1="50" y1="54" x2="51" y2="49" stroke="#1a1a2e" stroke-width="2.2" stroke-linecap="round"/>
+                <line x1="68" y1="54" x2="67" y2="49" stroke="#1a1a2e" stroke-width="2.2" stroke-linecap="round"/>
+                <line x1="75" y1="54" x2="76" y2="49" stroke="#1a1a2e" stroke-width="2.2" stroke-linecap="round"/>
+                <line x1="81" y1="57" x2="85" y2="52" stroke="#1a1a2e" stroke-width="2.2" stroke-linecap="round"/>
+                <!-- Sonrisa -->
+                <path d="M48,95 Q59,104 70,95" stroke="#b03060" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+                <!-- Vestido naranja -->
+                <path d="M16,108 Q59,102 102,108 L110,162 Q59,170 8,162 Z" fill="#f5a623"/>
+                <ellipse cx="59" cy="165" rx="53" ry="18" fill="#f5a623"/>
+                <!-- Collar decorativo -->
+                <circle cx="47" cy="112" r="4.5" fill="#e07a10"/>
+                <circle cx="59" cy="110" r="4.5" fill="#e07a10"/>
+                <circle cx="71" cy="112" r="4.5" fill="#e07a10"/>
+                <!-- Brazos -->
+                <ellipse cx="6"   cy="128" rx="9" ry="21" fill="#ffb3c6" transform="rotate(15 6 128)"/>
+                <ellipse cx="112" cy="128" rx="9" ry="21" fill="#ffb3c6" transform="rotate(-15 112 128)"/>
+                <!-- Piernas -->
+                <rect x="33" y="177" width="20" height="23" rx="9" fill="#ffb3c6"/>
+                <rect x="65" y="177" width="20" height="23" rx="9" fill="#ffb3c6"/>
+                <!-- Zapatos -->
+                <ellipse cx="43" cy="200" rx="16" ry="9"  fill="#1a1a2e"/>
+                <ellipse cx="75" cy="200" rx="16" ry="9"  fill="#1a1a2e"/>
+            </svg>
+        </div>
 
-            draw() {
-                ctx.save();
-                ctx.globalAlpha = this.alpha;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-                ctx.restore();
-            }
+        <!-- PEPPA (centro) -->
+        <div class="char-wrap" id="cPeppa">
+            <svg width="106" height="175" viewBox="0 0 106 175" xmlns="http://www.w3.org/2000/svg">
+                <!-- Lazo / coleta -->
+                <ellipse cx="78" cy="16" rx="10" ry="7" fill="#ff3d7f" transform="rotate(-30 78 16)"/>
+                <ellipse cx="64" cy="16" rx="10" ry="7" fill="#ff3d7f" transform="rotate(30 64 16)"/>
+                <circle cx="71" cy="15" r="5.5" fill="#cc0055"/>
+                <ellipse cx="71" cy="24" rx="5" ry="12" fill="#ffb3c6"/>
+                <!-- Orejas -->
+                <ellipse cx="26" cy="40" rx="12" ry="14" fill="#ffb3c6"/>
+                <ellipse cx="80" cy="40" rx="12" ry="14" fill="#ffb3c6"/>
+                <ellipse cx="26" cy="40" rx="6.5" ry="8" fill="#ff89a8"/>
+                <ellipse cx="80" cy="40" rx="6.5" ry="8" fill="#ff89a8"/>
+                <!-- Cabeza -->
+                <ellipse cx="53" cy="68" rx="36" ry="34" fill="#ffb3c6"/>
+                <!-- Hocico -->
+                <ellipse cx="53" cy="83" rx="20" ry="14" fill="#ffa0be"/>
+                <circle cx="46" cy="82" r="4.5" fill="#d0406a"/>
+                <circle cx="60" cy="82" r="4.5" fill="#d0406a"/>
+                <!-- Ojos -->
+                <circle cx="40" cy="61" r="9"   fill="white"/>
+                <circle cx="66" cy="61" r="9"   fill="white"/>
+                <circle cx="42" cy="61" r="5.8" fill="#1a1a2e"/>
+                <circle cx="68" cy="61" r="5.8" fill="#1a1a2e"/>
+                <circle cx="44" cy="59" r="2"   fill="white"/>
+                <circle cx="70" cy="59" r="2"   fill="white"/>
+                <!-- Sonrisa -->
+                <path d="M43,89 Q53,98 63,89" stroke="#b03060" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+                <!-- Vestido rojo -->
+                <path d="M16,100 Q53,94 90,100 L96,155 Q53,162 10,155 Z" fill="#e63333"/>
+                <ellipse cx="53" cy="157" rx="48" ry="17" fill="#e63333"/>
+                <!-- Botones -->
+                <circle cx="53" cy="111" r="3.5" fill="#b82020"/>
+                <circle cx="53" cy="124" r="3.5" fill="#b82020"/>
+                <!-- Brazos -->
+                <ellipse cx="5"   cy="118" rx="8.5" ry="19" fill="#ffb3c6" transform="rotate(15 5 118)"/>
+                <ellipse cx="101" cy="118" rx="8.5" ry="19" fill="#ffb3c6" transform="rotate(-15 101 118)"/>
+                <!-- Piernas -->
+                <rect x="30" y="166" width="18" height="21" rx="8" fill="#ffb3c6"/>
+                <rect x="58" y="166" width="18" height="21" rx="8" fill="#ffb3c6"/>
+                <!-- Zapatos -->
+                <ellipse cx="39" cy="187" rx="14" ry="8"  fill="#1a1a2e"/>
+                <ellipse cx="67" cy="187" rx="14" ry="8"  fill="#1a1a2e"/>
+            </svg>
+        </div>
 
-            update() {
-                this.vy += this.gravity;
-                this.x += this.vx;
-                this.y += this.vy;
-                this.alpha -= this.decay;
-            }
-        }
+        <!-- PAPÁ CERDITO (derecha, el más grande) -->
+        <div class="char-wrap" id="cPapa">
+            <svg width="135" height="235" viewBox="0 0 135 235" xmlns="http://www.w3.org/2000/svg">
+                <!-- Orejas -->
+                <ellipse cx="28" cy="46" rx="15" ry="18" fill="#ffb3c6"/>
+                <ellipse cx="107" cy="46" rx="15" ry="18" fill="#ffb3c6"/>
+                <ellipse cx="28" cy="46" rx="8.5" ry="11" fill="#ff89a8"/>
+                <ellipse cx="107" cy="46" rx="8.5" ry="11" fill="#ff89a8"/>
+                <!-- Cabeza -->
+                <ellipse cx="67" cy="80" rx="46" ry="44" fill="#ffb3c6"/>
+                <!-- Gafas – marcos -->
+                <rect x="20" y="64" width="35" height="26" rx="9" fill="none" stroke="#4a2f0a" stroke-width="3.5"/>
+                <rect x="80" y="64" width="35" height="26" rx="9" fill="none" stroke="#4a2f0a" stroke-width="3.5"/>
+                <line x1="55" y1="77" x2="80" y2="77" stroke="#4a2f0a" stroke-width="3.5"/>
+                <line x1="20" y1="77" x2="8"  y2="74" stroke="#4a2f0a" stroke-width="3.5"/>
+                <line x1="115" y1="77" x2="127" y2="74" stroke="#4a2f0a" stroke-width="3.5"/>
+                <!-- Ojos detrás de las gafas -->
+                <circle cx="37"  cy="77" r="8.5" fill="white"/>
+                <circle cx="97"  cy="77" r="8.5" fill="white"/>
+                <circle cx="39"  cy="77" r="5.5" fill="#1a1a2e"/>
+                <circle cx="99"  cy="77" r="5.5" fill="#1a1a2e"/>
+                <circle cx="41"  cy="75" r="1.8" fill="white"/>
+                <circle cx="101" cy="75" r="1.8" fill="white"/>
+                <!-- Hocico grande -->
+                <ellipse cx="67" cy="100" rx="27" ry="19" fill="#ffa0be"/>
+                <circle cx="57" cy="99"  r="7"   fill="#d0406a"/>
+                <circle cx="77" cy="99"  r="7"   fill="#d0406a"/>
+                <!-- Sonrisa -->
+                <path d="M52,112 Q67,122 82,112" stroke="#b03060" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <!-- Barriga / cuerpo – camisa azul -->
+                <ellipse cx="67" cy="176" rx="57" ry="60" fill="#4a8fd4"/>
+                <!-- Cinturón -->
+                <rect x="14" y="196" width="107" height="11" rx="5" fill="#2a5faa"/>
+                <rect x="58" y="193" width="18" height="17" rx="4" fill="#d4a017"/>
+                <!-- Pantalones -->
+                <rect x="13"  y="207" width="46" height="28" rx="8" fill="#2a5faa"/>
+                <rect x="76"  y="207" width="46" height="28" rx="8" fill="#2a5faa"/>
+                <!-- Piernas -->
+                <rect x="22"  y="227" width="25" height="26" rx="11" fill="#ffb3c6"/>
+                <rect x="88"  y="227" width="25" height="26" rx="11" fill="#ffb3c6"/>
+                <!-- Zapatos -->
+                <ellipse cx="34"  cy="253" rx="19" ry="11" fill="#1a1a2e"/>
+                <ellipse cx="100" cy="253" rx="19" ry="11" fill="#1a1a2e"/>
+                <!-- Brazos -->
+                <ellipse cx="7"   cy="158" rx="11" ry="27" fill="#ffb3c6" transform="rotate(18 7 158)"/>
+                <ellipse cx="128" cy="158" rx="11" ry="27" fill="#ffb3c6" transform="rotate(-18 128 158)"/>
+            </svg>
+        </div>
 
-        function createFirework() {
-            // Genera un disparo en coordenadas X aleatorias de la pantalla
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * (canvas.height * 0.6); // En la mitad superior
-            const colors = ['#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#FF33F3', '#33FFF0'];
-            const color = colors[Math.floor(Math.random() * colors.length)];
+    </div><!-- /stage -->
+</div><!-- /tv -->
 
-            for (let i = 0; i < 60; i++) {
-                particles.push(new Particle(x, y, color));
-            }
-        }
+<button class="btn" id="mainBtn" onclick="startIntro()">🎬 REPRODUCIR INTRO 🎬</button>
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Frecuencia con la que nacen nuevos fuegos artificiales
-            if (Math.random() < 0.05) {
-                createFirework();
-            }
+<script>
+/* ═══════════════════════════════════════
+   AUDIO
+═══════════════════════════════════════ */
+let ctx;
+function getCtx() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    return ctx;
+}
+function playTone(freq, dur, type='sine', vol=0.1) {
+    const c = getCtx();
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol, c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + dur);
+    o.connect(g); g.connect(c.destination);
+    o.start(); o.stop(c.currentTime + dur);
+}
+function snort(pitch=1) {
+    playTone(160*pitch, 0.13, 'sawtooth', 0.07);
+    setTimeout(() => playTone(125*pitch, 0.1, 'sawtooth', 0.05), 90);
+}
+const NOTES = [[523.25,0],[659.25,170],[783.99,340],[659.25,580],[880,730],[1046.5,900]];
+function jingle() {
+    NOTES.forEach(([f,t]) => setTimeout(() => playTone(f, 0.22, 'sine', 0.13), t));
+}
 
-            for (let i = particles.length - 1; i >= 0; i--) {
-                particles[i].update();
-                particles[i].draw();
-                if (particles[i].alpha <= 0) {
-                    particles.splice(i, 1);
-                }
-            }
-            animationId = requestAnimationFrame(animate);
-        }
+/* ═══════════════════════════════════════
+   SÍNTESIS DE VOZ
+   Devuelve una Promise que resuelve cuando
+   termina de hablar (o después de timeout)
+═══════════════════════════════════════ */
+function speak(text, pitch=1, rate=1.05) {
+    return new Promise(resolve => {
+        if (!window.speechSynthesis) { setTimeout(resolve, 2000); return; }
+        window.speechSynthesis.cancel();
 
-        // --- ACCIÓN AL PRESIONAR SÍ ---
-        function celebrate() {
-            // Cambiar el texto de la propuesta
-            document.getElementById('questionText').innerHTML = "¡Sabía que dirías que sí! 💖💍";
-            
-            // Ocultar el botón NO por completo
-            document.getElementById('btnNo').classList.add('hidden');
-            
-            // Iniciar fuegos artificiales si no se han iniciado ya
-            if (!animationId) {
-                animate();
-            }
-        }
-    </script>
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang  = 'es-MX';
+        u.pitch = pitch;
+        u.rate  = rate;
+
+        // Seguro contra onend que no dispara en algunos navegadores
+        const fallback = setTimeout(resolve, text.length * 80 + 1500);
+        u.onend  = () => { clearTimeout(fallback); resolve(); };
+        u.onerror= () => { clearTimeout(fallback); resolve(); };
+
+        window.speechSynthesis.speak(u);
+    });
+}
+
+/* ═══════════════════════════════════════
+   UTILIDADES
+═══════════════════════════════════════ */
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+function setSubtitle(html) {
+    const s = document.getElementById('subtitle');
+    s.style.display = 'block';
+    s.innerHTML = html;
+}
+
+function showChar(id)      { document.getElementById(id).classList.add('show'); }
+function setTalk(id, on)   { document.getElementById(id).classList.toggle('talking', on); }
+
+function launchConfetti() {
+    const colors = ['#ff3d7f','#ffe036','#4a8fd4','#6dc549','#ff89b0','#ffffff','#ff6fab'];
+    for (let i = 0; i < 70; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti';
+        const size = 7 + Math.random() * 11;
+        el.style.cssText = `
+            left:${Math.random()*100}vw;
+            top:-30px;
+            width:${size}px; height:${size}px;
+            background:${colors[i % colors.length]};
+            border-radius:${Math.random()>.45 ? '50%':'3px'};
+            animation-duration:${2.2+Math.random()*2}s;
+            animation-delay:${Math.random()*1.8}s;
+        `;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 6000);
+    }
+}
+
+/* ═══════════════════════════════════════
+   SECUENCIA PRINCIPAL  (async → sin cortes)
+═══════════════════════════════════════ */
+async function startIntro() {
+    const btn = document.getElementById('mainBtn');
+    btn.disabled = true;
+
+    // Reset
+    ['cGeorge','cMama','cPeppa','cPapa'].forEach(id => {
+        document.getElementById(id).className = 'char-wrap';
+    });
+    document.getElementById('logo').classList.remove('show');
+    const sub = document.getElementById('subtitle');
+    sub.style.display = 'none';
+
+    await wait(300);
+    jingle();
+    await wait(1100);
+
+    /* 1 · PEPPA ─────────────────────────── */
+    showChar('cPeppa');
+    await wait(650);
+    setSubtitle("🐷 ¡Soy Peppa Pig!");
+    snort(1.5);
+    setTalk('cPeppa', true);
+    await speak("¡Soy Peppa Pig!", 1.45);
+    setTalk('cPeppa', false);
+    await wait(450);
+
+    /* 2 · GEORGE ────────────────────────── */
+    showChar('cGeorge');
+    await wait(650);
+    setSubtitle("🦕 Este es mi hermano pequeño, George.");
+    snort(1.9);
+    setTalk('cPeppa', true);
+    await speak("Este es mi hermano pequeño, George.", 1.4);
+    setTalk('cPeppa', false);
+    await wait(450);
+
+    /* 3 · MAMÁ ──────────────────────────── */
+    showChar('cMama');
+    await wait(650);
+    setSubtitle("🧡 Esta es Mamá Cerdita.");
+    snort(1.1);
+    setTalk('cMama', true);
+    await speak("Esta es Mamá Cerdita.", 1.1);
+    setTalk('cMama', false);
+    await wait(450);
+
+    /* 4 · PAPÁ ──────────────────────────── */
+    showChar('cPapa');
+    await wait(650);
+    setSubtitle("👓 Y este es Papá Cerdito.");
+    snort(0.68);
+    setTalk('cPapa', true);
+    await speak("Y este es Papá Cerdito.", 0.72);
+    setTalk('cPapa', false);
+    await wait(550);
+
+    /* 5 · FINAL ─────────────────────────── */
+    setSubtitle("🎵 ¡Ja ja ja ja! ¡Peppa Pig! 🎵");
+    ['cGeorge','cMama','cPeppa','cPapa'].forEach(id => setTalk(id, true));
+    document.getElementById('logo').classList.add('show');
+    jingle();
+    snort(1.3);
+    launchConfetti();
+    await speak("¡Ja ja ja ja! ¡Peppa Pig!", 1.3, 0.95);
+    ['cGeorge','cMama','cPeppa','cPapa'].forEach(id => setTalk(id, false));
+
+    await wait(400);
+    btn.disabled = false;
+    btn.textContent = "🔄 REPETIR INTRO 🔄";
+}
+</script>
 </body>
 </html>
