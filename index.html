@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>💕 Para Mi Princesa</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+:root{--rose:#ff6b8a;--deep-rose:#c9184a;--pink-light:#ffb3c6;--pink-soft:#ffd6e0;--gold:#f4c2c2;--purple:#6b2d8b;--dark:#0d0515}
+html,body{width:100%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at 30% 30%,#1a0533,#0d1a3d 50%,#1a0533);font-family:'Cormorant Garamond',serif}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 20% 50%,rgba(201,24,74,.15),transparent 60%),
+             radial-gradient(ellipse at 80% 20%,rgba(107,45,139,.2),transparent 60%);
+  animation:bgPulse 8s ease-in-out infinite alternate}
+@keyframes bgPulse{0%{opacity:.6}100%{opacity:1}}
+
+/* ═══ PHONE ═══ */
+.phone{width:390px;height:844px;background:#000;border-radius:52px;position:relative;overflow:hidden;flex-shrink:0;
+  box-shadow:0 0 0 1px #1a1a2e,0 0 0 3px #0d0d1a,0 0 0 5px #1a0533,0 60px 120px rgba(0,0,0,.9),0 0 80px rgba(201,24,74,.2)}
+.phone::before{content:'';position:absolute;left:-3px;top:140px;width:3px;height:75px;background:#1a1a2e;border-radius:3px 0 0 3px;box-shadow:0 90px 0 #1a1a2e}
+.phone::after{content:'';position:absolute;right:-3px;top:175px;width:3px;height:120px;background:#1a1a2e;border-radius:0 3px 3px 0}
+@media(max-width:430px){body{background:#000;align-items:stretch;justify-content:stretch}
+  .phone{width:100vw;height:100vh;border-radius:0;box-shadow:none}body::before{display:none}}
+@media(max-height:860px) and (min-width:431px){.phone{transform:scale(.9);transform-origin:center}}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:126px;height:37px;background:#000;border-radius:0 0 22px 22px;z-index:9999}
+
+/* ═══ STATUS BAR ═══ */
+.status-bar{position:absolute;top:0;left:0;right:0;height:52px;display:flex;align-items:flex-end;
+  justify-content:space-between;padding:0 24px 8px;z-index:9998;color:white;font-family:-apple-system,sans-serif}
+.st-time{font-size:15px;font-weight:700}
+.st-ampm{font-size:10px;font-weight:600;margin-left:3px;vertical-align:super;opacity:.85}
+.st-icons{display:flex;gap:6px;align-items:center}
+
+/* ═══ FULLSCREEN ═══ */
+.fs-btn{position:absolute;bottom:14px;right:16px;z-index:9997;width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,.12);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18);
+  color:white;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.fs-btn:active{background:rgba(255,255,255,.3)}
+
+/* ═══ NOTIFICATION ═══ */
+.notif-popup{position:absolute;top:60px;left:14px;right:14px;background:rgba(25,10,45,.93);
+  backdrop-filter:blur(25px);border:1px solid rgba(255,150,180,.3);border-radius:18px;
+  padding:14px 16px;display:flex;gap:12px;align-items:center;z-index:9990;
+  transform:translateY(-90px);opacity:0;transition:transform .4s cubic-bezier(.25,.46,.45,.94),opacity .4s;
+  box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.notif-popup.show{transform:translateY(0);opacity:1}
+.notif-ico{font-size:32px;flex-shrink:0}
+.notif-right{flex:1}
+.notif-app{font-size:11px;color:var(--rose);font-family:-apple-system,sans-serif;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px}
+.notif-msg{font-size:13.5px;color:rgba(255,255,255,.92);font-family:'Cormorant Garamond',serif;font-style:italic}
+
+/* ═══ SCREENS ═══ */
+.screen{position:absolute;inset:0;overflow:hidden;transition:opacity .45s cubic-bezier(.25,.46,.45,.94),transform .45s cubic-bezier(.25,.46,.45,.94)}
+.screen.hidden{opacity:0;transform:scale(1.08);pointer-events:none}
+@keyframes glowPulse{0%,100%{text-shadow:0 0 15px rgba(255,179,198,.6),0 0 40px rgba(255,107,138,.3)}50%{text-shadow:0 0 30px rgba(255,179,198,1),0 0 60px rgba(255,107,138,.6)}}
+@keyframes heartbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.13)}28%{transform:scale(1)}42%{transform:scale(1.13)}70%{transform:scale(1)}}
+@keyframes floatUp{0%{opacity:0;transform:translateY(0) rotate(0deg) scale(.5)}8%{opacity:.8;transform:translateY(-60px) rotate(15deg) scale(1)}90%{opacity:.4}100%{opacity:0;transform:translateY(-900px) rotate(360deg) scale(.8)}}
+@keyframes cardIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes bloomIn{from{transform:scale(0) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+@keyframes sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px)}40%{transform:translateX(10px)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:.95;transform:scale(1.3)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+/* ═══ LOCK SCREEN ═══ */
+#lockscreen{background:url('https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=2000&q=90') center/cover;
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:82px 28px 52px}
+.lock-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.22) 0%,rgba(5,2,15,.08) 35%,rgba(5,2,15,.28) 65%,rgba(5,2,15,.72) 100%)}
+.hearts-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.fheart{position:absolute;bottom:-40px;animation:floatUp linear infinite;opacity:0}
+.lock-top{text-align:center;z-index:1}
+.lock-time-wrap{display:flex;align-items:flex-start;justify-content:center}
+.lock-time{font-size:84px;font-family:'Playfair Display',serif;font-weight:700;color:white;line-height:1;letter-spacing:-3px;text-shadow:0 4px 30px rgba(0,0,0,.4)}
+.lock-ampm{font-family:'Playfair Display',serif;font-size:22px;color:rgba(255,255,255,.8);margin-top:14px;margin-left:6px;font-weight:400}
+.lock-date{font-size:19px;font-family:'Dancing Script',cursive;color:rgba(255,255,255,.92);margin-top:6px;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.lock-greeting{font-size:17px;font-family:'Dancing Script',cursive;color:var(--pink-light);margin-top:18px;animation:glowPulse 2.5s ease-in-out infinite}
+.lock-mid{z-index:1;font-size:62px;animation:heartbeat 1.4s ease-in-out infinite}
+.lock-bottom{z-index:1;width:100%}
+.lock-hint{text-align:center;color:rgba(255,255,255,.65);font-size:14px;font-family:'Dancing Script',cursive;margin-bottom:14px;letter-spacing:.5px}
+.lock-input-wrap{position:relative}
+#pwInput{width:100%;padding:15px 52px 15px 22px;background:rgba(255,255,255,.14);backdrop-filter:blur(16px);
+  border:1.5px solid rgba(255,255,255,.28);border-radius:28px;color:white;font-size:16px;
+  font-family:'Cormorant Garamond',serif;text-align:center;outline:none;transition:all .3s}
+#pwInput::placeholder{letter-spacing:0;color:rgba(255,255,255,.45);font-size:14px;font-family:'Dancing Script',cursive}
+#pwInput:focus{border-color:rgba(255,107,138,.7);background:rgba(255,255,255,.2);box-shadow:0 0 0 3px rgba(255,107,138,.2),0 0 40px rgba(255,107,138,.3)}
+.unlock-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(135deg,var(--rose),var(--deep-rose));border:none;color:white;font-size:20px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(201,24,74,.5);transition:transform .15s}
+.unlock-btn:active{transform:translateY(-50%) scale(.88)}
+.lock-error{text-align:center;color:#ff8fa3;font-size:13px;font-family:'Dancing Script',cursive;min-height:22px;margin-top:10px}
+
+/* ═══ HOME SCREEN ═══ */
+#homescreen{background:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=3840&q=95') center/cover;display:flex;flex-direction:column;padding-top:58px}
+.home-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,2,15,.4) 0%,rgba(5,2,15,.05) 25%,rgba(5,2,15,.1) 60%,rgba(5,2,15,.55) 100%)}
+.home-greeting{text-align:center;z-index:1;padding:10px 20px 4px}
+.home-greeting h2{font-family:'Dancing Script',cursive;font-size:25px;color:var(--pink-light);text-shadow:0 2px 20px rgba(255,107,138,.6),0 0 60px rgba(255,107,138,.3);animation:glowPulse 3s ease-in-out infinite}
+.app-grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:18px 16px 10px;align-content:start;z-index:1}
+.app-icon{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:transform .12s}
+.app-icon:active{transform:scale(.82)}
+.app-icon-img{width:62px;height:62px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;
+  box-shadow:0 6px 20px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.25);position:relative;overflow:hidden}
+.app-icon-img::after{content:'';position:absolute;top:0;left:0;right:0;height:52%;background:linear-gradient(to bottom,rgba(255,255,255,.28),transparent);border-radius:16px 16px 0 0}
+.app-name{color:white;font-size:10.5px;font-family:-apple-system,sans-serif;text-align:center;text-shadow:0 1px 4px rgba(0,0,0,.8);line-height:1.2;max-width:62px}
+.dock{z-index:1;margin:8px 14px 26px;background:rgba(255,255,255,.16);backdrop-filter:blur(25px);
+  border-radius:32px;border:1px solid rgba(255,255,255,.22);padding:12px 10px;display:flex;justify-content:space-around;
+  box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.dock .app-icon-img{width:56px;height:56px}
+
+/* ═══ APP SCREENS ═══ */
+.app-screen{position:absolute;inset:0;overflow:hidden;display:flex;flex-direction:column;
+  transform:translateY(100%);transition:transform .4s cubic-bezier(.25,.46,.45,.94);z-index:100}
+.app-screen.open{transform:translateY(0)}
+.app-header{padding:54px 20px 14px;display:flex;align-items:center;gap:14px;z-index:2;flex-shrink:0}
+.back-btn{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.18);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.2);color:white;font-size:20px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s,transform .15s}
+.back-btn:active{background:rgba(255,255,255,.32);transform:scale(.9)}
+.app-title{font-family:'Playfair Display',serif;font-size:20px;color:white;font-style:italic;text-shadow:0 2px 10px rgba(0,0,0,.4)}
+
+/* ═══ BLACK HOLE ═══ */
+#app-blackhole{background:#000007}
+#app-blackhole .app-header{position:absolute;top:0;left:0;right:0;background:transparent}
+#bhCanvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+.bh-hint{position:absolute;bottom:36px;left:0;right:0;text-align:center;color:rgba(255,255,255,.4);
+  font-family:'Dancing Script',cursive;font-size:15px;animation:glowPulse 3s ease-in-out infinite;pointer-events:none;z-index:10}
+.bh-reset-btn{position:absolute;top:58px;right:16px;z-index:20;
+  background:rgba(255,255,255,.14);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.22);
+  border-radius:20px;padding:7px 14px;color:rgba(255,255,255,.8);font-size:13px;cursor:pointer;
+  font-family:'Dancing Script',cursive;transition:background .2s,transform .15s}
+.bh-reset-btn:active{background:rgba(255,255,255,.28);transform:scale(.93)}
+
+/* ═══ CARTAS ═══ */
+#app-cartas{flex-direction:column}
+.cartas-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=800&q=80') center/cover}
+.cartas-ov{position:absolute;inset:0;background:rgba(10,3,25,.83)}
+.cartas-scroll{flex:1;overflow-y:auto;padding:4px 18px 30px;z-index:1;-webkit-overflow-scrolling:touch}
+.carta{background:rgba(255,255,255,.07);backdrop-filter:blur(8px);border:1px solid rgba(255,160,190,.22);
+  border-radius:20px;padding:22px 22px 22px 26px;margin-bottom:18px;position:relative;overflow:hidden;animation:cardIn .5s ease backwards}
+.carta::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,var(--rose),var(--purple))}
+.carta-em{font-size:30px;margin-bottom:8px;display:block}
+.carta-tit{font-family:'Dancing Script',cursive;font-size:21px;color:var(--pink-light);margin-bottom:10px}
+.carta-body{font-family:'Cormorant Garamond',serif;font-size:15.5px;color:rgba(255,255,255,.88);line-height:1.75;font-style:italic}
+
+/* ═══ GALERÍA ═══ */
+#app-galeria{background:linear-gradient(160deg,#0d0515,#1a0a35,#0d0220)}
+.gal-scroll{flex:1;overflow-y:auto;padding:6px 14px 30px;-webkit-overflow-scrolling:touch}
+.gal-masonry{columns:2;column-gap:10px}
+.gal-img{break-inside:avoid;margin-bottom:10px;border-radius:16px;overflow:hidden;cursor:pointer;
+  position:relative;box-shadow:0 4px 20px rgba(0,0,0,.5);transition:transform .2s}
+.gal-img:active{transform:scale(.97)}
+.gal-img img{width:100%;display:block}
+.gal-cap{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent);
+  padding:18px 10px 8px;font-family:'Dancing Script',cursive;font-size:12px;color:rgba(255,255,255,.85);text-align:center;opacity:0;transition:opacity .3s}
+.gal-img:hover .gal-cap,.gal-img.touched .gal-cap{opacity:1}
+#imgViewer{position:absolute;inset:0;background:rgba(0,0,0,.97);z-index:200;display:none;align-items:center;justify-content:center;flex-direction:column}
+#imgViewer.show{display:flex;animation:fadeIn .3s ease}
+#viewerImg{max-width:100%;max-height:80%;border-radius:12px;object-fit:contain}
+.viewer-close{position:absolute;top:55px;right:20px;font-size:26px;color:white;cursor:pointer;
+  background:rgba(255,255,255,.15);border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center}
+.viewer-cap{font-family:'Dancing Script',cursive;color:var(--pink-light);font-size:18px;margin-top:16px}
+
+/* ═══ MÚSICA ═══ */
+#app-musica{background:linear-gradient(160deg,#120824,#3d1060,#c9184a 180%)}
+.music-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:18px;padding:10px 24px 20px;position:relative;z-index:1}
+.music-vinyl{width:210px;height:210px;border-radius:50%;position:relative;
+  box-shadow:0 0 0 3px rgba(255,255,255,.08),0 0 60px rgba(201,24,74,.5),0 20px 50px rgba(0,0,0,.6)}
+.vinyl-img{width:100%;height:100%;border-radius:50%;object-fit:cover;animation:spin 18s linear infinite;animation-play-state:paused}
+.vinyl-img.spinning{animation-play-state:running}
+.vinyl-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:50px;height:50px;border-radius:50%;background:radial-gradient(circle,#1a0a2e 40%,#2d1a50 100%);
+  border:3px solid rgba(255,255,255,.15);box-shadow:0 2px 10px rgba(0,0,0,.8)}
+.vinyl-center::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3)}
+.music-info{text-align:center;color:white}
+.music-song{font-family:'Playfair Display',serif;font-size:22px;font-style:italic;margin-bottom:4px}
+.music-artist{font-family:'Dancing Script',cursive;font-size:17px;color:var(--pink-light)}
+/* Progress bar */
+.music-prog-wrap{width:100%}
+.prog-times{display:flex;justify-content:space-between;margin-bottom:6px}
+.prog-time{font-size:11px;color:rgba(255,255,255,.5);font-family:-apple-system,sans-serif}
+.bar-track{width:100%;height:5px;background:rgba(255,255,255,.18);border-radius:5px;
+  position:relative;cursor:pointer;touch-action:none}
+.bar-fill{height:100%;background:linear-gradient(to right,var(--rose),var(--pink-light));
+  border-radius:5px;width:0%;transition:width .25s linear;pointer-events:none}
+.bar-dot{position:absolute;top:50%;transform:translate(-50%,-50%);
+  width:14px;height:14px;border-radius:50%;background:white;
+  box-shadow:0 0 8px rgba(255,255,255,.6);left:0%;pointer-events:none}
+/* Controls */
+.music-controls{display:flex;align-items:center;gap:16px}
+.ctrl{background:none;border:none;color:rgba(255,255,255,.75);cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px}
+.ctrl:active{transform:scale(.82);color:white}
+.ctrl .ctrl-ico{font-size:22px;line-height:1}
+.ctrl .ctrl-lbl{font-size:9px;color:rgba(255,255,255,.45);font-family:-apple-system,sans-serif}
+.ctrl.play-btn{width:68px;height:68px;border-radius:50%;background:white;color:#120824;
+  font-size:28px;box-shadow:0 6px 30px rgba(255,255,255,.3),0 0 60px rgba(201,24,74,.4);gap:0}
+.ctrl.play-btn:active{transform:scale(.92)}
+.music-notes-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.note-float{position:absolute;bottom:-30px;animation:floatUp linear infinite;opacity:0}
+.music-status{font-family:'Dancing Script',cursive;font-size:13px;color:rgba(255,255,255,.5);text-align:center;min-height:18px}
+
+/* ═══ FECHAS ═══ */
+#app-fechas{flex-direction:column}
+.fechas-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1490750967868-88df5691cc64?w=800&q=80') center/cover}
+.fechas-ov{position:absolute;inset:0;background:rgba(8,3,20,.86)}
+.fechas-scroll{flex:1;overflow-y:auto;padding:6px 18px 30px;z-index:1;-webkit-overflow-scrolling:touch}
+.together-banner{background:linear-gradient(135deg,rgba(201,24,74,.28),rgba(107,45,139,.28));
+  border:1px solid rgba(255,107,138,.38);border-radius:20px;padding:18px;margin-bottom:16px;text-align:center}
+.together-title{font-family:'Dancing Script',cursive;font-size:17px;color:var(--pink-light);margin-bottom:10px}
+.together-nums{display:flex;gap:8px;justify-content:center}
+.t-box{text-align:center;background:rgba(255,255,255,.06);border-radius:12px;padding:8px 12px}
+.t-box .tnum{font-family:'Playfair Display',serif;font-size:30px;color:white;display:block;line-height:1}
+.t-box .tsub{font-size:10px;color:rgba(255,255,255,.5);font-family:-apple-system,sans-serif;text-transform:uppercase;letter-spacing:.5px}
+.fecha-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,160,190,.22);
+  border-radius:18px;padding:16px;margin-bottom:14px;display:flex;align-items:center;gap:14px;animation:cardIn .5s ease backwards}
+.fecha-ico{font-size:36px;flex-shrink:0}
+.fecha-info{flex:1}
+.fecha-info h3{font-family:'Dancing Script',cursive;font-size:19px;color:var(--pink-light);margin-bottom:3px}
+.fecha-info p{font-family:'Cormorant Garamond',serif;font-size:14px;color:rgba(255,255,255,.7)}
+.fecha-info .fdate{font-size:12px;color:rgba(255,255,255,.42);margin-top:3px}
+.fecha-count{text-align:center;flex-shrink:0}
+.fbig{font-family:'Playfair Display',serif;font-size:26px;color:var(--rose);display:block;line-height:1}
+.flbl{font-size:9px;color:rgba(255,255,255,.45);font-family:-apple-system,sans-serif;text-transform:uppercase;letter-spacing:.5px}
+
+/* ═══ FRASES ═══ */
+#app-frases{background:linear-gradient(160deg,#080514,#1e0a40,#2d0a60)}
+.frases-stars{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.sdot{position:absolute;border-radius:50%;background:white;animation:twinkle ease-in-out infinite}
+.frases-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 22px 30px;z-index:1;text-align:center}
+.frase-card{background:rgba(255,255,255,.06);backdrop-filter:blur(10px);border:1px solid rgba(255,160,190,.22);
+  border-radius:24px;padding:36px 28px 28px;position:relative;overflow:hidden;margin-bottom:28px;width:100%;transition:opacity .35s,transform .35s}
+.frase-card.fade{opacity:0;transform:scale(.96) translateY(8px)}
+.frase-bg-q{position:absolute;top:-22px;left:12px;font-size:130px;color:rgba(255,107,138,.1);font-family:'Playfair Display',serif;line-height:1;pointer-events:none}
+.frase-emoji{font-size:50px;display:block;margin-bottom:14px}
+.frase-txt{font-family:'Playfair Display',serif;font-size:19px;color:white;line-height:1.55;font-style:italic;position:relative;z-index:1}
+.frase-autor{font-family:'Dancing Script',cursive;font-size:15px;color:var(--pink-light);margin-top:14px;opacity:.85}
+.frase-btn{background:linear-gradient(135deg,var(--rose),var(--deep-rose));border:none;border-radius:26px;
+  padding:16px 36px;color:white;font-family:'Dancing Script',cursive;font-size:19px;cursor:pointer;
+  box-shadow:0 6px 28px rgba(201,24,74,.45);transition:transform .15s,box-shadow .15s}
+.frase-btn:active{transform:scale(.94);box-shadow:0 3px 14px rgba(201,24,74,.35)}
+
+/* ═══ JARDÍN ═══ */
+#app-jardin{background:linear-gradient(180deg,#061a0d,#0e3a1a,#1a5c28)}
+.jardin-sub{z-index:1;text-align:center;padding:0 18px 8px;font-family:'Dancing Script',cursive;font-size:15px;color:rgba(255,255,255,.7)}
+.jardin-area{flex:1;position:relative;overflow:hidden;cursor:pointer}
+.jardin-ground{position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to top,#0a2e10,#0e3a18,transparent)}
+.flor{position:absolute;pointer-events:none;transform-origin:bottom center;
+  animation:bloomIn .6s cubic-bezier(.34,1.56,.64,1) backwards,sway 3s ease-in-out infinite;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.4))}
+.jardin-msg{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-family:'Dancing Script',cursive;font-size:16px;color:rgba(255,255,255,.78);z-index:2;pointer-events:none}
+
+/* ═══ NOSOTROS ═══ */
+#app-nuestro{flex-direction:column}
+.nuestro-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=800&q=80') center/cover}
+.nuestro-ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(8,3,20,.4),rgba(8,3,20,.88))}
+.nuestro-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.particle{position:absolute;border-radius:50%;animation:floatUp linear infinite;bottom:-20px}
+.nuestro-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 28px 40px;z-index:1;text-align:center}
+.n-heart{font-size:90px;animation:heartbeat 1.4s ease-in-out infinite;margin-bottom:20px}
+.n-tit{font-family:'Playfair Display',serif;font-size:28px;color:var(--pink-light);font-style:italic;margin-bottom:8px}
+.n-sub{font-family:'Dancing Script',cursive;font-size:18px;color:rgba(255,255,255,.78);margin-bottom:28px}
+.n-txt{font-family:'Cormorant Garamond',serif;font-size:16.5px;color:rgba(255,255,255,.92);line-height:1.85;font-style:italic;max-width:330px}
+
+::-webkit-scrollbar{display:none}
+</style>
+</head>
+<body>
+<div class="phone" id="phone">
+  <div class="notch"></div>
+
+  <!-- STATUS BAR -->
+  <div class="status-bar">
+    <div><span class="st-time" id="sTime">9:41</span><span class="st-ampm" id="sAmPm">AM</span></div>
+    <div class="st-icons">
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="white"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y=".5" width="3" height="11.5" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1" opacity=".35"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><path d="M8 2.5C10.3 2.5 12.4 3.4 14 5L15.5 3.5C13.5 1.3 10.9 0 8 0S2.5 1.3.5 3.5L2 5C3.6 3.4 5.7 2.5 8 2.5z"/><path d="M8 5.5C9.7 5.5 11.2 6.2 12.3 7.3L13.8 5.8C12.3 4.3 10.2 3.5 8 3.5S3.7 4.3 2.2 5.8L3.7 7.3C4.8 6.2 6.3 5.5 8 5.5z"/><circle cx="8" cy="10" r="2"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".5" y="1" width="21" height="10" rx="2.5" stroke="white" stroke-width="1"/><rect x="2" y="2.5" width="16" height="7" rx="1.5" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity=".5"/></svg>
+    </div>
+  </div>
+
+  <!-- NOTIFICATION -->
+  <div class="notif-popup" id="notifPopup">
+    <div class="notif-ico" id="notifIco">💕</div>
+    <div class="notif-right">
+      <div class="notif-app">Edi</div>
+      <div class="notif-msg" id="notifMsg">¡Hola princesa! Este teléfono es todo para ti 🌹</div>
+    </div>
+  </div>
+
+  <!-- FULLSCREEN -->
+  <button class="fs-btn" onclick="toggleFS()">⛶</button>
+
+  <!-- ════════════ LOCK SCREEN ════════════ -->
+  <div class="screen" id="lockscreen">
+    <div class="hearts-bg" id="heartsBg"></div>
+    <div class="lock-overlay"></div>
+    <div class="lock-top">
+      <div class="lock-time-wrap">
+        <div class="lock-time" id="lockTime">9:41</div>
+        <div class="lock-ampm" id="lockAmPm">AM</div>
+      </div>
+      <div class="lock-date" id="lockDate">Lunes, 26 de Mayo</div>
+      <div class="lock-greeting">✨ Para mi princesa hermosa ✨</div>
+    </div>
+    <div class="lock-mid">💕</div>
+    <div class="lock-bottom">
+      <div class="lock-hint">🔐 Dime algo bonito para entrar...</div>
+      <div class="lock-input-wrap">
+        <input type="text" id="pwInput" placeholder="escribe tu corazón aquí..." autocomplete="off" autocorrect="off" spellcheck="false">
+        <button class="unlock-btn" onclick="checkPw()">🌹</button>
+      </div>
+      <div class="lock-error" id="lockErr"></div>
+      <p style="text-align:center;font-family:'Dancing Script',cursive;font-size:12px;color:rgba(255,255,255,.28);margin-top:16px">Hecho con todo mi amor 💕</p>
+    </div>
+  </div>
+
+  <!-- ════════════ HOME SCREEN ════════════ -->
+  <div class="screen hidden" id="homescreen">
+    <div class="home-overlay"></div>
+    <div class="home-greeting"><h2>Bienvenida, mi amor 🌹</h2></div>
+    <div class="app-grid">
+      <div class="app-icon" onclick="openApp('blackhole')">
+        <div class="app-icon-img" style="background:radial-gradient(circle at 35% 35%,#5c00a0,#150030,#000)">🌌</div>
+        <span class="app-name">Agujero Negro</span>
+      </div>
+      <div class="app-icon" onclick="openApp('cartas')">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#c9184a,#ff6b8a,#ff8fab)">💌</div>
+        <span class="app-name">Mis Cartas</span>
+      </div>
+      <div class="app-icon" onclick="openApp('galeria')">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#7209b7,#b5179e,#f72585)">📸</div>
+        <span class="app-name">Galería</span>
+      </div>
+      <div class="app-icon" onclick="openApp('musica')">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#6b2d8b,#9d4edd,#e040fb)">🎵</div>
+        <span class="app-name">Música</span>
+      </div>
+      <div class="app-icon" onclick="openApp('fechas')">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#bf0603,#e63946,#f4a261)">📅</div>
+        <span class="app-name">Fechas</span>
+      </div>
+      <div class="app-icon" onclick="openApp('frases')">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#023e8a,#0077b6,#00b4d8)">✨</div>
+        <span class="app-name">Frasero</span>
+      </div>
+      <div class="app-icon" onclick="openApp('jardin')">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#1b4332,#2d6a4f,#52b788)">🌸</div>
+        <span class="app-name">Jardín</span>
+      </div>
+      <div class="app-icon" onclick="openApp('nuestro')">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#b5179e,#f72585,#ff4d6d)">💑</div>
+        <span class="app-name">Nosotros</span>
+      </div>
+    </div>
+    <div class="dock">
+      <div class="app-icon" onclick="openApp('cartas')" style="gap:4px">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#c9184a,#ff6b8a)">💌</div>
+        <span class="app-name">Cartas</span>
+      </div>
+      <div class="app-icon" onclick="openApp('musica')" style="gap:4px">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#6b2d8b,#e040fb)">🎵</div>
+        <span class="app-name">Música</span>
+      </div>
+      <div class="app-icon" onclick="openApp('frases')" style="gap:4px">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#023e8a,#00b4d8)">✨</div>
+        <span class="app-name">Frases</span>
+      </div>
+      <div class="app-icon" onclick="openApp('nuestro')" style="gap:4px">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#b5179e,#ff4d6d)">💑</div>
+        <span class="app-name">Nosotros</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ APP: AGUJERO NEGRO ════════════ -->
+  <div class="app-screen" id="app-blackhole">
+    <div class="app-header">
+      <button class="back-btn" onclick="closeApp('blackhole')">‹</button>
+      <span class="app-title">Agujero Negro del Amor 🌌</span>
+    </div>
+    <button class="bh-reset-btn" onclick="resetBH()">↺ Resetear vista</button>
+    <canvas id="bhCanvas"></canvas>
+    <div class="bh-hint">✦ Desliza para rotar en 3D ✦</div>
+  </div>
+
+  <!-- ════════════ APP: CARTAS ════════════ -->
+  <div class="app-screen" id="app-cartas">
+    <div class="cartas-bg"></div><div class="cartas-ov"></div>
+    <div class="app-header" style="z-index:2">
+      <button class="back-btn" onclick="closeApp('cartas')">‹</button>
+      <span class="app-title">Mis Cartas Para Ti 💌</span>
+    </div>
+    <div class="cartas-scroll">
+      <div class="carta" style="animation-delay:.05s">
+        <span class="carta-em">🌍</span>
+        <div class="carta-tit">El amor no conoce distancias</div>
+        <p class="carta-body">Hay kilómetros entre nosotros, pero nunca lo he sentido así. Cada noche que me acuesto pensando en ti, juro que te siento cerca. El amor que siento por ti viaja más rápido que cualquier vuelo, y llega antes de que yo termine de extrañarte.</p>
+      </div>
+      <div class="carta" style="animation-delay:.12s">
+        <span class="carta-em">🎮</span>
+        <div class="carta-tit">Cuando te vi en Roblox...</div>
+        <p class="carta-body">Quién iba a pensar que en un juego virtual iba a encontrar al amor de mi vida. Desde el primer momento en que hablamos, algo en mí lo supo: esta persona es especial. Qué afortunado soy de que hayas aparecido en mi mundo, aunque fuera en uno digital primero.</p>
+      </div>
+      <div class="carta" style="animation-delay:.19s">
+        <span class="carta-em">🌙</span>
+        <div class="carta-tit">Las noches sin ti</div>
+        <p class="carta-body">Las noches a distancia son las más largas. Pero hay algo hermoso en saber que estamos viendo el mismo cielo. Busco la luna y pienso que tú también la ves, y en ese momento la distancia desaparece. La luna es nuestro punto de encuentro, princesa.</p>
+      </div>
+      <div class="carta" style="animation-delay:.26s">
+        <span class="carta-em">📱</span>
+        <div class="carta-tit">Gracias por cada mensaje</div>
+        <p class="carta-body">Cada "buenos días" tuyo hace que me levante diferente. Cada voz tuya al teléfono cura algo en mí que no sabía que estaba roto. Gracias por hacerme sentir tan cerca a pesar de todo. Eres el sonido que más quiero escuchar en el mundo.</p>
+      </div>
+      <div class="carta" style="animation-delay:.33s">
+        <span class="carta-em">✈️</span>
+        <div class="carta-tit">El día que nos veamos</div>
+        <p class="carta-body">Hay un abrazo que llevo guardado para ti. Un abrazo largo, de esos que no se terminan fácil, de esos que dicen todo lo que las palabras no alcanzan. Ese día va a ser el mejor de mi vida. Y voy a mirarte y voy a pensar: valió cada espera.</p>
+      </div>
+      <div class="carta" style="animation-delay:.40s">
+        <span class="carta-em">💕</span>
+        <div class="carta-tit">Lo que más amo de ti</div>
+        <p class="carta-body">Tu manera de ser. Esa forma tuya tan única de ver el mundo, de reírte, de sorprenderte con las cosas pequeñas. Me enamoro de ti cada vez que hablas de algo que te apasiona. Eres la persona más genuina y hermosa que conozco, y eso no tiene distancia que lo opaque.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ APP: GALERÍA ════════════ -->
+  <div class="app-screen" id="app-galeria">
+    <div id="imgViewer">
+      <div class="viewer-close" onclick="closeViewer()">✕</div>
+      <img id="viewerImg" src="" alt="">
+      <div class="viewer-cap" id="viewerCap"></div>
+    </div>
+    <div class="app-header">
+      <button class="back-btn" onclick="closeApp('galeria')">‹</button>
+      <span class="app-title">Galería Romántica 📸</span>
+    </div>
+    <div class="gal-scroll"><div class="gal-masonry" id="galMasonry"></div></div>
+  </div>
+
+  <!-- ════════════ APP: MÚSICA ════════════ -->
+  <div class="app-screen" id="app-musica">
+    <div class="music-notes-bg" id="musicNotesBg"></div>
+    <!-- HTML5 Audio — el archivo reina.mp4 debe estar en la misma carpeta -->
+    <audio id="audioEl" loop src="reina.mp4"></audio>
+    <div class="app-header" style="position:relative;z-index:2">
+      <button class="back-btn" onclick="closeApp('musica')">‹</button>
+      <span class="app-title">Nuestra Canción 🎵</span>
+    </div>
+    <div class="music-wrap">
+      <div class="music-vinyl">
+        <img class="vinyl-img" id="vinylImg" src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=400&q=80" alt="">
+        <div class="vinyl-center"></div>
+      </div>
+      <div class="music-info">
+        <div class="music-song">Tú Eres La Reina</div>
+        <div class="music-artist">Diomedes Díaz 🎵</div>
+      </div>
+      <!-- Barra de progreso INTERACTIVA -->
+      <div class="music-prog-wrap">
+        <div class="prog-times">
+          <span class="prog-time" id="timeCur">0:00</span>
+          <span class="prog-time" id="timeTotal">0:00</span>
+        </div>
+        <div class="bar-track" id="barTrack">
+          <div class="bar-fill" id="barFill"></div>
+          <div class="bar-dot" id="barDot"></div>
+        </div>
+      </div>
+      <!-- Controles: ⏮ ⏪10 ▶ 10⏩ ⏭ -->
+      <div class="music-controls">
+        <button class="ctrl" onclick="prevSong()">
+          <span class="ctrl-ico">⏮</span><span class="ctrl-lbl">Ant.</span>
+        </button>
+        <button class="ctrl" onclick="rewind10()">
+          <span class="ctrl-ico">⏪</span><span class="ctrl-lbl">-10s</span>
+        </button>
+        <button class="ctrl play-btn" id="playBtn" onclick="togglePlay()">▶</button>
+        <button class="ctrl" onclick="forward10()">
+          <span class="ctrl-ico">⏩</span><span class="ctrl-lbl">+10s</span>
+        </button>
+        <button class="ctrl" onclick="nextSong()">
+          <span class="ctrl-ico">⏭</span><span class="ctrl-lbl">Sig.</span>
+        </button>
+      </div>
+      <div class="music-status" id="musicStatus">▶ Toca para escuchar nuestra canción 🎶</div>
+    </div>
+  </div>
+
+  <!-- ════════════ APP: FECHAS ════════════ -->
+  <div class="app-screen" id="app-fechas">
+    <div class="fechas-bg"></div><div class="fechas-ov"></div>
+    <div class="app-header" style="z-index:2">
+      <button class="back-btn" onclick="closeApp('fechas')">‹</button>
+      <span class="app-title">Fechas Especiales 📅</span>
+    </div>
+    <div class="fechas-scroll">
+      <div class="together-banner">
+        <div class="together-title">💕 Desde que nos conocimos en Roblox</div>
+        <div class="together-nums">
+          <div class="t-box"><span class="tnum" id="tDays">0</span><span class="tsub">días</span></div>
+          <div class="t-box"><span class="tnum" id="tHrs">0</span><span class="tsub">horas</span></div>
+          <div class="t-box"><span class="tnum" id="tMin">0</span><span class="tsub">min</span></div>
+          <div class="t-box"><span class="tnum" id="tSec">0</span><span class="tsub">seg</span></div>
+        </div>
+      </div>
+      <div id="fechasList"></div>
+    </div>
+  </div>
+
+  <!-- ════════════ APP: FRASES ════════════ -->
+  <div class="app-screen" id="app-frases">
+    <div class="frases-stars" id="frasesStars"></div>
+    <div class="app-header" style="position:relative;z-index:2">
+      <button class="back-btn" onclick="closeApp('frases')">‹</button>
+      <span class="app-title">Frasero Romántico ✨</span>
+    </div>
+    <div class="frases-wrap">
+      <div class="frase-card" id="fraseCard">
+        <div class="frase-bg-q">"</div>
+        <span class="frase-emoji" id="fraseEmoji">💕</span>
+        <div class="frase-txt" id="fraseTxt">El amor a distancia es prueba de que lo real no necesita estar cerca para ser intenso.</div>
+        <div class="frase-autor" id="fraseAutor">— Para mi princesa</div>
+      </div>
+      <button class="frase-btn" onclick="nuevaFrase()">✨ Nueva frase mágica</button>
+    </div>
+  </div>
+
+  <!-- ════════════ APP: JARDÍN ════════════ -->
+  <div class="app-screen" id="app-jardin">
+    <div class="app-header" style="background:rgba(6,26,13,.6);position:relative;z-index:2">
+      <button class="back-btn" onclick="closeApp('jardin')">‹</button>
+      <span class="app-title">Jardín Para Ti 🌸</span>
+    </div>
+    <div class="jardin-sub">Toca para plantar una flor de amor 🌱</div>
+    <div class="jardin-area" id="jardinArea">
+      <div class="jardin-ground"></div>
+      <div class="jardin-msg" id="jardinMsg">¡Planta la primera flor! 🌱</div>
+    </div>
+  </div>
+
+  <!-- ════════════ APP: NOSOTROS ════════════ -->
+  <div class="app-screen" id="app-nuestro">
+    <div class="nuestro-bg"></div><div class="nuestro-ov"></div>
+    <div class="nuestro-particles" id="nuestroP"></div>
+    <div class="app-header" style="z-index:2;position:relative">
+      <button class="back-btn" onclick="closeApp('nuestro')">‹</button>
+      <span class="app-title">Nosotros 💑</span>
+    </div>
+    <div class="nuestro-wrap">
+      <div class="n-heart">💕</div>
+      <div class="n-tit">Tú y Yo, Para Siempre</div>
+      <div class="n-sub">Desde Roblox hasta la eternidad ⭐</div>
+      <div class="n-txt">
+        "Empezamos en un mundo virtual y construimos algo más real que cualquier cosa que haya vivido.
+        <br><br>
+        La distancia no nos separó, nos enseñó que el amor verdadero no necesita de la proximidad para sobrevivir.
+        <br><br>
+        Eres mi princesa, mi hogar digital y real, mi persona favorita en todo el universo.
+        <br><br>
+        Con todo mi amor, siempre y para siempre."
+      </div>
+    </div>
+  </div>
+
+</div><!-- /phone -->
+
+<script>
+// ══════════════════════════════════════
+//              RELOJ 12H
+// ══════════════════════════════════════
+function updateClock() {
+  const now = new Date();
+  let h = now.getHours();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const ts = h + ':' + m;
+  document.getElementById('lockTime').textContent = ts;
+  document.getElementById('lockAmPm').textContent = ampm;
+  document.getElementById('sTime').textContent = ts;
+  document.getElementById('sAmPm').textContent = ampm;
+  const days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  document.getElementById('lockDate').textContent = days[now.getDay()] + ', ' + now.getDate() + ' de ' + months[now.getMonth()];
+}
+updateClock(); setInterval(updateClock, 15000);
+
+// ══════════════════════════════════════
+//            PANTALLA COMPLETA
+// ══════════════════════════════════════
+function toggleFS() {
+  try {
+    const el = document.documentElement;
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      (el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || (()=>{})).call(el);
+    } else {
+      (document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || (()=>{})).call(document);
+    }
+  } catch(e) {}
+}
+
+// ══════════════════════════════════════
+//          CORAZONES FLOTANTES
+// ══════════════════════════════════════
+const HE = ['💕','❤️','🌹','✨','💖','💗','🦋','⭐','🌸','💫'];
+function spawnHeart() {
+  const h = document.createElement('div'); h.className = 'fheart';
+  h.textContent = HE[Math.floor(Math.random()*HE.length)];
+  h.style.left = Math.random()*100+'%';
+  h.style.fontSize = (14+Math.random()*22)+'px';
+  const d = 9+Math.random()*9;
+  h.style.animationDuration = d+'s'; h.style.animationDelay = Math.random()*3+'s';
+  document.getElementById('heartsBg').appendChild(h);
+  setTimeout(() => h.remove(), (d+4)*1000);
+}
+setInterval(spawnHeart, 1200);
+for (let i=0;i<6;i++) spawnHeart();
+
+// ══════════════════════════════════════
+//            PANTALLA DE BLOQUEO
+// ══════════════════════════════════════
+document.getElementById('pwInput').addEventListener('keydown', e => { if(e.key==='Enter') checkPw(); });
+function checkPw() {
+  const val = document.getElementById('pwInput').value.trim().toLowerCase().replace(/\s+/g,' ');
+  if (val === 'te amo princesa') {
+    document.getElementById('pwInput').style.borderColor = 'rgba(80,255,120,.7)';
+    document.getElementById('pwInput').style.boxShadow = '0 0 30px rgba(80,255,120,.3)';
+    setTimeout(unlockPhone, 360);
+  } else {
+    const err = document.getElementById('lockErr');
+    err.textContent = '💔 Esa no es... intenta con el corazón mi amor';
+    document.querySelector('.lock-bottom').style.animation = 'shake .4s ease';
+    setTimeout(() => { document.querySelector('.lock-bottom').style.animation=''; err.textContent=''; }, 3200);
+    document.getElementById('pwInput').value = '';
+  }
+}
+function unlockPhone() {
+  const lock = document.getElementById('lockscreen');
+  const home = document.getElementById('homescreen');
+  lock.style.transition = 'all .5s cubic-bezier(.25,.46,.45,.94)';
+  lock.style.opacity = '0'; lock.style.transform = 'scale(1.06)';
+  setTimeout(() => {
+    lock.classList.add('hidden'); home.classList.remove('hidden');
+    initStars(); loadGallery(); loadFechas(); startTogetherCounter(); spawnNuestroParticles();
+    setTimeout(() => showNotif('💕','¡Hola princesa! Qué bueno que estás aquí 🌹'), 700);
+  }, 480);
+}
+
+// ══════════════════════════════════════
+//           NOTIFICACIONES
+// ══════════════════════════════════════
+const NOTIFS = [
+  ['💕','¿Ya sabes cuánto te amo hoy? 💖'],
+  ['🌹','Eres lo más bonito de mi mundo 🌸'],
+  ['✨','Solo quería recordarte que te adoro 💫'],
+  ['🦋','Mi favorita siempre serás tú ⭐'],
+  ['🌙','Pienso en ti todo el tiempo 💕'],
+  ['💌','Tienes un mensaje de amor esperándote 💌'],
+  ['🎮','Desde Roblox hasta siempre 🎮💕'],
+  ['⭐','Eres perfecta tal y como eres 🌸'],
+];
+let nIdx=0;
+function showNotif(ico, msg) {
+  const p=document.getElementById('notifPopup');
+  document.getElementById('notifIco').textContent=ico;
+  document.getElementById('notifMsg').textContent=msg;
+  p.classList.add('show'); setTimeout(()=>p.classList.remove('show'),4500);
+}
+setInterval(()=>{
+  if(!document.getElementById('homescreen').classList.contains('hidden')){
+    const n=NOTIFS[nIdx%NOTIFS.length]; showNotif(n[0],n[1]); nIdx++;
+  }
+}, 28000);
+
+// ══════════════════════════════════════
+//          NAVEGACIÓN DE APPS
+// ══════════════════════════════════════
+function openApp(name) {
+  document.getElementById('app-'+name).classList.add('open');
+  if (name==='blackhole') startBH();
+  if (name==='musica') spawnNotes();
+  if (name==='frases') {
+    const f=FRASES[Math.floor(Math.random()*FRASES.length)];
+    document.getElementById('fraseEmoji').textContent=f.e;
+    document.getElementById('fraseTxt').textContent=f.t;
+    document.getElementById('fraseAutor').textContent=f.a;
+  }
+}
+function closeApp(name) {
+  document.getElementById('app-'+name).classList.remove('open');
+  if (name==='blackhole') stopBH();
+}
+
+// ══════════════════════════════════════
+//      AGUJERO NEGRO 3D — MEJORADO
+// ══════════════════════════════════════
+let bhRaf=null, bhOn=false;
+let vRotX=0.38, vRotY=0, tRotX=0.38, tRotY=0;
+let bhTouching=false, lastTX=0, lastTY=0;
+
+// RESET: vuelve la vista a posición por defecto instantáneamente
+function resetBH() {
+  tRotX=0.38; tRotY=0; vRotX=0.38; vRotY=0;
+}
+
+function startBH() {
+  if (bhOn) return;
+  bhOn = true;
+  const canvas=document.getElementById('bhCanvas');
+  const ctx=canvas.getContext('2d');
+  const appEl=document.getElementById('app-blackhole');
+
+  function resize(){
+    const r=appEl.getBoundingClientRect();
+    canvas.width=r.width||390; canvas.height=r.height||844;
+  }
+  resize();
+
+  const CX=canvas.width/2, CY=canvas.height/2, FOV=680;
+  let t=0;
+
+  function proj3(x,y,z){
+    const cX=Math.cos(vRotX),sX=Math.sin(vRotX);
+    const y1=y*cX-z*sX, z1=y*sX+z*cX;
+    const cY=Math.cos(vRotY),sY=Math.sin(vRotY);
+    const x2=x*cY+z1*sY, z2=-x*sY+z1*cY;
+    const sc=FOV/(FOV+z2);
+    return {sx:CX+x2*sc, sy:CY+y1*sc, sc, z:z2};
+  }
+
+  const PHRASES=[
+    {t:'💫 Te amo infinitamente',     r:130,spd:.40,a0:0},
+    {t:'🌹 Eres mi universo entero',  r:168,spd:-.30,a0:1.05},
+    {t:'✨ Mi corazón es tuyo',        r:105,spd:.52,a0:2.09},
+    {t:'💕 Para siempre contigo',      r:205,spd:-.24,a0:3.14},
+    {t:'🌙 Mi princesa favorita',      r:148,spd:.44,a0:4.19},
+    {t:'⭐ Eres mi todo, amor',        r:88, spd:-.65,a0:5.24},
+    {t:'💖 Te adoro con el alma',      r:188,spd:.33,a0:.79},
+    {t:'🦋 Mi razón de sonreír',       r:122,spd:-.42,a0:2.36},
+    {t:'💝 Mi lugar favorito',         r:228,spd:.20,a0:1.57},
+    {t:'🌸 Perfecta para mí',          r:72, spd:-.72,a0:3.93},
+    {t:'🎮 Desde Roblox hasta siempre',r:178,spd:.28,a0:.52},
+    {t:'💜 Te elegiría mil veces',     r:198,spd:-.26,a0:4.71},
+    {t:'🌍 Sin importar la distancia', r:115,spd:.48,a0:1.30},
+  ];
+
+  const DISK=[
+    {r:68,w:3.0,hue:280,glow:14},{r:78,w:2.5,hue:30,glow:10},
+    {r:90,w:2.0,hue:320,glow:8},{r:102,w:1.8,hue:60,glow:6},
+    {r:118,w:1.5,hue:200,glow:5},{r:132,w:1.2,hue:280,glow:4},
+  ];
+
+  const STARS=Array.from({length:200},()=>({
+    x:Math.random()*canvas.width, y:Math.random()*canvas.height,
+    r:Math.random()*1.5+.2, ph:Math.random()*Math.PI*2, spd:.01+Math.random()*.025
+  }));
+
+  // Touch: arrastrar cambia la rotación 3D
+  function onTS(e){
+    bhTouching=true; lastTX=e.touches[0].clientX; lastTY=e.touches[0].clientY;
+    e.preventDefault();
+  }
+  function onTM(e){
+    if(!bhTouching) return;
+    const dx=e.touches[0].clientX-lastTX, dy=e.touches[0].clientY-lastTY;
+    lastTX=e.touches[0].clientX; lastTY=e.touches[0].clientY;
+    tRotY+=dx*.008; tRotX+=dy*.006;
+    tRotX=Math.max(.05,Math.min(1.5,tRotX));
+    e.preventDefault();
+  }
+  function onTE(){ bhTouching=false; }
+  function onMM(e){
+    const rect=appEl.getBoundingClientRect();
+    const nx=(e.clientX-rect.left)/rect.width-.5;
+    const ny=(e.clientY-rect.top)/rect.height-.5;
+    tRotY=nx*1.2; tRotX=Math.max(.05,Math.min(1.5,.2+(0.5-ny)*.9));
+  }
+
+  appEl.addEventListener('touchstart',onTS,{passive:false});
+  appEl.addEventListener('touchmove',onTM,{passive:false});
+  appEl.addEventListener('touchend',onTE);
+  appEl.addEventListener('mousemove',onMM);
+
+  function draw(){
+    if(!bhOn) return;
+    ctx.fillStyle='#000008';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    t+=.007;
+
+    // Interpolación suave de rotación
+    vRotX+=(tRotX-vRotX)*.055;
+    vRotY+=(tRotY-vRotY)*.055;
+    // Auto-retorno suave cuando no se toca
+    if(!bhTouching){ tRotX+=(0.38-tRotX)*.012; tRotY+=(0-tRotY)*.012; }
+
+    // Estrellas de fondo con efecto de atracción gravitacional
+    STARS.forEach(s=>{
+      const dx=s.x-CX,dy=s.y-CY,d=Math.sqrt(dx*dx+dy*dy);
+      if(d>55){const pull=50/(d*d)*.5; s.x-=dx*pull; s.y-=dy*pull;}
+      if(d<52){s.x=Math.random()*canvas.width; s.y=Math.random()*canvas.height;}
+      ctx.save();
+      ctx.globalAlpha=.2+.7*(.5+.5*Math.sin(s.ph+t*s.spd*60));
+      ctx.fillStyle='#fff';
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.283); ctx.fill();
+      ctx.restore();
+    });
+
+    // Nebulosa de fondo
+    for(let i=4;i>=1;i--){
+      const gr=ctx.createRadialGradient(CX,CY,i*20,CX,CY,i*80);
+      gr.addColorStop(0,`rgba(140,0,220,${.05*i})`);
+      gr.addColorStop(.6,`rgba(60,0,140,${.02*i})`);
+      gr.addColorStop(1,'transparent');
+      ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(CX,CY,i*100,0,6.283); ctx.fill();
+    }
+
+    // Disco de acreción 3D (anillos proyectados)
+    const STEPS=180;
+    const diskPts=[];
+    DISK.forEach((ring,ri)=>{
+      for(let i=0;i<STEPS;i++){
+        const angle=(i/STEPS)*Math.PI*2+t*(.2+ri*.05);
+        const p=proj3(ring.r*Math.cos(angle),0,ring.r*Math.sin(angle));
+        diskPts.push({p,ring,angle});
+      }
+    });
+    diskPts.sort((a,b)=>b.p.z-a.p.z);
+    diskPts.forEach(({p,ring,angle})=>{
+      const br=50+30*Math.abs(Math.cos(angle*2+t));
+      const al=Math.max(.05,(.35+.45*p.sc)*(.7+.3*Math.abs(Math.sin(angle*3+t))));
+      const dr=ring.w*p.sc;
+      if(dr<.2) return;
+      ctx.save(); ctx.globalAlpha=al;
+      ctx.fillStyle=`hsl(${ring.hue+angle*15},100%,${br}%)`;
+      ctx.shadowColor=`hsl(${ring.hue},100%,70%)`; ctx.shadowBlur=ring.glow*p.sc;
+      ctx.beginPath(); ctx.arc(p.sx,p.sy,dr,0,6.283); ctx.fill();
+      ctx.restore();
+    });
+
+    // Horizonte de eventos (esfera negra)
+    const ehg=ctx.createRadialGradient(CX-10,CY-10,2,CX,CY,55);
+    ehg.addColorStop(0,'#0d0030'); ehg.addColorStop(.5,'#000'); ehg.addColorStop(1,'#000');
+    ctx.fillStyle=ehg; ctx.beginPath(); ctx.arc(CX,CY,55,0,6.283); ctx.fill();
+
+    // Anillo de fotones
+    ctx.save(); ctx.shadowColor='#d070ff'; ctx.shadowBlur=25;
+    ctx.strokeStyle=`hsla(${268+Math.sin(t*1.5)*25},100%,72%,.95)`; ctx.lineWidth=2.8;
+    ctx.beginPath(); ctx.arc(CX,CY,60,0,6.283); ctx.stroke(); ctx.restore();
+
+    // Resplandor interior
+    const ig=ctx.createRadialGradient(CX,CY,53,CX,CY,88);
+    ig.addColorStop(0,'rgba(220,80,255,.55)'); ig.addColorStop(.5,'rgba(120,0,200,.15)'); ig.addColorStop(1,'transparent');
+    ctx.fillStyle=ig; ctx.beginPath(); ctx.arc(CX,CY,88,0,6.283); ctx.fill();
+
+    // Destellos en anillo de fotones
+    for(let i=0;i<12;i++){
+      const sa=(i/12)*6.283+t*2.2, pr=61+Math.sin(t*3+i)*3;
+      ctx.save();
+      ctx.fillStyle=`hsla(${270+i*22},100%,92%,${.4+.5*Math.sin(t*2+i)})`;
+      ctx.shadowColor='#dd88ff'; ctx.shadowBlur=7;
+      ctx.beginPath(); ctx.arc(CX+pr*Math.cos(sa),CY+pr*Math.sin(sa),2,0,6.283); ctx.fill();
+      ctx.restore();
+    }
+
+    // Frases de amor orbitando en 3D (ordenadas por profundidad)
+    const pp=PHRASES.map((p,idx)=>{
+      const angle=p.a0+t*p.spd;
+      const pr=proj3(p.r*Math.cos(angle),0,p.r*Math.sin(angle));
+      return {p,pr,idx};
+    }).sort((a,b)=>b.pr.z-a.pr.z);
+    pp.forEach(({p,pr,idx})=>{
+      if(pr.sc<.2) return;
+      const al=Math.max(.12,Math.min(.95,.2+.75*pr.sc));
+      const fs=Math.max(8,Math.round(13*pr.sc));
+      ctx.save(); ctx.globalAlpha=al;
+      ctx.font=`bold ${fs}px -apple-system,Arial,sans-serif`;
+      ctx.fillStyle=`hsl(${305+idx*14},88%,80%)`;
+      ctx.shadowColor=`hsl(${305+idx*14},100%,70%)`; ctx.shadowBlur=Math.max(4,10*pr.sc);
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText(p.t,pr.sx,pr.sy); ctx.restore();
+    });
+
+    // Indicador 3D (cuando se toca)
+    if(bhTouching){
+      ctx.save(); ctx.globalAlpha=.2;
+      ctx.strokeStyle='rgba(255,150,200,.4)'; ctx.lineWidth=1;
+      ctx.beginPath();
+      for(let i=0;i<=64;i++){
+        const a=(i/64)*Math.PI*2;
+        const pr=proj3(200*Math.cos(a),0,200*Math.sin(a));
+        i===0?ctx.moveTo(pr.sx,pr.sy):ctx.lineTo(pr.sx,pr.sy);
+      }
+      ctx.stroke(); ctx.restore();
+    }
+
+    bhRaf=requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+function stopBH(){
+  bhOn=false;
+  if(bhRaf) cancelAnimationFrame(bhRaf);
+}
+
+// ══════════════════════════════════════
+//               GALERÍA
+// ══════════════════════════════════════
+const PHOTOS=[
+  {src:'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=400&q=80',cap:'🌹 Eternas como nuestro amor'},
+  {src:'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&q=80',cap:'⭐ Nuestro universo'},
+  {src:'https://images.unsplash.com/photo-1490750967868-88df5691cc64?w=400&q=80',cap:'🌸 Siempre en flor'},
+  {src:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80',cap:'🌌 Nuestro cielo estrellado'},
+  {src:'https://images.unsplash.com/photo-1515859005217-8a1f08870f59?w=400&q=80',cap:'✨ Magia contigo'},
+  {src:'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80',cap:'🌅 Cada atardecer contigo'},
+  {src:'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=400&q=80',cap:'🌈 Aurora de amor'},
+  {src:'https://images.unsplash.com/photo-1543363136-3fdb62e11be5?w=400&q=80',cap:'❤️ Mi corazón eres tú'},
+  {src:'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=400&q=80',cap:'💕 Luces de amor'},
+  {src:'https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=400&q=80',cap:'💑 Nosotros para siempre'},
+];
+function loadGallery(){
+  const c=document.getElementById('galMasonry');
+  if(c.children.length>0) return;
+  PHOTOS.forEach(p=>{
+    const w=document.createElement('div'); w.className='gal-img';
+    w.innerHTML=`<img src="${p.src}" loading="lazy"><div class="gal-cap">${p.cap}</div>`;
+    w.addEventListener('click',()=>openViewer(p.src,p.cap));
+    w.addEventListener('touchstart',()=>w.classList.add('touched'),{passive:true});
+    w.addEventListener('touchend',()=>setTimeout(()=>w.classList.remove('touched'),1500),{passive:true});
+    c.appendChild(w);
+  });
+}
+function openViewer(src,cap){
+  document.getElementById('viewerImg').src=src;
+  document.getElementById('viewerCap').textContent=cap;
+  document.getElementById('imgViewer').classList.add('show');
+}
+function closeViewer(){ document.getElementById('imgViewer').classList.remove('show'); }
+
+// ══════════════════════════════════════
+//     MÚSICA — AUDIO LOCAL (reina.mp4)
+// ══════════════════════════════════════
+const audio = document.getElementById('audioEl');
+let isPlaying = false;
+
+function fmtTime(s){
+  if(isNaN(s)||s===Infinity) return '0:00';
+  const m=Math.floor(s/60), ss=Math.floor(s%60);
+  return m+':'+String(ss).padStart(2,'0');
+}
+
+// Actualizar barra de progreso en tiempo real
+audio.addEventListener('timeupdate', function(){
+  if(isNaN(audio.duration)||audio.duration===0) return;
+  const pct=(audio.currentTime/audio.duration)*100;
+  document.getElementById('barFill').style.width=pct+'%';
+  document.getElementById('barDot').style.left=pct+'%';
+  document.getElementById('timeCur').textContent=fmtTime(audio.currentTime);
+});
+audio.addEventListener('loadedmetadata',function(){
+  document.getElementById('timeTotal').textContent=fmtTime(audio.duration);
+});
+audio.addEventListener('ended',function(){
+  isPlaying=false;
+  document.getElementById('playBtn').textContent='▶';
+  document.getElementById('vinylImg').classList.remove('spinning');
+  document.getElementById('musicStatus').textContent='🎵 Fin de la canción';
+});
+audio.addEventListener('error',function(){
+  document.getElementById('musicStatus').textContent='⚠️ Pon el archivo reina.mp4 en la misma carpeta que index.html';
+});
+
+function togglePlay(){
+  if(isPlaying){ audio.pause(); isPlaying=false; }
+  else {
+    audio.play().then(()=>{ isPlaying=true; document.getElementById('musicStatus').textContent='🎵 Reproduciendo...'; })
+      .catch(()=>{ document.getElementById('musicStatus').textContent='⚠️ No se encontró reina.mp4 en la carpeta'; });
+  }
+  document.getElementById('playBtn').textContent = isPlaying?'⏸':'▶';
+  document.getElementById('vinylImg').classList.toggle('spinning',isPlaying);
+}
+
+// -10 segundos
+function rewind10(){
+  audio.currentTime=Math.max(0,audio.currentTime-10);
+}
+// +10 segundos
+function forward10(){
+  audio.currentTime=Math.min(audio.duration||0,audio.currentTime+10);
+}
+// Canción siguiente / anterior (misma canción pero reinicia — amplía si tienes más archivos)
+function nextSong(){ audio.currentTime=0; if(isPlaying) audio.play(); }
+function prevSong(){ audio.currentTime=0; if(isPlaying) audio.play(); }
+
+// Barra de progreso INTERACTIVA — clic o arrastre para saltar
+const barTrack = document.getElementById('barTrack');
+let draggingBar = false;
+
+function seekToRatio(clientX){
+  const rect=barTrack.getBoundingClientRect();
+  const ratio=Math.max(0,Math.min(1,(clientX-rect.left)/rect.width));
+  if(!isNaN(audio.duration) && audio.duration>0) audio.currentTime=ratio*audio.duration;
+}
+barTrack.addEventListener('click',e=>seekToRatio(e.clientX));
+barTrack.addEventListener('touchstart',e=>{draggingBar=true;seekToRatio(e.touches[0].clientX);e.preventDefault();},{passive:false});
+barTrack.addEventListener('touchmove',e=>{if(draggingBar){seekToRatio(e.touches[0].clientX);e.preventDefault();}},{passive:false});
+barTrack.addEventListener('touchend',()=>draggingBar=false);
+
+function spawnNotes(){
+  const bg=document.getElementById('musicNotesBg');
+  if(bg.children.length>5) return;
+  const ns=['♪','♫','♬','✨','💕','🎵','🎶'];
+  for(let i=0;i<20;i++){
+    const n=document.createElement('div'); n.className='note-float';
+    n.textContent=ns[Math.floor(Math.random()*ns.length)];
+    const d=6+Math.random()*8;
+    n.style.cssText=`left:${Math.random()*88}%;font-size:${13+Math.random()*14}px;color:hsla(${290+Math.random()*60},70%,75%,.55);animation-duration:${d}s;animation-delay:${Math.random()*d}s;`;
+    bg.appendChild(n);
+  }
+}
+
+// ══════════════════════════════════════
+//          FECHAS ESPECIALES
+// ══════════════════════════════════════
+function loadFechas(){
+  const today=new Date(); const y=today.getFullYear();
+  function nextOcc(month,day){
+    let d=new Date(y,month,day);
+    if(d<today) d=new Date(y+1,month,day);
+    return d;
+  }
+  const ROB=new Date(2021,9,15); // 15 Oct 2021 — Roblox
+  const fechas=[
+    {ico:'🎂',name:'Tu cumpleaños 🎉',   date:nextOcc(2,13),    desc:'13 de marzo — el día más importante del universo 🌟'},
+    {ico:'🎮',name:'Nos conocimos en Roblox',date:ROB,          desc:'Octubre 2021 — donde todo empezó ❤️',past:true},
+    {ico:'💕',name:'Desde que te amo',   date:ROB,               desc:'Desde que te vi, mi corazón ya era tuyo ✨',past:true},
+    {ico:'🎂',name:'Mi cumpleaños 🎈',   date:nextOcc(6,13),    desc:'13 de julio — el día que llegué a tu vida'},
+    {ico:'✈️',name:'Cuando nos veamos', date:new Date(y+1,0,1), desc:'El día más esperado de mi vida 💑'},
+  ];
+  const c=document.getElementById('fechasList');
+  if(c.children.length) return;
+  const MN=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  fechas.forEach((f,i)=>{
+    const diff=Math.round((f.date-today)/86400000);
+    const abs=Math.abs(diff);
+    let ct='';
+    if(diff===0) ct='<span class="fbig" style="font-size:16px;color:#52d47a">¡HOY!</span>';
+    else if(diff<0) ct=`<span class="fbig">${abs}</span><span class="flbl">atrás</span>`;
+    else ct=`<span class="fbig">${abs}</span><span class="flbl">días</span>`;
+    const card=document.createElement('div');
+    card.className='fecha-card'; card.style.animationDelay=(i*.09)+'s';
+    card.innerHTML=`<div class="fecha-ico">${f.ico}</div>
+      <div class="fecha-info"><h3>${f.name}</h3><p>${f.desc}</p>
+      <p class="fdate">${f.date.getDate()} ${MN[f.date.getMonth()]} ${f.date.getFullYear()}</p></div>
+      <div class="fecha-count">${ct}</div>`;
+    c.appendChild(card);
+  });
+}
+
+// Contador desde Roblox — actualiza cada segundo
+function startTogetherCounter(){
+  const start=new Date(2021,9,15);
+  function tick(){
+    const d=Date.now()-start.getTime();
+    document.getElementById('tDays').textContent=Math.floor(d/86400000);
+    document.getElementById('tHrs').textContent=Math.floor((d%86400000)/3600000);
+    document.getElementById('tMin').textContent=Math.floor((d%3600000)/60000);
+    document.getElementById('tSec').textContent=Math.floor((d%60000)/1000);
+  }
+  tick(); setInterval(tick,1000);
+}
+
+// ══════════════════════════════════════
+//              FRASES
+// ══════════════════════════════════════
+const FRASES=[
+  {e:'🌍',t:'El amor a distancia es prueba de que lo real no necesita estar cerca para ser intenso.',a:'— Para mi princesa'},
+  {e:'🌙',t:'Eres la persona en quien pienso primero cuando algo bueno me pasa, y el abrazo que necesito cuando algo sale mal.',a:'— Tu amor eterno'},
+  {e:'✨',t:'En un universo lleno de estrellas, tú eres la que hace que todas las demás parezcan apagarse a tu lado.',a:'— Con todo mi corazón'},
+  {e:'🎮',t:'Empezamos en Roblox y terminamos en el corazón. No creo que exista una historia más bonita que la nuestra.',a:'— Tu admirador secreto 😉'},
+  {e:'💖',t:'Si el tiempo se detuviera y solo pudiera elegir un momento para vivir eternamente, elegiría cualquier momento contigo.',a:'— Para siempre tuyo'},
+  {e:'⭐',t:'Creo en el amor porque te vi a ti. Creo en la magia porque te tengo. Creo en lo eterno porque te quiero profundamente.',a:'— Para siempre'},
+  {e:'🦋',t:'Hay personas que son hogar aunque no tengan paredes. Tú eres ese lugar donde mi alma descansa sin pedirle permiso a nadie.',a:'— Con amor infinito'},
+  {e:'🌸',t:'Tu sonrisa tiene el poder de convertir el peor de los días en el más hermoso recuerdo que puedo tener.',a:'— Solo para ti'},
+  {e:'💫',t:'Cada vez que pienso en ti, sonrío sin querer. Y cada vez que sonrío sin querer, sé que es porque pienso en ti.',a:'— Tu compañero de vida'},
+  {e:'💝',t:'El amor real no es la ausencia de tormentas, es saber que después de cada tormenta siempre volvemos el uno al otro.',a:'— Nosotros'},
+  {e:'🌟',t:'Eres el tipo de persona que le recuerda al mundo que todavía existen las cosas verdaderamente bonitas en él.',a:'— Quien más te admira'},
+  {e:'❤️',t:'Mi corazón tiene tu nombre escrito en cada latido. No como costumbre, sino como su única y verdadera razón de existir.',a:'— Tu amor'},
+  {e:'🌊',t:'Eres como el mar: profunda, misteriosa, llena de vida. Y yo, como el marinero que eligió perderse en ti para siempre.',a:'— Tuyo'},
+  {e:'🔥',t:'Me enamoré de ti sin quererlo, me quedé contigo sin dudarlo, y te amaré sin condiciones ni fechas de vencimiento.',a:'— El que te ama'},
+  {e:'📱',t:'Cada mensaje tuyo convierte el día en algo especial. Gracias por escribir siempre, aunque sea un "hola".',a:'— Esperando tu mensaje'},
+  {e:'✈️',t:'La distancia entre nosotros no son kilómetros, son simplemente pasos hacia el momento en que estemos juntos.',a:'— Contando los días'},
+];
+let fraseIdx=0;
+function nuevaFrase(){
+  const card=document.getElementById('fraseCard'); card.classList.add('fade');
+  fraseIdx=(fraseIdx+1)%FRASES.length;
+  setTimeout(()=>{
+    const f=FRASES[fraseIdx];
+    document.getElementById('fraseEmoji').textContent=f.e;
+    document.getElementById('fraseTxt').textContent=f.t;
+    document.getElementById('fraseAutor').textContent=f.a;
+    card.classList.remove('fade');
+  },310);
+}
+function initStars(){
+  const c=document.getElementById('frasesStars');
+  for(let i=0;i<100;i++){
+    const s=document.createElement('div'); s.className='sdot';
+    const sz=Math.random()*2.5+.5;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${1.8+Math.random()*4}s;animation-delay:${Math.random()*5}s;`;
+    c.appendChild(s);
+  }
+}
+
+// ══════════════════════════════════════
+//              JARDÍN
+// ══════════════════════════════════════
+const FLORS=['🌸','🌺','🌻','🌹','🌷','💐','🌼','🍀','🌱','🌿','💮','🌾'];
+let florN=0;
+function addFlor(x,y,area){
+  florN++;
+  const el=document.createElement('div'); el.className='flor';
+  el.textContent=FLORS[Math.floor(Math.random()*FLORS.length)];
+  el.style.left=Math.max(4,Math.min(88,x))+'%';
+  el.style.top=Math.max(4,Math.min(82,y))+'%';
+  el.style.fontSize=(28+Math.random()*22)+'px';
+  el.style.animationDelay=Math.random()*.3+'s';
+  el.style.animationDuration=(2+Math.random()*2)+'s';
+  area.insertBefore(el,area.querySelector('.jardin-ground'));
+  const msgs=['¡Planta la primera flor! 🌱','1 flor de amor 🌸','¡Creciendo! 2 flores 🌺',
+    '3 flores del corazón 🌻','4 flores — ¡Qué jardín tan bonito! 💕','5 flores, 5 "te amos" 🌹'];
+  document.getElementById('jardinMsg').textContent = florN<=5?msgs[Math.min(florN,5)]:`¡${florN} flores de amor! 💐`;
+}
+const jardinArea=document.getElementById('jardinArea');
+jardinArea.addEventListener('click',function(e){
+  const r=this.getBoundingClientRect();
+  addFlor(((e.clientX-r.left)/r.width)*100,((e.clientY-r.top)/r.height)*100,this);
+});
+jardinArea.addEventListener('touchstart',function(e){
+  e.preventDefault();
+  const t0=e.touches[0],r=this.getBoundingClientRect();
+  addFlor(((t0.clientX-r.left)/r.width)*100,((t0.clientY-r.top)/r.height)*100,this);
+},{passive:false});
+
+// ══════════════════════════════════════
+//         PARTÍCULAS — NOSOTROS
+// ══════════════════════════════════════
+function spawnNuestroParticles(){
+  const c=document.getElementById('nuestroP');
+  const cols=['#ff6b8a','#ffb3c6','#c9184a','#f4c2c2','#ff8fab'];
+  for(let i=0;i<30;i++){
+    const p=document.createElement('div'); p.className='particle';
+    const sz=3+Math.random()*6,d=12+Math.random()*15;
+    p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;background:${cols[Math.floor(Math.random()*5)]};opacity:${.15+Math.random()*.45};animation-duration:${d}s;animation-delay:${Math.random()*d}s;bottom:-20px;`;
+    c.appendChild(p);
+  }
+}
+
+// ══════════════════════════════════════
+//              INICIO
+// ══════════════════════════════════════
+document.addEventListener('contextmenu',e=>e.preventDefault());
+setTimeout(()=>showNotif('💕','¡Hola princesa! Este teléfono es todo para ti 🌹'),300);
+</script>
+</body>
+</html>
