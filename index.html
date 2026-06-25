@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>💕 Para Mi Princesa</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400;1,600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+:root{
+  --gold:#ffd76a;--gold-deep:#c98a2b;--rose:#ff6f91;--rose-deep:#c9184a;
+  --blush:#ffd6e0;--indigo:#1b0f3d;--indigo-deep:#0d0620;--cream:#fff7f0;
+}
+html,body{width:100%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at 30% 20%,#241238,#0d0620 55%,#000);font-family:'Cormorant Garamond',serif}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 15% 60%,rgba(201,24,74,.14),transparent 60%),
+             radial-gradient(ellipse at 85% 15%,rgba(255,215,100,.10),transparent 55%);
+  animation:bgPulse 9s ease-in-out infinite alternate}
+@keyframes bgPulse{0%{opacity:.6}100%{opacity:1}}
+
+/* ═══ PHONE ═══ */
+.phone{width:390px;height:844px;background:#000;border-radius:54px;position:relative;overflow:hidden;flex-shrink:0;
+  box-shadow:0 0 0 1px #2a2a35,0 0 0 3px #15151c,0 0 0 5px #241238,
+             0 60px 130px rgba(0,0,0,.92),0 0 70px rgba(255,180,90,.10),0 0 100px rgba(201,24,74,.16)}
+.phone::before{content:'';position:absolute;left:-3px;top:140px;width:3px;height:75px;background:#222230;border-radius:3px 0 0 3px;box-shadow:0 90px 0 #222230}
+.phone::after{content:'';position:absolute;right:-3px;top:175px;width:3px;height:120px;background:#222230;border-radius:0 3px 3px 0}
+@media(max-width:430px){body{background:#000;align-items:stretch;justify-content:stretch}
+  .phone{width:100vw;height:100vh;border-radius:0;box-shadow:none}body::before{display:none}}
+@media(max-height:860px) and (min-width:431px){.phone{transform:scale(.9);transform-origin:center}}
+
+/* ═══ DYNAMIC ISLAND ═══ */
+.island{position:absolute;top:13px;left:50%;transform:translateX(-50%);
+  height:34px;min-width:96px;background:#000;border-radius:20px;z-index:9999;
+  display:flex;align-items:center;justify-content:center;gap:7px;padding:0 14px;
+  cursor:pointer;transition:min-width .35s cubic-bezier(.34,1.56,.64,1),padding .35s;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+.island.playing{min-width:150px}
+.island-eq{display:none;gap:2px;align-items:center;height:12px}
+.island.playing .island-eq{display:flex}
+.eq-bar{width:2.5px;background:var(--gold);border-radius:2px;animation:eqBounce 1s ease-in-out infinite}
+.eq-bar:nth-child(1){animation-delay:0s;height:6px}
+.eq-bar:nth-child(2){animation-delay:.2s;height:10px}
+.eq-bar:nth-child(3){animation-delay:.4s;height:5px}
+@keyframes eqBounce{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+.island-note{font-size:12px;display:none}
+.island.playing .island-note{display:block}
+.island-txt{display:none;font-family:'Outfit',sans-serif;font-size:10px;color:rgba(255,255,255,.75);
+  white-space:nowrap;overflow:hidden;letter-spacing:.3px}
+.island.playing .island-txt{display:block}
+
+/* ═══ STATUS BAR ═══ */
+.status-bar{position:absolute;top:0;left:0;right:0;height:52px;display:flex;align-items:flex-end;
+  justify-content:space-between;padding:0 26px 9px;z-index:9998;color:white;font-family:'Outfit',sans-serif}
+.st-time{font-size:15px;font-weight:600}
+.st-ampm{font-size:9px;font-weight:600;margin-left:3px;vertical-align:super;opacity:.85}
+.st-icons{display:flex;gap:6px;align-items:center}
+
+/* ═══ FULLSCREEN ═══ */
+.fs-btn{position:absolute;bottom:14px;right:16px;z-index:9997;width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,.10);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);
+  color:white;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.fs-btn:active{background:rgba(255,255,255,.28)}
+
+/* ═══ NOTIFICATION ═══ */
+.notif-popup{position:absolute;top:60px;left:14px;right:14px;background:rgba(20,10,35,.94);
+  backdrop-filter:blur(25px);border:1px solid rgba(255,200,150,.22);border-radius:18px;
+  padding:14px 16px;display:flex;gap:12px;align-items:center;z-index:9990;
+  transform:translateY(-90px);opacity:0;transition:transform .4s cubic-bezier(.25,.46,.45,.94),opacity .4s;
+  box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.notif-popup.show{transform:translateY(0);opacity:1}
+.notif-ico{font-size:30px;flex-shrink:0}
+.notif-right{flex:1}
+.notif-app{font-size:10.5px;color:var(--gold);font-family:'Outfit',sans-serif;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+.notif-msg{font-size:13px;color:rgba(255,255,255,.92);font-family:'Cormorant Garamond',serif;font-style:italic}
+
+/* ═══ SCREENS ═══ */
+.screen{position:absolute;inset:0;overflow:hidden}
+.screen.hidden{display:none}
+@keyframes glowPulse{0%,100%{text-shadow:0 0 15px rgba(255,179,198,.6),0 0 40px rgba(255,107,138,.3)}50%{text-shadow:0 0 30px rgba(255,179,198,1),0 0 60px rgba(255,107,138,.6)}}
+@keyframes heartbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.13)}28%{transform:scale(1)}42%{transform:scale(1.13)}70%{transform:scale(1)}}
+@keyframes floatUp{0%{opacity:0;transform:translateY(0) rotate(0deg) scale(.5)}8%{opacity:.8;transform:translateY(-60px) rotate(15deg) scale(1)}90%{opacity:.4}100%{opacity:0;transform:translateY(-900px) rotate(360deg) scale(.8)}}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes bounceArrow{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-10px);opacity:1}}
+@keyframes shakeX{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* ═══ LOCK SCREEN (SWIPE UP) ═══ */
+#lockscreen{background:url('https://images.unsplash.com/photo-1490750967868-88df5691cc64?w=2000&q=90') center/cover;
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:84px 28px 40px;
+  touch-action:none;transition:transform .45s cubic-bezier(.25,.46,.45,.94),opacity .45s ease}
+.lock-overlay{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(0,0,0,.25) 0%,rgba(5,2,15,.06) 32%,rgba(5,2,15,.22) 60%,rgba(5,2,15,.78) 100%)}
+.hearts-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.fheart{position:absolute;bottom:-40px;animation:floatUp linear infinite;opacity:0}
+.lock-top{text-align:center;z-index:1;pointer-events:none}
+.lock-time-wrap{display:flex;align-items:flex-start;justify-content:center}
+.lock-time{font-size:80px;font-family:'Playfair Display',serif;font-weight:700;color:white;line-height:1;letter-spacing:-3px;text-shadow:0 4px 30px rgba(0,0,0,.4)}
+.lock-ampm{font-family:'Outfit',sans-serif;font-size:18px;color:rgba(255,255,255,.78);margin-top:12px;margin-left:6px;font-weight:500}
+.lock-date{font-size:18px;font-family:'Dancing Script',cursive;color:rgba(255,255,255,.9);margin-top:4px;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.lock-greeting{font-size:16px;font-family:'Dancing Script',cursive;color:var(--blush);margin-top:16px;animation:glowPulse 2.5s ease-in-out infinite}
+.lock-mid{z-index:1;font-size:56px;animation:heartbeat 1.4s ease-in-out infinite;pointer-events:none}
+.lock-bottom{z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none}
+.swipe-chevrons{display:flex;flex-direction:column;align-items:center;gap:-6px}
+.chevron{font-size:22px;color:rgba(255,255,255,.7);animation:bounceArrow 1.6s ease-in-out infinite;line-height:.6}
+.chevron:nth-child(2){animation-delay:.15s;opacity:.6}
+.chevron:nth-child(3){animation-delay:.3s;opacity:.35}
+.swipe-hint{font-family:'Dancing Script',cursive;font-size:16px;color:rgba(255,255,255,.75);margin-top:6px;letter-spacing:.5px}
+.swipe-sub{font-family:'Outfit',sans-serif;font-size:10px;color:rgba(255,255,255,.4);margin-top:10px;letter-spacing:.5px}
+
+/* ═══ HOME SCREEN ═══ */
+#homescreen{background:url('https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=2400&q=92') center/cover;display:flex;flex-direction:column;padding-top:60px}
+.home-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,2,15,.42) 0%,rgba(5,2,15,.05) 22%,rgba(5,2,15,.12) 55%,rgba(5,2,15,.62) 100%)}
+.home-greeting{text-align:center;z-index:1;padding:8px 20px 2px}
+.home-greeting h2{font-family:'Dancing Script',cursive;font-size:24px;color:var(--blush);text-shadow:0 2px 20px rgba(255,107,138,.6),0 0 60px rgba(255,107,138,.3);animation:glowPulse 3s ease-in-out infinite}
+
+/* Now playing widget */
+.now-playing{z-index:1;margin:6px 16px 4px;background:rgba(255,255,255,.10);backdrop-filter:blur(22px);
+  border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:11px 14px;
+  display:flex;align-items:center;gap:11px;box-shadow:0 8px 26px rgba(0,0,0,.3)}
+.np-art{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#c9184a,#ffb3c6);
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3);animation:spin 14s linear infinite}
+.np-art.paused{animation-play-state:paused}
+.np-info{flex:1;min-width:0}
+.np-title{font-family:'Outfit',sans-serif;font-size:12.5px;font-weight:600;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.np-artist{font-family:'Outfit',sans-serif;font-size:10.5px;color:rgba(255,255,255,.55)}
+.np-bar{height:3px;background:rgba(255,255,255,.18);border-radius:3px;margin-top:5px;position:relative;overflow:hidden}
+.np-bar-fill{height:100%;background:linear-gradient(to right,var(--rose),var(--gold));border-radius:3px;width:0%}
+.np-btn{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.14);border:none;color:white;
+  font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+.np-btn:active{background:rgba(255,255,255,.3);transform:scale(.9)}
+
+.app-grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:15px;padding:14px 16px 6px;align-content:start;z-index:1}
+.app-icon{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:transform .12s}
+.app-icon:active{transform:scale(.82)}
+.app-icon-img{width:60px;height:60px;border-radius:17px;display:flex;align-items:center;justify-content:center;font-size:27px;
+  box-shadow:0 6px 18px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.25);position:relative;overflow:hidden}
+.app-icon-img::after{content:'';position:absolute;top:0;left:0;right:0;height:52%;background:linear-gradient(to bottom,rgba(255,255,255,.26),transparent);border-radius:17px 17px 0 0}
+.app-name{color:white;font-size:10px;font-family:'Outfit',sans-serif;font-weight:500;text-align:center;text-shadow:0 1px 4px rgba(0,0,0,.8);line-height:1.2;max-width:64px}
+.dock{z-index:1;margin:8px 14px 24px;background:rgba(255,255,255,.13);backdrop-filter:blur(25px);
+  border-radius:30px;border:1px solid rgba(255,255,255,.2);padding:11px 8px;display:flex;justify-content:space-around;box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.dock .app-icon-img{width:54px;height:54px}
+
+/* ═══ APP SCREENS ═══ */
+.app-screen{position:absolute;inset:0;overflow:hidden;display:flex;flex-direction:column;
+  transform:translateY(100%);transition:transform .42s cubic-bezier(.25,.46,.45,.94);z-index:100}
+.app-screen.open{transform:translateY(0)}
+.app-header{padding:54px 20px 14px;display:flex;align-items:center;gap:14px;z-index:2;flex-shrink:0}
+.back-btn{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.16);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.18);color:white;font-size:20px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s,transform .15s}
+.back-btn:active{background:rgba(255,255,255,.3);transform:scale(.9)}
+.app-title{font-family:'Playfair Display',serif;font-size:19px;color:white;font-style:italic;text-shadow:0 2px 10px rgba(0,0,0,.4)}
+.glass-card{background:rgba(255,255,255,.07);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.13);border-radius:18px}
+
+/* ═══ APP 1: IDIOMAS DEL AMOR ═══ */
+#app-idiomas{background:radial-gradient(ellipse at 30% 20%,#0d2840,#061018 60%,#020608)}
+.lang-stars{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+#langContainer{position:relative;flex:1;overflow:hidden}
+.lang-card{position:absolute;top:-150px;width:78%;left:10%;display:flex;flex-direction:column;align-items:center;gap:3px;
+  background:rgba(255,255,255,.07);backdrop-filter:blur(8px);border:1px solid rgba(180,220,255,.18);
+  border-radius:18px;padding:14px 16px;animation:fallDown linear forwards;text-align:center;
+  box-shadow:0 8px 24px rgba(0,0,0,.3)}
+@keyframes fallDown{0%{transform:translateY(-150px) rotate(0deg);opacity:0}8%{opacity:1}90%{opacity:1}100%{transform:translateY(120vh) rotate(var(--rot,6deg));opacity:0}}
+.lang-flag{font-size:24px}
+.lang-name{font-family:'Outfit',sans-serif;font-size:10px;color:rgba(180,220,255,.7);text-transform:uppercase;letter-spacing:1px}
+.lang-phrase{font-family:'Playfair Display',serif;font-size:18px;color:white;font-style:italic;margin-top:2px}
+.lang-translit{font-family:'Cormorant Garamond',serif;font-size:11px;color:rgba(255,255,255,.5);font-style:italic}
+.lang-heart{font-size:13px;margin-top:2px}
+
+/* ═══ APP 2: FRASES DE PELÍCULA ═══ */
+#app-peliculas{background:linear-gradient(165deg,#0d0510,#1c0a1a,#2d0a16)}
+.mov-scroll{flex:1;overflow-y:auto;padding:4px 18px 30px;-webkit-overflow-scrolling:touch}
+.mov-card{padding:20px 20px 18px;margin-bottom:16px;position:relative;overflow:hidden;animation:cardIn .5s ease backwards}
+.mov-card.hp{border-color:rgba(255,215,0,.4);background:rgba(255,215,0,.05)}
+.mov-badge{position:absolute;top:12px;right:14px;font-size:10px;color:var(--gold);font-family:'Outfit',sans-serif;
+  letter-spacing:.5px;background:rgba(255,215,0,.12);padding:3px 9px;border-radius:10px;border:1px solid rgba(255,215,0,.3)}
+.mov-icon{font-size:26px;margin-bottom:8px;display:block}
+.mov-quote{font-family:'Playfair Display',serif;font-size:17.5px;color:white;font-style:italic;line-height:1.5}
+.mov-attr{font-family:'Dancing Script',cursive;font-size:15px;color:var(--blush);margin-top:10px}
+.mov-meta{font-family:'Outfit',sans-serif;font-size:10.5px;color:rgba(255,255,255,.42);margin-top:3px;letter-spacing:.3px}
+
+/* ═══ APP 3: BAJO EL MISMO CIELO ═══ */
+#app-cielo{background:#0a0a18}
+.sky-box{margin:6px 20px 0;height:180px;border-radius:24px;position:relative;overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);transition:background 1.2s ease}
+.sky-star{position:absolute;border-radius:50%;background:white;animation:twinkle ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.1}50%{opacity:.9}}
+.sky-celestial{position:absolute;font-size:30px;transition:left 1s linear, bottom 1s linear;filter:drop-shadow(0 0 14px rgba(255,220,140,.7))}
+.sky-horizon{position:absolute;bottom:0;left:0;right:0;height:34%;background:linear-gradient(to bottom,transparent,rgba(0,0,0,.25))}
+.cielo-clock{text-align:center;margin-top:22px}
+.cielo-time{font-family:'Playfair Display',serif;font-size:46px;color:white;line-height:1}
+.cielo-date{font-family:'Dancing Script',cursive;font-size:16px;color:rgba(255,255,255,.7);margin-top:2px}
+.cielo-msg-wrap{margin:22px 24px 0;text-align:center}
+.cielo-msg{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:rgba(255,255,255,.88);
+  line-height:1.7;transition:opacity .6s ease}
+.cielo-caption{font-family:'Dancing Script',cursive;font-size:14px;color:var(--gold);margin-top:18px;text-align:center;opacity:.85}
+
+/* ═══ APP 4: CÁPSULA DEL TIEMPO ═══ */
+#app-capsula{background:linear-gradient(160deg,#150a2e,#2b0a40,#3d0a30)}
+.cap-scroll{flex:1;overflow-y:auto;padding:4px 18px 30px;-webkit-overflow-scrolling:touch}
+.cap-card{padding:16px 18px;margin-bottom:13px;display:flex;align-items:center;gap:13px;
+  animation:cardIn .5s ease backwards;cursor:pointer;transition:transform .15s}
+.cap-card:active{transform:scale(.98)}
+.cap-card.locked{opacity:.72}
+.cap-card.shake{animation:shakeX .4s ease}
+.cap-ico{font-size:30px;flex-shrink:0}
+.cap-info{flex:1;min-width:0}
+.cap-info h3{font-family:'Dancing Script',cursive;font-size:18px;color:var(--blush)}
+.cap-info p{font-family:'Cormorant Garamond',serif;font-size:13px;color:rgba(255,255,255,.55);margin-top:2px}
+.cap-status{font-family:'Outfit',sans-serif;font-size:10px;color:rgba(255,255,255,.45);text-align:right;flex-shrink:0;line-height:1.3}
+.cap-status .days{font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);display:block}
+.cap-reveal{grid-column:1/-1;width:100%;max-height:0;overflow:hidden;transition:max-height .4s ease}
+.cap-card.expanded .cap-reveal{max-height:200px;margin-top:12px}
+.cap-reveal-inner{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14.5px;color:rgba(255,255,255,.85);line-height:1.7;padding-top:10px;border-top:1px solid rgba(255,255,255,.1)}
+.cap-card{flex-wrap:wrap}
+
+/* ═══ APP 5: RAZONES DE AMARTE ═══ */
+#app-razones{background:linear-gradient(160deg,#1a0510,#3d0a20,#c9184a 220%)}
+.razones-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 24px 30px}
+.razon-counter{font-family:'Outfit',sans-serif;font-size:11px;color:rgba(255,255,255,.55);letter-spacing:.5px;margin-bottom:18px}
+.razon-counter b{color:var(--gold);font-size:14px}
+.razon-card{padding:36px 26px;text-align:center;position:relative;width:100%;margin-bottom:26px;
+  transition:opacity .3s ease,transform .3s ease;min-height:130px;display:flex;align-items:center;justify-content:center}
+.razon-card.fade{opacity:0;transform:scale(.95)}
+.razon-txt{font-family:'Playfair Display',serif;font-size:18.5px;color:white;font-style:italic;line-height:1.5}
+.razon-btn{background:linear-gradient(135deg,var(--rose),var(--rose-deep));border:none;border-radius:26px;
+  padding:15px 34px;color:white;font-family:'Dancing Script',cursive;font-size:18px;cursor:pointer;
+  box-shadow:0 6px 26px rgba(201,24,74,.45);transition:transform .15s}
+.razon-btn:active{transform:scale(.94)}
+.razon-spark{position:fixed;pointer-events:none;font-size:16px;z-index:300;animation:sparkPop .8s ease-out forwards}
+@keyframes sparkPop{0%{opacity:1;transform:scale(0) translateY(0)}100%{opacity:0;transform:scale(1.3) translateY(-50px)}}
+
+/* ═══ APP 6: ABRAZO A DISTANCIA ═══ */
+#app-abrazo{background:radial-gradient(ellipse at center,#3d1a0a,#1a0a10 70%,#0a0508)}
+.abrazo-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:10px 24px 30px;position:relative}
+.hug-btn-wrap{position:relative;width:160px;height:160px;display:flex;align-items:center;justify-content:center}
+.hug-ripple{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(255,150,90,.5);opacity:0;animation:rippleOut 1.2s ease-out forwards}
+@keyframes rippleOut{0%{opacity:.8;transform:scale(.6)}100%{opacity:0;transform:scale(1.8)}}
+.hug-btn{width:140px;height:140px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffb26b,#ff7b54 60%,#c9184a);
+  border:none;color:white;font-size:50px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 50px rgba(255,123,84,.5),0 10px 30px rgba(0,0,0,.4);transition:transform .15s;z-index:2}
+.hug-btn:active{transform:scale(.92)}
+.hug-counter{font-family:'Outfit',sans-serif;font-size:12px;color:rgba(255,255,255,.6);text-align:center}
+.hug-counter b{color:#ffb26b;font-size:16px}
+.hug-msg{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15.5px;color:rgba(255,255,255,.88);
+  text-align:center;min-height:50px;opacity:0;transition:opacity .5s ease;max-width:300px;line-height:1.6}
+.hug-msg.show{opacity:1}
+.hug-sub{font-family:'Outfit',sans-serif;font-size:9.5px;color:rgba(255,255,255,.35);text-align:center;letter-spacing:.5px}
+
+/* ═══ APP 7: CARTA SELLADA ═══ */
+#app-cartas2{background:linear-gradient(160deg,#1a0a14,#3d0a1f,#5a0c1f)}
+.env-scroll{flex:1;overflow-y:auto;padding:10px 22px 30px;display:flex;flex-direction:column;gap:18px;-webkit-overflow-scrolling:touch}
+.envelope{padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;
+  position:relative;transition:transform .2s;animation:cardIn .5s ease backwards}
+.envelope:active{transform:scale(.97)}
+.wax-seal{width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#e0455a,#8a0e22);
+  box-shadow:0 3px 10px rgba(0,0,0,.5),inset 0 1px 3px rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;
+  font-size:20px;color:rgba(255,255,255,.85);transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .4s}
+.envelope.opening .wax-seal{transform:scale(0) rotate(220deg);opacity:0}
+.env-title{font-family:'Dancing Script',cursive;font-size:19px;color:var(--blush)}
+.env-sub{font-family:'Cormorant Garamond',serif;font-size:12.5px;color:rgba(255,255,255,.5);text-align:center;font-style:italic}
+.env-tag{position:absolute;top:10px;right:14px;font-size:10px;color:rgba(255,215,150,.7);font-family:'Outfit',sans-serif}
+
+/* ═══ APP 8: NUESTRA DISTANCIA ═══ */
+#app-distancia{background:radial-gradient(ellipse at 50% 30%,#0d1b3d,#040810 75%)}
+.dist-map{position:relative;margin:6px 20px;height:380px;border-radius:24px;overflow:hidden;
+  background-image:radial-gradient(rgba(120,180,255,.18) 1px,transparent 1px);background-size:22px 22px;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);border:1px solid rgba(120,180,255,.12)}
+.dist-svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;display:flex;flex-direction:column;align-items:center;gap:3px;transform:translate(-50%,-100%)}
+.pin-dot{font-size:26px;filter:drop-shadow(0 0 10px currentColor)}
+.pin-label{font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:white;
+  background:rgba(0,0,0,.45);padding:3px 9px;border-radius:10px;white-space:nowrap}
+.dist-caption{text-align:center;margin:18px 26px 0;font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:15px;color:rgba(255,255,255,.85);line-height:1.7}
+.dist-stat{display:flex;justify-content:center;gap:30px;margin-top:18px}
+.dstat{text-align:center}
+.dstat .v{font-family:'Playfair Display',serif;font-size:18px;color:var(--gold)}
+.dstat .l{font-family:'Outfit',sans-serif;font-size:9.5px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.5px}
+
+/* ═══ LETTER MODAL (reusable) ═══ */
+#letterModal{position:fixed;inset:0;z-index:500;display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .35s ease}
+#letterModal.open{opacity:1;pointer-events:all}
+.lm-overlay{position:absolute;inset:0;background:rgba(0,0,0,.72)}
+.lm-card{position:relative;z-index:1;width:100%;max-width:600px;
+  background:linear-gradient(160deg,rgba(20,8,30,.98),rgba(8,3,18,.99));
+  border-radius:26px 26px 0 0;border:1px solid rgba(255,255,255,.09);padding:28px 26px 50px;
+  transform:translateY(100%);transition:transform .42s cubic-bezier(.25,.46,.45,.94)}
+#letterModal.open .lm-card{transform:translateY(0)}
+.lm-handle{width:38px;height:4px;border-radius:2px;background:rgba(255,255,255,.2);margin:0 auto 20px}
+.lm-icon{font-size:48px;text-align:center;display:block;margin-bottom:12px;filter:drop-shadow(0 0 16px rgba(255,150,200,.5))}
+.lm-title{font-family:'Playfair Display',serif;font-size:23px;color:var(--blush);text-align:center;font-style:italic;margin-bottom:16px}
+.lm-divider{height:1px;background:linear-gradient(to right,transparent,rgba(255,150,180,.4),transparent);margin-bottom:18px}
+.lm-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;line-height:1.85;color:rgba(255,255,255,.9);text-align:center}
+.lm-close{position:absolute;top:18px;right:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);
+  border-radius:50%;width:34px;height:34px;color:rgba(255,255,255,.7);font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center}
+
+::-webkit-scrollbar{display:none}
+</style>
+</head>
+<body>
+<div class="phone" id="phone">
+
+  <!-- DYNAMIC ISLAND -->
+  <div class="island" id="island" onclick="toggleMusic()">
+    <span class="island-note">🎵</span>
+    <div class="island-eq"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>
+    <span class="island-txt">Tú Eres La Reina</span>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="status-bar">
+    <div><span class="st-time" id="sTime">9:41</span><span class="st-ampm" id="sAmPm">AM</span></div>
+    <div class="st-icons">
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="white"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y=".5" width="3" height="11.5" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1" opacity=".35"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><path d="M8 2.5C10.3 2.5 12.4 3.4 14 5L15.5 3.5C13.5 1.3 10.9 0 8 0S2.5 1.3.5 3.5L2 5C3.6 3.4 5.7 2.5 8 2.5z"/><path d="M8 5.5C9.7 5.5 11.2 6.2 12.3 7.3L13.8 5.8C12.3 4.3 10.2 3.5 8 3.5S3.7 4.3 2.2 5.8L3.7 7.3C4.8 6.2 6.3 5.5 8 5.5z"/><circle cx="8" cy="10" r="2"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".5" y="1" width="21" height="10" rx="2.5" stroke="white" stroke-width="1"/><rect x="2" y="2.5" width="16" height="7" rx="1.5" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity=".5"/></svg>
+    </div>
+  </div>
+
+  <!-- NOTIFICATION -->
+  <div class="notif-popup" id="notifPopup">
+    <div class="notif-ico" id="notifIco">💕</div>
+    <div class="notif-right">
+      <div class="notif-app">Edi</div>
+      <div class="notif-msg" id="notifMsg">¡Hola princesa! 🌹</div>
+    </div>
+  </div>
+
+  <button class="fs-btn" onclick="toggleFS()">⛶</button>
+
+  <!-- AUDIO -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="reina.mp3" type="audio/mpeg">
+    <source src="reina.mp4" type="audio/mp4">
+  </audio>
+
+  <!-- ════════════ LOCK SCREEN — SWIPE UP ════════════ -->
+  <div class="screen" id="lockscreen">
+    <div class="hearts-bg" id="heartsBg"></div>
+    <div class="lock-overlay"></div>
+    <div class="lock-top">
+      <div class="lock-time-wrap">
+        <div class="lock-time" id="lockTime">9:41</div>
+        <div class="lock-ampm" id="lockAmPm">AM</div>
+      </div>
+      <div class="lock-date" id="lockDate">Lunes, 26 de Mayo</div>
+      <div class="lock-greeting">✨ Para mi princesa hermosa ✨</div>
+    </div>
+    <div class="lock-mid">💕</div>
+    <div class="lock-bottom" id="swipeZone" style="pointer-events:all;cursor:pointer">
+      <div class="swipe-chevrons">
+        <span class="chevron">⌃</span><span class="chevron">⌃</span><span class="chevron">⌃</span>
+      </div>
+      <div class="swipe-hint">Desliza hacia arriba para entrar a nuestro mundo</div>
+      <div class="swipe-sub">HECHO CON TODO MI AMOR</div>
+    </div>
+  </div>
+
+  <!-- ════════════ HOME SCREEN ════════════ -->
+  <div class="screen hidden" id="homescreen">
+    <div class="home-overlay"></div>
+    <div class="home-greeting"><h2>Bienvenida, mi amor 🌹</h2></div>
+
+    <div class="now-playing" id="npWidget">
+      <div class="np-art paused" id="npArt">🎵</div>
+      <div class="np-info">
+        <div class="np-title">Tú Eres La Reina</div>
+        <div class="np-artist">Diomedes Díaz · sonando de fondo</div>
+        <div class="np-bar"><div class="np-bar-fill" id="npFill"></div></div>
+      </div>
+      <button class="np-btn" id="npPlayBtn" onclick="toggleMusic()">▶</button>
+      <button class="np-btn" id="npMuteBtn" onclick="toggleMute()">🔊</button>
+    </div>
+
+    <div class="app-grid">
+      <div class="app-icon" onclick="openApp('idiomas')">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#0077b6,#00b4d8,#48cae4)">🌍</div>
+        <span class="app-name">Idiomas del Amor</span>
+      </div>
+      <div class="app-icon" onclick="openApp('peliculas')">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#5a0c1f,#c9184a,#ffd76a)">🎬</div>
+        <span class="app-name">Frases de Cine</span>
+      </div>
+      <div class="app-icon" onclick="openApp('cielo')">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#2d5f8a,#5b9bd5,#ff9d5c)">☀️</div>
+        <span class="app-name">Mismo Cielo</span>
+      </div>
+      <div class="app-icon" onclick="openApp('capsula')">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#2b0a40,#7c3aed,#c084fc)">⏳</div>
+        <span class="app-name">Cápsula Tiempo</span>
+      </div>
+      <div class="app-icon" onclick="openApp('razones')">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#c9184a,#ff6b8a,#ffb3c6)">💞</div>
+        <span class="app-name">Razones</span>
+      </div>
+      <div class="app-icon" onclick="openApp('abrazo')">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#c9184a,#ff7b54,#ffb26b)">🫂</div>
+        <span class="app-name">Abrazo</span>
+      </div>
+      <div class="app-icon" onclick="openApp('cartas2')">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#5a0c1f,#8a0e22,#c9184a)">💌</div>
+        <span class="app-name">Carta Sellada</span>
+      </div>
+      <div class="app-icon" onclick="openApp('distancia')">
+        <div class="app-icon-img" style="background:linear-gradient(135deg,#0d1b3d,#0077b6,#06b6d4)">🛰️</div>
+        <span class="app-name">Distancia</span>
+      </div>
+    </div>
+
+    <div class="dock">
+      <div class="app-icon" onclick="openApp('idiomas')" style="gap:4px"><div class="app-icon-img" style="background:linear-gradient(135deg,#0077b6,#48cae4)">🌍</div><span class="app-name">Idiomas</span></div>
+      <div class="app-icon" onclick="openApp('peliculas')" style="gap:4px"><div class="app-icon-img" style="background:linear-gradient(135deg,#5a0c1f,#ffd76a)">🎬</div><span class="app-name">Cine</span></div>
+      <div class="app-icon" onclick="openApp('razones')" style="gap:4px"><div class="app-icon-img" style="background:linear-gradient(135deg,#c9184a,#ffb3c6)">💞</div><span class="app-name">Razones</span></div>
+      <div class="app-icon" onclick="openApp('abrazo')" style="gap:4px"><div class="app-icon-img" style="background:linear-gradient(135deg,#c9184a,#ffb26b)">🫂</div><span class="app-name">Abrazo</span></div>
+    </div>
+  </div>
+
+  <!-- ════════════ APP 1: IDIOMAS DEL AMOR ════════════ -->
+  <div class="app-screen" id="app-idiomas">
+    <div class="lang-stars" id="langStars"></div>
+    <div class="app-header" style="position:relative;z-index:2">
+      <button class="back-btn" onclick="closeApp('idiomas')">‹</button>
+      <span class="app-title">Idiomas del Amor 🌍</span>
+    </div>
+    <div id="langContainer"></div>
+  </div>
+
+  <!-- ════════════ APP 2: FRASES DE PELÍCULA ════════════ -->
+  <div class="app-screen" id="app-peliculas">
+    <div class="app-header">
+      <button class="back-btn" onclick="closeApp('peliculas')">‹</button>
+      <span class="app-title">Frases de Cine 🎬</span>
+    </div>
+    <div class="mov-scroll"><div id="movList"></div></div>
+  </div>
+
+  <!-- ════════════ APP 3: BAJO EL MISMO CIELO ════════════ -->
+  <div class="app-screen" id="app-cielo">
+    <div class="app-header">
+      <button class="back-btn" onclick="closeApp('cielo')">‹</button>
+      <span class="app-title">Bajo el Mismo Cielo ☀️</span>
+    </div>
+    <div class="sky-box" id="skyBox">
+      <div id="skyStarsContainer"></div>
+      <div class="sky-celestial" id="skyCelestial">☀️</div>
+      <div class="sky-horizon"></div>
+    </div>
+    <div class="cielo-clock">
+      <div class="cielo-time" id="cieloTime">9:41</div>
+      <div class="cielo-date" id="cieloDate">Lunes, 26 de Mayo</div>
+    </div>
+    <div class="cielo-msg-wrap">
+      <p class="cielo-msg" id="cieloMsg">Donde sea que estés, el mismo cielo nos cubre a los dos.</p>
+      <div class="cielo-caption">✨ No importa la hora ni la distancia ✨</div>
+    </div>
+  </div>
+
+  <!-- ════════════ APP 4: CÁPSULA DEL TIEMPO ════════════ -->
+  <div class="app-screen" id="app-capsula">
+    <div class="app-header">
+      <button class="back-btn" onclick="closeApp('capsula')">‹</button>
+      <span class="app-title">Cápsula del Tiempo ⏳</span>
+    </div>
+    <div class="cap-scroll"><div id="capList"></div></div>
+  </div>
+
+  <!-- ════════════ APP 5: RAZONES DE AMARTE ════════════ -->
+  <div class="app-screen" id="app-razones">
+    <div class="app-header">
+      <button class="back-btn" onclick="closeApp('razones')">‹</button>
+      <span class="app-title">Razones para Amarte 💞</span>
+    </div>
+    <div class="razones-wrap">
+      <div class="razon-counter">Razones descubiertas: <b id="razonCount">0</b></div>
+      <div class="razon-card glass-card" id="razonCard">
+        <p class="razon-txt" id="razonTxt">Toca el botón y descubre una razón nueva cada vez 💕</p>
+      </div>
+      <button class="razon-btn" id="razonBtnEl" onclick="nuevaRazon()">💞 Otra razón</button>
+    </div>
+  </div>
+
+  <!-- ════════════ APP 6: ABRAZO A DISTANCIA ════════════ -->
+  <div class="app-screen" id="app-abrazo">
+    <div class="app-header">
+      <button class="back-btn" onclick="closeApp('abrazo')">‹</button>
+      <span class="app-title">Abrazo a Distancia 🫂</span>
+    </div>
+    <div class="abrazo-wrap">
+      <div class="hug-btn-wrap" id="hugWrap">
+        <button class="hug-btn" onclick="sendHug()">🫂</button>
+      </div>
+      <div class="hug-counter">Abrazos enviados: <b id="hugCount">0</b></div>
+      <p class="hug-msg" id="hugMsg"></p>
+      <div class="hug-sub">TOCA PARA ENVIAR UNO MÁS</div>
+    </div>
+  </div>
+
+  <!-- ════════════ APP 7: CARTA SELLADA ════════════ -->
+  <div class="app-screen" id="app-cartas2">
+    <div class="app-header">
+      <button class="back-btn" onclick="closeApp('cartas2')">‹</button>
+      <span class="app-title">Cartas Selladas 💌</span>
+    </div>
+    <div class="env-scroll"><div id="envList" style="display:flex;flex-direction:column;gap:18px"></div></div>
+  </div>
+
+  <!-- ════════════ APP 8: NUESTRA DISTANCIA ════════════ -->
+  <div class="app-screen" id="app-distancia">
+    <div class="app-header">
+      <button class="back-btn" onclick="closeApp('distancia')">‹</button>
+      <span class="app-title">Nuestra Distancia 🛰️</span>
+    </div>
+    <div class="dist-map" id="distMap">
+      <svg class="dist-svg" viewBox="0 0 320 380" preserveAspectRatio="none">
+        <path id="dpath" d="M55,300 Q170,60 265,95" fill="none" stroke="rgba(150,200,255,.35)" stroke-width="2" stroke-dasharray="6 9"/>
+        <text font-size="22" text-anchor="middle" dy="7">💗
+          <animateMotion dur="7s" repeatCount="indefinite" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear">
+            <mpath href="#dpath"/>
+          </animateMotion>
+        </text>
+      </svg>
+      <div class="pin" style="left:17%;top:79%;color:#5b9bd5">
+        <span class="pin-dot">📍</span>
+        <span class="pin-label">Yo · Edi 💙</span>
+      </div>
+      <div class="pin" style="left:83%;top:25%;color:#ff6b8a">
+        <span class="pin-dot">📍</span>
+        <span class="pin-label">Tú · Vic 💗</span>
+      </div>
+    </div>
+    <p class="dist-caption">No importa cuántos kilómetros nos separen — un mensaje tuyo cruza esa distancia en segundos, y mi amor la cruza todos los días.</p>
+    <div class="dist-stat">
+      <div class="dstat"><span class="v">∞ km</span><span class="l">Distancia</span></div>
+      <div class="dstat"><span class="v">0 km</span><span class="l">Amor de menos</span></div>
+    </div>
+  </div>
+
+  <!-- LETTER MODAL -->
+  <div id="letterModal">
+    <div class="lm-overlay" onclick="closeLetter()"></div>
+    <div class="lm-card">
+      <button class="lm-close" onclick="closeLetter()">✕</button>
+      <div class="lm-handle"></div>
+      <span class="lm-icon" id="lmIcon">💌</span>
+      <div class="lm-title" id="lmTitle"></div>
+      <div class="lm-divider"></div>
+      <p class="lm-text" id="lmText"></p>
+    </div>
+  </div>
+
+</div><!-- /phone -->
+
+<script>
+// ══════════════════════════════════════
+//              RELOJ 12H
+// ══════════════════════════════════════
+function fmtTime(s){ if(isNaN(s)||s===Infinity) return '0:00'; const m=Math.floor(s/60),ss=Math.floor(s%60); return m+':'+String(ss).padStart(2,'0'); }
+function updateClock(){
+  const now=new Date(); let h=now.getHours(); const ampm=h>=12?'PM':'AM'; h=h%12||12;
+  const m=String(now.getMinutes()).padStart(2,'0'); const ts=h+':'+m;
+  document.getElementById('lockTime').textContent=ts;
+  document.getElementById('lockAmPm').textContent=ampm;
+  document.getElementById('sTime').textContent=ts;
+  document.getElementById('sAmPm').textContent=ampm;
+  document.getElementById('cieloTime').textContent=ts;
+  const days=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const dateStr=days[now.getDay()]+', '+now.getDate()+' de '+months[now.getMonth()];
+  document.getElementById('lockDate').textContent=dateStr;
+  document.getElementById('cieloDate').textContent=dateStr;
+  updateSky(now);
+}
+updateClock(); setInterval(updateClock,15000);
+
+// ══════════════════════════════════════
+//          PANTALLA COMPLETA
+// ══════════════════════════════════════
+function toggleFS(){
+  try{
+    const el=document.documentElement;
+    if(!document.fullscreenElement && !document.webkitFullscreenElement){
+      (el.requestFullscreen||el.webkitRequestFullscreen||el.mozRequestFullScreen||(()=>{})).call(el);
+    } else {
+      (document.exitFullscreen||document.webkitExitFullscreen||document.mozCancelFullScreen||(()=>{})).call(document);
+    }
+  }catch(e){}
+}
+
+// ══════════════════════════════════════
+//          CORAZONES FLOTANTES
+// ══════════════════════════════════════
+const HE=['💕','❤️','🌹','✨','💖','💗','🦋','⭐','🌸','💫','🪐'];
+function spawnHeart(){
+  const h=document.createElement('div'); h.className='fheart';
+  h.textContent=HE[Math.floor(Math.random()*HE.length)];
+  h.style.left=Math.random()*100+'%'; h.style.fontSize=(14+Math.random()*22)+'px';
+  const d=9+Math.random()*9; h.style.animationDuration=d+'s'; h.style.animationDelay=Math.random()*3+'s';
+  document.getElementById('heartsBg').appendChild(h);
+  setTimeout(()=>h.remove(),(d+4)*1000);
+}
+setInterval(spawnHeart,1300); for(let i=0;i<6;i++) spawnHeart();
+
+// ══════════════════════════════════════
+//      SWIPE-UP PARA DESBLOQUEAR
+// ══════════════════════════════════════
+const lockEl=document.getElementById('lockscreen');
+const swipeZone=document.getElementById('swipeZone');
+let dragStartY=0, dragging=false, dragDelta=0;
+
+function getY(e){ return e.touches?e.touches[0].clientY:e.clientY; }
+
+function onDragStart(e){ dragging=true; dragStartY=getY(e); lockEl.style.transition='none'; }
+function onDragMove(e){
+  if(!dragging) return;
+  dragDelta = getY(e) - dragStartY;
+  if(dragDelta>0) dragDelta=0;
+  const clamped=Math.max(dragDelta,-500);
+  lockEl.style.transform=`translateY(${clamped}px)`;
+  lockEl.style.opacity = Math.max(0.15, 1 + clamped/500);
+  e.preventDefault();
+}
+function onDragEnd(){
+  if(!dragging) return; dragging=false;
+  lockEl.style.transition='transform .45s cubic-bezier(.25,.46,.45,.94), opacity .45s ease';
+  if(dragDelta < -90){ completeUnlock(); }
+  else { lockEl.style.transform='translateY(0)'; lockEl.style.opacity='1'; }
+}
+lockEl.addEventListener('touchstart',onDragStart,{passive:true});
+lockEl.addEventListener('touchmove',onDragMove,{passive:false});
+lockEl.addEventListener('touchend',onDragEnd);
+lockEl.addEventListener('mousedown',onDragStart);
+window.addEventListener('mousemove',onDragMove);
+window.addEventListener('mouseup',onDragEnd);
+swipeZone.addEventListener('click', ()=>{ if(!dragging && Math.abs(dragDelta)<5) completeUnlock(); });
+
+function completeUnlock(){
+  lockEl.style.transition='transform .5s cubic-bezier(.25,.46,.45,.94), opacity .5s ease';
+  lockEl.style.transform='translateY(-110%)'; lockEl.style.opacity='0';
+  startMusicOnce();
+  setTimeout(()=>{
+    lockEl.classList.add('hidden');
+    document.getElementById('homescreen').classList.remove('hidden');
+    loadMovies(); loadCapsulas(); loadEnvelopes();
+    setTimeout(()=>showNotif('💕','¡Hola princesa! Qué bueno que estás aquí 🌹'),700);
+  },480);
+}
+
+// ══════════════════════════════════════
+//           NOTIFICACIONES
+// ══════════════════════════════════════
+const NOTIFS=[
+  ['💕','¿Ya sabes cuánto te amo hoy? 💖'],
+  ['🌹','Eres lo más bonito de mi mundo 🌸'],
+  ['✨','Solo quería recordarte que te adoro 💫'],
+  ['🎮','Desde Roblox hasta siempre 🎮💕'],
+  ['🌙','Pienso en ti todo el tiempo 💕'],
+  ['🌍','La distancia no nos detiene, princesa 🌍'],
+];
+let nIdx=0;
+function showNotif(ico,msg){
+  const p=document.getElementById('notifPopup');
+  document.getElementById('notifIco').textContent=ico;
+  document.getElementById('notifMsg').textContent=msg;
+  p.classList.add('show'); setTimeout(()=>p.classList.remove('show'),4500);
+}
+setInterval(()=>{
+  if(!document.getElementById('homescreen').classList.contains('hidden')){
+    const n=NOTIFS[nIdx%NOTIFS.length]; showNotif(n[0],n[1]); nIdx++;
+  }
+}, 30000);
+
+// ══════════════════════════════════════
+//     MÚSICA DE FONDO — reina.mp3
+// ══════════════════════════════════════
+const audio=document.getElementById('bgMusic');
+audio.volume=0.4;
+let musicStarted=false;
+function startMusicOnce(){
+  if(musicStarted) return; musicStarted=true;
+  audio.play().then(()=>updateIslandPlaying(true)).catch(()=>{ musicStarted=false; });
+}
+function toggleMusic(){
+  if(audio.paused){ audio.play().then(()=>updateIslandPlaying(true)).catch(()=>{}); }
+  else { audio.pause(); updateIslandPlaying(false); }
+}
+function toggleMute(){
+  audio.muted=!audio.muted;
+  document.getElementById('npMuteBtn').textContent = audio.muted?'🔇':'🔊';
+}
+function updateIslandPlaying(isPlaying){
+  document.getElementById('island').classList.toggle('playing',isPlaying);
+  document.getElementById('npArt').classList.toggle('paused',!isPlaying);
+  document.getElementById('npPlayBtn').textContent = isPlaying?'⏸':'▶';
+}
+audio.addEventListener('timeupdate',()=>{
+  if(isNaN(audio.duration)||audio.duration===0) return;
+  document.getElementById('npFill').style.width=(audio.currentTime/audio.duration*100)+'%';
+});
+audio.addEventListener('play',()=>updateIslandPlaying(true));
+audio.addEventListener('pause',()=>updateIslandPlaying(false));
+audio.addEventListener('error',()=>{
+  document.querySelector('.np-artist').textContent='⚠️ Pon reina.mp3 en la misma carpeta que index.html';
+});
+
+// ══════════════════════════════════════
+//          NAVEGACIÓN DE APPS
+// ══════════════════════════════════════
+function openApp(name){
+  document.getElementById('app-'+name).classList.add('open');
+  if(name==='idiomas') startLangRain();
+  if(name==='cielo') initSkyStars();
+}
+function closeApp(name){
+  document.getElementById('app-'+name).classList.remove('open');
+  if(name==='idiomas') stopLangRain();
+}
+
+// ══════════════════════════════════════
+//   APP 1 — IDIOMAS DEL AMOR (auto-fall)
+// ══════════════════════════════════════
+const LANGS=[
+  {flag:'🇪🇸',lang:'Español',phrase:'Te amo'},
+  {flag:'🇬🇧',lang:'Inglés',phrase:'I love you'},
+  {flag:'🇫🇷',lang:'Francés',phrase:"Je t'aime"},
+  {flag:'🇮🇹',lang:'Italiano',phrase:'Ti amo'},
+  {flag:'🇩🇪',lang:'Alemán',phrase:'Ich liebe dich'},
+  {flag:'🇵🇹',lang:'Portugués',phrase:'Eu te amo'},
+  {flag:'🇯🇵',lang:'Japonés',phrase:'愛してる',translit:'Aishiteru'},
+  {flag:'🇰🇷',lang:'Coreano',phrase:'사랑해',translit:'Saranghae'},
+  {flag:'🇨🇳',lang:'Chino',phrase:'我爱你',translit:'Wǒ ài nǐ'},
+  {flag:'🇷🇺',lang:'Ruso',phrase:'Я тебя люблю',translit:'Ya tebyá lyublyú'},
+  {flag:'🇸🇦',lang:'Árabe',phrase:'أحبك',translit:'Uhibbuk(i)'},
+  {flag:'🇮🇳',lang:'Hindi',phrase:'मैं तुमसे प्यार करता हूँ',translit:'Main tumse pyaar karta hoon'},
+  {flag:'🇬🇷',lang:'Griego',phrase:"Σ'αγαπώ",translit:"S'agapo"},
+  {flag:'🇹🇷',lang:'Turco',phrase:'Seni seviyorum'},
+  {flag:'🇳🇱',lang:'Holandés',phrase:'Ik hou van je'},
+  {flag:'🇸🇪',lang:'Sueco',phrase:'Jag älskar dig'},
+  {flag:'🇵🇱',lang:'Polaco',phrase:'Kocham cię'},
+  {flag:'🌺',lang:'Hawaiano',phrase:'Aloha au iā ʻoe'},
+  {flag:'🇻🇳',lang:'Vietnamita',phrase:'Anh yêu em'},
+  {flag:'🇹🇭',lang:'Tailandés',phrase:'ผมรักคุณ',translit:'Phom rak khun'},
+];
+let langInterval=null;
+function spawnLangCard(c){
+  const d=LANGS[Math.floor(Math.random()*LANGS.length)];
+  const el=document.createElement('div'); el.className='lang-card';
+  el.style.left=(6+Math.random()*72)+'%';
+  const dur=10+Math.random()*7;
+  el.style.animationDuration=dur+'s';
+  el.style.setProperty('--rot',(Math.random()*16-8)+'deg');
+  el.innerHTML=`<span class="lang-flag">${d.flag}</span><span class="lang-name">${d.lang}</span><span class="lang-phrase">${d.phrase}</span>${d.translit?`<span class="lang-translit">${d.translit}</span>`:''}<span class="lang-heart">💗</span>`;
+  c.appendChild(el);
+  setTimeout(()=>el.remove(), dur*1000+600);
+}
+function startLangRain(){
+  const c=document.getElementById('langContainer'); c.innerHTML='';
+  const sc=document.getElementById('langStars');
+  if(sc.children.length===0){
+    for(let i=0;i<60;i++){
+      const s=document.createElement('div'); s.style.position='absolute';
+      const sz=Math.random()*1.8+.4;
+      s.style.cssText=`width:${sz}px;height:${sz}px;border-radius:50%;background:white;left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${Math.random()*.6+.1};animation:twinkle ${2+Math.random()*3}s ease-in-out infinite ${Math.random()*3}s`;
+      sc.appendChild(s);
+    }
+  }
+  for(let i=0;i<4;i++) setTimeout(()=>spawnLangCard(c), i*450);
+  langInterval=setInterval(()=>spawnLangCard(c), 950);
+}
+function stopLangRain(){ if(langInterval) clearInterval(langInterval); langInterval=null; }
+
+// ══════════════════════════════════════
+//   APP 2 — FRASES DE PELÍCULA
+// ══════════════════════════════════════
+const MOVIES=[
+  {q:'"As you wish."',attr:'Westley',meta:'La Princesa Prometida · 1987',icon:'⚔️'},
+  {q:'"I love you." — "I know."',attr:'Leia Organa & Han Solo',meta:'Star Wars: El Imperio Contraataca · 1980',icon:'✨'},
+  {q:'"You had me at hello."',attr:'Dorothy Boyd',meta:'Jerry Maguire · 1996',icon:'💼'},
+  {q:'"To me, you are perfect."',attr:'Mark',meta:'Love Actually (Realmente Amor) · 2003',icon:'🎄'},
+  {q:'"And so the lion fell in love with the lamb."',attr:'Edward Cullen',meta:'Crepúsculo · 2008',icon:'🌙'},
+  {q:'"Always."',attr:'Severus Snape',meta:'Harry Potter y las Reliquias de la Muerte: Parte 2 · 2011',icon:'⚡',hp:true},
+  {q:'"After all this time?" — "Always."',attr:'Albus Dumbledore & Severus Snape',meta:'Harry Potter y las Reliquias de la Muerte: Parte 2 · 2011',icon:'⚡',hp:true},
+  {q:'"Love means never having to say you\'re sorry."',attr:'Jennifer Cavalleri',meta:'Love Story (Historia de Amor) · 1970',icon:'❄️'},
+  {q:'"I\'m just a girl, standing in front of a boy, asking him to love her."',attr:'Anna Scott',meta:'Notting Hill · 1999',icon:'🎙️'},
+  {q:'"You make me want to be a better man."',attr:'Melvin Udall',meta:'As Good as It Gets (Mejor Imposible) · 1997',icon:'📖'},
+];
+function loadMovies(){
+  const c=document.getElementById('movList'); if(c.children.length) return;
+  MOVIES.forEach((m,i)=>{
+    const card=document.createElement('div'); card.className='mov-card glass-card'+(m.hp?' hp':'');
+    card.style.animationDelay=(i*.08)+'s';
+    card.innerHTML=`${m.hp?'<span class="mov-badge">⚡ Harry Potter</span>':''}
+      <span class="mov-icon">${m.icon}</span>
+      <p class="mov-quote">${m.q}</p>
+      <div class="mov-attr">— ${m.attr}</div>
+      <div class="mov-meta">${m.meta}</div>`;
+    c.appendChild(card);
+  });
+}
+
+// ══════════════════════════════════════
+//   APP 3 — BAJO EL MISMO CIELO
+// ══════════════════════════════════════
+const CIELO_MSGS={
+  dawn:['El amanecer me recuerda que cada día es una nueva oportunidad de amarte más.','Donde sea que estés, espero que el amanecer te sonría como tú me sonríes a mí.'],
+  day:['Es de día aquí. Me pregunto qué estarás haciendo tú ahora mismo, princesa.','El sol brilla, pero no tanto como brillas tú en mi mente todo el día.'],
+  dusk:['Cae la tarde y, como cada día, pienso en ti con la misma intensidad de siempre.','El atardecer pinta el cielo de los mismos colores que pintan mis ganas de verte.'],
+  night:['Es de noche. Mira la luna un segundo — yo también la estoy mirando, y en ese instante, estamos juntos.','No importa la hora ni la distancia: mi corazón siempre apunta hacia ti.'],
+};
+function getPeriod(h){ if(h>=5&&h<7) return 'dawn'; if(h>=7&&h<17) return 'day'; if(h>=17&&h<19) return 'dusk'; return 'night'; }
+function updateSky(now){
+  const h=now.getHours()+now.getMinutes()/60;
+  const frac=h/24;
+  const period=getPeriod(h);
+  const box=document.getElementById('skyBox');
+  const grads={
+    dawn:'linear-gradient(to bottom,#ff9d5c,#ffd6a0,#3d2a5c)',
+    day:'linear-gradient(to bottom,#5b9bd5,#bfe3ff,#e8f6ff)',
+    dusk:'linear-gradient(to bottom,#7c3aed,#ff6f91,#ffb26b)',
+    night:'linear-gradient(to bottom,#0a0a2a,#1b0f3d,#241238)',
+  };
+  if(box) box.style.background=grads[period];
+  const cel=document.getElementById('skyCelestial');
+  if(cel){
+    cel.textContent = (period==='dawn'||period==='day'||period==='dusk') ? '☀️' : '🌙';
+    const trackW=85, baseY=14;
+    const x = frac*trackW;
+    const y = baseY + 30*Math.sin(frac*Math.PI*2 - Math.PI/2)*-1 + 30;
+    cel.style.left = (5+x)+'%';
+    cel.style.bottom = Math.max(10, y)+'%';
+  }
+  const sc=document.getElementById('skyStarsContainer');
+  if(sc) sc.style.opacity = (period==='night')?'1':'0';
+  if(!window._cieloMsgInit){
+    window._cieloMsgInit=true;
+    rotateCieloMsg();
+    setInterval(rotateCieloMsg, 9000);
+  }
+}
+function rotateCieloMsg(){
+  const now=new Date(); const period=getPeriod(now.getHours());
+  const arr=CIELO_MSGS[period];
+  const msg=arr[Math.floor(Math.random()*arr.length)];
+  const el=document.getElementById('cieloMsg');
+  el.style.opacity='0';
+  setTimeout(()=>{ el.textContent=msg; el.style.opacity='1'; },350);
+}
+function initSkyStars(){
+  const sc=document.getElementById('skyStarsContainer');
+  if(sc.children.length) return;
+  for(let i=0;i<28;i++){
+    const s=document.createElement('div'); s.className='sky-star';
+    const sz=Math.random()*1.6+.4;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*70}%;animation-duration:${1.8+Math.random()*3}s;animation-delay:${Math.random()*4}s`;
+    sc.appendChild(s);
+  }
+}
+
+// ══════════════════════════════════════
+//   APP 4 — CÁPSULA DEL TIEMPO
+// ══════════════════════════════════════
+function nextOcc(y,month,day,today){ let d=new Date(y,month,day); if(d<today) d=new Date(y+1,month,day); return d; }
+function loadCapsulas(){
+  const c=document.getElementById('capList'); if(c.children.length) return;
+  const today=new Date(); const y=today.getFullYear();
+  const CAPS=[
+    {ico:'💌',title:'Para cuando leas esto',sub:'Una cápsula siempre abierta',mode:'open',
+     msg:'Hola princesa. Si estás leyendo esto, quiero que sepas que en este instante, sin importar la hora, estoy pensando en ti. Gracias por existir.'},
+    {ico:'🎮',title:'El día que nos conocimos',sub:'Octubre 2021 — Roblox',mode:'open',
+     msg:'Jamás imaginé que un servidor de Roblox me llevaría a la persona más importante de mi vida. Gracias por aparecer esa noche, princesa.'},
+    {ico:'🎂',title:'Para tu cumpleaños',sub:'13 de marzo',mode:'date',date:nextOcc(y,2,13,today),
+     msg:'¡Feliz cumpleaños, mi amor! Hoy el universo celebra el día en que decidió regalarme a la persona más especial que conozco. Te amo infinitamente.'},
+    {ico:'🎈',title:'Para mi cumpleaños',sub:'13 de julio — léela ese día',mode:'date',date:nextOcc(y,6,13,today),
+     msg:'Si estás leyendo esto en mi cumpleaños, quiero que sepas que el mejor regalo que puedo pedir ya lo tengo: tu amor, aunque sea a distancia.'},
+    {ico:'🌹',title:'San Valentín',sub:'14 de febrero',mode:'date',date:nextOcc(y,1,14,today),
+     msg:'Feliz día del amor, princesa. Ojalá pudiera estar ahí para abrazarte, pero mientras tanto, este mensaje cruza la distancia con todo mi corazón.'},
+    {ico:'✈️',title:'El día que nos abracemos',sub:'Se abre solo cuando estemos juntos',mode:'eternal',
+     msg:'🔒 Esta cápsula es especial — guárdala. Solo se abrirá de verdad el día que te tenga enfrente y pueda abrazarte como llevo tanto tiempo soñando.'},
+  ];
+  CAPS.forEach((cap,i)=>{
+    const card=document.createElement('div'); card.className='cap-card glass-card';
+    card.style.animationDelay=(i*.07)+'s';
+    let statusHtml='', locked=false;
+    if(cap.mode==='open'){ statusHtml='<span class="days" style="color:#52d47a">✓</span>Abierta'; }
+    else if(cap.mode==='eternal'){ statusHtml='<span class="days">🔒</span>Especial'; locked=true; }
+    else {
+      const diff=Math.ceil((cap.date-today)/86400000);
+      if(diff<=0){ statusHtml='<span class="days" style="color:#52d47a">✓</span>¡HOY!'; }
+      else { statusHtml=`<span class="days">${diff}</span>días`; locked=true; }
+    }
+    card.classList.toggle('locked',locked);
+    card.innerHTML=`<div class="cap-ico">${cap.ico}</div>
+      <div class="cap-info"><h3>${cap.title}</h3><p>${cap.sub}</p></div>
+      <div class="cap-status">${statusHtml}</div>
+      <div class="cap-reveal"><div class="cap-reveal-inner">${cap.msg}</div></div>`;
+    card.addEventListener('click',()=>{
+      const stillLocked = cap.mode==='eternal' || (cap.mode==='date' && Math.ceil((cap.date-new Date())/86400000)>0);
+      if(stillLocked){
+        card.classList.add('shake');
+        setTimeout(()=>card.classList.remove('shake'),450);
+      } else {
+        card.classList.toggle('expanded');
+      }
+    });
+    c.appendChild(card);
+  });
+}
+
+// ══════════════════════════════════════
+//   APP 5 — RAZONES DE AMARTE
+// ══════════════════════════════════════
+const RAZONES=[
+  'Porque a pesar de la distancia, nunca me has hecho sentir lejos.',
+  'Porque tu risa se escucha hermosa hasta por una videollamada.',
+  'Porque me escribes "te amo" y mi día cambia por completo.',
+  'Porque desde Roblox hasta hoy, jamás dejaste de sorprenderme.',
+  'Porque tienes la paciencia de amar a distancia sin rendirte.',
+  'Porque tu voz es mi lugar favorito para llegar cansado.',
+  'Porque cuando dudo de todo, jamás dudo de nosotros.',
+  'Porque eres la primera persona en la que pienso al despertar.',
+  'Porque tu manera de amar es la más genuina que conozco.',
+  'Porque haces que la espera valga completamente la pena.',
+  'Porque me enseñaste que el amor real no necesita cercanía física.',
+  'Porque cada "buenos días" tuyo es mi parte favorita del día.',
+  'Porque sigues eligiéndome aunque sea difícil, día tras día.',
+  'Porque tu paciencia conmigo no tiene comparación.',
+  'Porque me haces querer ser mejor persona, todos los días.',
+  'Porque tienes el corazón más bonito que he conocido.',
+  'Porque contigo hasta la distancia se siente como un hogar.',
+  'Porque simplemente eres tú, y eso ya es suficiente razón.',
+];
+let razonQueue=[], razonCount=0;
+function shuffleRazones(){ razonQueue=[...RAZONES].sort(()=>Math.random()-.5); }
+function nuevaRazon(){
+  if(razonQueue.length===0) shuffleRazones();
+  const txt=razonQueue.pop();
+  razonCount++;
+  document.getElementById('razonCount').textContent=razonCount;
+  const card=document.getElementById('razonCard');
+  card.classList.add('fade');
+  setTimeout(()=>{
+    document.getElementById('razonTxt').textContent=txt;
+    card.classList.remove('fade');
+  },280);
+  const btn=document.getElementById('razonBtnEl');
+  const rect=btn.getBoundingClientRect();
+  const sparks=['✨','💕','💫'];
+  for(let i=0;i<4;i++){
+    const s=document.createElement('div'); s.className='razon-spark';
+    s.textContent=sparks[Math.floor(Math.random()*sparks.length)];
+    s.style.left=(rect.left+rect.width/2+(Math.random()-.5)*80)+'px';
+    s.style.top=(rect.top+(Math.random()-.5)*20)+'px';
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),850);
+  }
+}
+
+// ══════════════════════════════════════
+//   APP 6 — ABRAZO A DISTANCIA
+// ══════════════════════════════════════
+const HUG_MSGS=[
+  '🤍 Que este abrazo viaje rápido hasta ti, princesa.',
+  '🫂 Imagina que te estoy abrazando fuerte ahora mismo.',
+  '💕 Un abrazo invisible pero real, enviado con todo mi amor.',
+  '🌙 Que sientas este abrazo aunque estemos tan lejos.',
+  '✨ Ojalá la distancia se pudiera abrazar — yo lo intento cada día.',
+  '💗 Este abrazo dura hasta que pueda darte uno real.',
+  '🤗 Pequeño recordatorio: siempre tienes un abrazo esperándote aquí.',
+  '🌹 Que este cariño cruce los kilómetros que nos separan.',
+];
+let hugCount=0;
+function sendHug(){
+  hugCount++; document.getElementById('hugCount').textContent=hugCount;
+  const wrap=document.getElementById('hugWrap');
+  for(let i=0;i<3;i++){
+    const r=document.createElement('div'); r.className='hug-ripple';
+    r.style.animationDelay=(i*.18)+'s';
+    wrap.appendChild(r);
+    setTimeout(()=>r.remove(),1300);
+  }
+  const msgEl=document.getElementById('hugMsg');
+  msgEl.classList.remove('show');
+  setTimeout(()=>{
+    msgEl.textContent = HUG_MSGS[Math.floor(Math.random()*HUG_MSGS.length)];
+    msgEl.classList.add('show');
+  },200);
+}
+
+// ══════════════════════════════════════
+//   APP 7 — CARTA SELLADA
+// ══════════════════════════════════════
+const LETTERS=[
+  {ico:'🌧️',title:'Para los días difíciles',sub:'Ábrela cuando el día se sienta pesado',
+   text:'Si hoy todo se siente difícil, quiero que sepas que está bien no estar bien. Respira. Esto va a pasar, y cuando pase, voy a estar aquí, recordándote lo fuerte y valiosa que eres. No estás sola, aunque la distancia a veces lo haga sentir así.'},
+  {ico:'🌫️',title:'Para cuando dudes de nosotros',sub:'Ábrela si alguna vez sientes inseguridad',
+   text:'Si alguna vez dudas de lo que tenemos, vuelve a leer esto: te elegí entonces, te elijo ahora, y te seguiré eligiendo. La distancia no mide lo que siento por ti. Lo que tenemos es real, aunque no se pueda tocar todavía.'},
+  {ico:'🌙',title:'Para cuando me extrañes',sub:'Ábrela en las noches solitarias',
+   text:'Sé que extrañar a alguien a distancia se siente como un vacío que nada llena del todo. Pero cada vez que me extrañes, recuerda que yo también te extraño exactamente igual, al mismo tiempo, mirando quizás la misma luna que tú.'},
+];
+function loadEnvelopes(){
+  const c=document.getElementById('envList'); if(c.children.length) return;
+  LETTERS.forEach((l,i)=>{
+    const env=document.createElement('div'); env.className='envelope glass-card';
+    env.style.animationDelay=(i*.1)+'s';
+    env.innerHTML=`<div class="wax-seal">💗</div>
+      <div class="env-title">${l.title}</div>
+      <div class="env-sub">${l.sub}</div>`;
+    env.addEventListener('click',()=>{
+      if(env.classList.contains('opening')) return;
+      env.classList.add('opening');
+      setTimeout(()=>{
+        openLetter(l.ico,l.title,l.text);
+        if(!env.querySelector('.env-tag')){
+          const tag=document.createElement('span'); tag.className='env-tag'; tag.textContent='💗 Leída';
+          env.appendChild(tag);
+        }
+      },480);
+      setTimeout(()=>env.classList.remove('opening'),900);
+    });
+    c.appendChild(env);
+  });
+}
+function openLetter(ico,title,text){
+  document.getElementById('lmIcon').textContent=ico;
+  document.getElementById('lmTitle').textContent=title;
+  document.getElementById('lmText').textContent=text;
+  document.getElementById('letterModal').classList.add('open');
+}
+function closeLetter(){ document.getElementById('letterModal').classList.remove('open'); }
+
+// ══════════════════════════════════════
+//              INICIO
+// ══════════════════════════════════════
+document.addEventListener('contextmenu',e=>e.preventDefault());
+</script>
+</body>
+</html>
