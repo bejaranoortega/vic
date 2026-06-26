@@ -33,8 +33,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
 .island{position:absolute;top:13px;left:50%;transform:translateX(-50%);
   height:34px;min-width:96px;background:#000;border-radius:20px;z-index:9999;
   display:flex;align-items:center;justify-content:center;gap:7px;padding:0 14px;
-  cursor:pointer;transition:min-width .35s cubic-bezier(.34,1.56,.64,1),padding .35s;
+  cursor:pointer;transition:min-width .35s cubic-bezier(.34,1.56,.64,1),padding .35s,background .2s;
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+.island:hover{background:#0c0c0c}
 .island.playing{min-width:150px}
 .island-eq{display:none;gap:2px;align-items:center;height:12px}
 .island.playing .island-eq{display:flex}
@@ -61,6 +62,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
   background:rgba(255,255,255,.10);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);
   color:white;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
 .fs-btn:active{background:rgba(255,255,255,.28)}
+.fs-btn:hover{background:rgba(255,255,255,.2)}
 
 /* ═══ NOTIFICATION ═══ */
 .notif-popup{position:absolute;top:60px;left:14px;right:14px;background:rgba(20,10,35,.94);
@@ -83,13 +85,12 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
 @keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-@keyframes bounceArrow{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-10px);opacity:1}}
 @keyframes shakeX{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 
-/* ═══ LOCK SCREEN (SWIPE UP) ═══ */
+/* ═══ LOCK SCREEN (CONTRASEÑA) ═══ */
 #lockscreen{background:url('https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=2000&q=90') center/cover;
   display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:84px 28px 40px;
-  touch-action:none;z-index:60;transition:transform .45s cubic-bezier(.25,.46,.45,.94),opacity .45s ease}
+  z-index:60;transition:transform .45s cubic-bezier(.25,.46,.45,.94),opacity .45s ease}
 .lock-overlay{position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(to bottom,rgba(0,0,0,.25) 0%,rgba(5,2,15,.06) 32%,rgba(5,2,15,.22) 60%,rgba(5,2,15,.78) 100%)}
 .hearts-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
@@ -101,13 +102,21 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
 .lock-date{font-size:18px;font-family:'Dancing Script',cursive;color:rgba(255,255,255,.9);margin-top:4px;text-shadow:0 2px 10px rgba(0,0,0,.5)}
 .lock-greeting{font-size:16px;font-family:'Dancing Script',cursive;color:var(--blush);margin-top:16px;animation:glowPulse 2.5s ease-in-out infinite}
 .lock-mid{z-index:1;font-size:56px;animation:heartbeat 1.4s ease-in-out infinite;pointer-events:none}
-.lock-bottom{z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none}
-.swipe-chevrons{display:flex;flex-direction:column;align-items:center;gap:-6px}
-.chevron{font-size:22px;color:rgba(255,255,255,.7);animation:bounceArrow 1.6s ease-in-out infinite;line-height:.6}
-.chevron:nth-child(2){animation-delay:.15s;opacity:.6}
-.chevron:nth-child(3){animation-delay:.3s;opacity:.35}
-.swipe-hint{font-family:'Dancing Script',cursive;font-size:16px;color:rgba(255,255,255,.75);margin-top:6px;letter-spacing:.5px}
-.swipe-sub{font-family:'Outfit',sans-serif;font-size:10px;color:rgba(255,255,255,.4);margin-top:10px;letter-spacing:.5px}
+.lock-bottom{z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}
+.pw-hint{font-family:'Dancing Script',cursive;font-size:16px;color:rgba(255,255,255,.78);margin-bottom:10px;letter-spacing:.3px}
+.pw-input-wrap{position:relative;width:100%;max-width:280px}
+#pwInput{width:100%;padding:15px 52px 15px 22px;background:rgba(255,255,255,.14);backdrop-filter:blur(16px);
+  border:1.5px solid rgba(255,255,255,.28);border-radius:28px;color:white;font-size:16px;
+  font-family:'Cormorant Garamond',serif;text-align:center;outline:none;transition:all .3s}
+#pwInput::placeholder{color:rgba(255,255,255,.45);font-size:13.5px;font-family:'Dancing Script',cursive}
+#pwInput:focus{border-color:rgba(255,107,138,.7);background:rgba(255,255,255,.2);box-shadow:0 0 0 3px rgba(255,107,138,.2),0 0 40px rgba(255,107,138,.3)}
+.pw-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(135deg,var(--rose),var(--rose-deep));border:none;color:white;font-size:20px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(201,24,74,.5);transition:transform .15s}
+.pw-btn:active{transform:translateY(-50%) scale(.88)}
+.pw-btn:hover{transform:translateY(-50%) scale(1.08);box-shadow:0 6px 20px rgba(201,24,74,.65)}
+.pw-error{text-align:center;color:#ff8fa3;font-size:13px;font-family:'Dancing Script',cursive;min-height:20px;margin-top:8px}
+.swipe-sub{font-family:'Outfit',sans-serif;font-size:10px;color:rgba(255,255,255,.4);margin-top:6px;letter-spacing:.5px}
 
 /* ═══ HOME SCREEN ═══ */
 #homescreen{background:url('https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=2400&q=92') center/cover;display:flex;flex-direction:column;padding-top:60px;z-index:5}
@@ -131,12 +140,14 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
 .np-btn{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.14);border:none;color:white;
   font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
 .np-btn:active{background:rgba(255,255,255,.3);transform:scale(.9)}
+.np-btn:hover{background:rgba(255,255,255,.26)}
 
 .app-grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:15px;padding:14px 16px 6px;align-content:start;z-index:1}
 .app-icon{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:transform .12s}
 .app-icon:active{transform:scale(.82)}
+.app-icon:hover .app-icon-img{transform:translateY(-3px) scale(1.06);box-shadow:0 10px 26px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.3)}
 .app-icon-img{width:60px;height:60px;border-radius:17px;display:flex;align-items:center;justify-content:center;font-size:27px;
-  box-shadow:0 6px 18px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.25);position:relative;overflow:hidden}
+  box-shadow:0 6px 18px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.25);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
 .app-icon-img::after{content:'';position:absolute;top:0;left:0;right:0;height:52%;background:linear-gradient(to bottom,rgba(255,255,255,.26),transparent);border-radius:17px 17px 0 0}
 .app-name{color:white;font-size:10px;font-family:'Outfit',sans-serif;font-weight:500;text-align:center;text-shadow:0 1px 4px rgba(0,0,0,.8);line-height:1.2;max-width:64px}
 .dock{z-index:1;margin:8px 14px 24px;background:rgba(255,255,255,.13);backdrop-filter:blur(25px);
@@ -152,6 +163,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
   border:1px solid rgba(255,255,255,.18);color:white;font-size:20px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s,transform .15s}
 .back-btn:active{background:rgba(255,255,255,.3);transform:scale(.9)}
+.back-btn:hover{background:rgba(255,255,255,.26)}
 .app-title{font-family:'Playfair Display',serif;font-size:19px;color:white;font-style:italic;text-shadow:0 2px 10px rgba(0,0,0,.4)}
 .glass-card{background:rgba(255,255,255,.07);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.13);border-radius:18px}
 
@@ -159,16 +171,16 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
 #app-idiomas{background:radial-gradient(ellipse at 30% 20%,#0d2840,#061018 60%,#020608)}
 .lang-stars{position:absolute;inset:0;overflow:hidden;pointer-events:none}
 #langContainer{position:relative;flex:1;overflow:hidden}
-.lang-card{position:absolute;top:-150px;width:78%;left:10%;display:flex;flex-direction:column;align-items:center;gap:3px;
+.lang-card{position:absolute;top:-150px;width:30%;left:4%;display:flex;flex-direction:column;align-items:center;gap:3px;
   background:rgba(255,255,255,.07);backdrop-filter:blur(8px);border:1px solid rgba(180,220,255,.18);
-  border-radius:18px;padding:14px 16px;animation:fallDown linear forwards;text-align:center;
+  border-radius:18px;padding:12px 10px;animation:fallDown linear forwards;text-align:center;
   box-shadow:0 8px 24px rgba(0,0,0,.3)}
 @keyframes fallDown{0%{transform:translateY(-150px) rotate(0deg);opacity:0}8%{opacity:1}90%{opacity:1}100%{transform:translateY(120vh) rotate(var(--rot,6deg));opacity:0}}
-.lang-flag{font-size:24px}
-.lang-name{font-family:'Outfit',sans-serif;font-size:10px;color:rgba(180,220,255,.7);text-transform:uppercase;letter-spacing:1px}
-.lang-phrase{font-family:'Playfair Display',serif;font-size:18px;color:white;font-style:italic;margin-top:2px}
-.lang-translit{font-family:'Cormorant Garamond',serif;font-size:11px;color:rgba(255,255,255,.5);font-style:italic}
-.lang-heart{font-size:13px;margin-top:2px}
+.lang-flag{font-size:21px}
+.lang-name{font-family:'Outfit',sans-serif;font-size:8.5px;color:rgba(180,220,255,.7);text-transform:uppercase;letter-spacing:1px}
+.lang-phrase{font-family:'Playfair Display',serif;font-size:14.5px;color:white;font-style:italic;margin-top:2px;line-height:1.25}
+.lang-translit{font-family:'Cormorant Garamond',serif;font-size:9.5px;color:rgba(255,255,255,.5);font-style:italic}
+.lang-heart{font-size:11px;margin-top:2px}
 
 /* ═══ APP 2: FRASES DE PELÍCULA ═══ */
 #app-peliculas{background:linear-gradient(165deg,#0d0510,#1c0a1a,#2d0a16)}
@@ -181,6 +193,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
 .mov-quote{font-family:'Playfair Display',serif;font-size:17.5px;color:white;font-style:italic;line-height:1.5}
 .mov-attr{font-family:'Dancing Script',cursive;font-size:15px;color:var(--blush);margin-top:10px}
 .mov-meta{font-family:'Outfit',sans-serif;font-size:10.5px;color:rgba(255,255,255,.42);margin-top:3px;letter-spacing:.3px}
+.mov-original{font-family:'Cormorant Garamond',serif;font-size:11.5px;color:rgba(255,255,255,.38);font-style:italic;margin-top:8px}
 
 /* ═══ APP 3: BAJO EL MISMO CIELO ═══ */
 #app-cielo{background:#0a0a18}
@@ -204,6 +217,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
 .cap-card{padding:16px 18px;margin-bottom:13px;display:flex;align-items:center;gap:13px;
   animation:cardIn .5s ease backwards;cursor:pointer;transition:transform .15s}
 .cap-card:active{transform:scale(.98)}
+.cap-card:hover{background:rgba(255,255,255,.10)}
 .cap-card.locked{opacity:.72}
 .cap-card.shake{animation:shakeX .4s ease}
 .cap-ico{font-size:30px;flex-shrink:0}
@@ -230,6 +244,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
   padding:15px 34px;color:white;font-family:'Dancing Script',cursive;font-size:18px;cursor:pointer;
   box-shadow:0 6px 26px rgba(201,24,74,.45);transition:transform .15s}
 .razon-btn:active{transform:scale(.94)}
+.razon-btn:hover{transform:scale(1.05);box-shadow:0 8px 32px rgba(201,24,74,.6)}
 .razon-spark{position:fixed;pointer-events:none;font-size:16px;z-index:300;animation:sparkPop .8s ease-out forwards}
 @keyframes sparkPop{0%{opacity:1;transform:scale(0) translateY(0)}100%{opacity:0;transform:scale(1.3) translateY(-50px)}}
 
@@ -243,6 +258,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
   border:none;color:white;font-size:50px;cursor:pointer;display:flex;align-items:center;justify-content:center;
   box-shadow:0 0 50px rgba(255,123,84,.5),0 10px 30px rgba(0,0,0,.4);transition:transform .15s;z-index:2}
 .hug-btn:active{transform:scale(.92)}
+.hug-btn:hover{transform:scale(1.05);box-shadow:0 0 60px rgba(255,123,84,.65),0 12px 34px rgba(0,0,0,.45)}
 .hug-counter{font-family:'Outfit',sans-serif;font-size:12px;color:rgba(255,255,255,.6);text-align:center}
 .hug-counter b{color:#ffb26b;font-size:16px}
 .hug-msg{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15.5px;color:rgba(255,255,255,.88);
@@ -340,7 +356,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
     <source src="reina.mp4" type="audio/mp4">
   </audio>
 
-  <!-- ════════════ LOCK SCREEN — SWIPE UP ════════════ -->
+  <!-- ════════════ LOCK SCREEN — CONTRASEÑA ════════════ -->
   <div class="screen" id="lockscreen">
     <div class="hearts-bg" id="heartsBg"></div>
     <div class="lock-overlay"></div>
@@ -353,11 +369,13 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
       <div class="lock-greeting">✨ Para mi princesa hermosa ✨</div>
     </div>
     <div class="lock-mid">💕</div>
-    <div class="lock-bottom" id="swipeZone" style="pointer-events:all;cursor:pointer">
-      <div class="swipe-chevrons">
-        <span class="chevron">⌃</span><span class="chevron">⌃</span><span class="chevron">⌃</span>
+    <div class="lock-bottom">
+      <div class="pw-hint">🔐 Dime algo bonito para entrar...</div>
+      <div class="pw-input-wrap">
+        <input type="text" id="pwInput" placeholder="escribe tu corazón aquí..." autocomplete="off" autocorrect="off" spellcheck="false">
+        <button class="pw-btn" onclick="checkPw()">🌹</button>
       </div>
-      <div class="swipe-hint">Desliza hacia arriba para entrar a nuestro mundo</div>
+      <div class="pw-error" id="pwErr"></div>
       <div class="swipe-sub">HECHO CON TODO MI AMOR</div>
     </div>
   </div>
@@ -576,7 +594,6 @@ function updateClock(){
   document.getElementById('cieloDate').textContent=dateStr;
   updateSky(now);
 }
-updateClock(); setInterval(updateClock,15000);
 
 // ══════════════════════════════════════
 //          PANTALLA COMPLETA
@@ -607,37 +624,27 @@ function spawnHeart(){
 setInterval(spawnHeart,1300); for(let i=0;i<6;i++) spawnHeart();
 
 // ══════════════════════════════════════
-//      SWIPE-UP PARA DESBLOQUEAR
+//        DESBLOQUEO POR CONTRASEÑA
 // ══════════════════════════════════════
 const lockEl=document.getElementById('lockscreen');
-const swipeZone=document.getElementById('swipeZone');
-let dragStartY=0, dragging=false, dragDelta=0;
+const pwInput=document.getElementById('pwInput');
+pwInput.addEventListener('keydown', e=>{ if(e.key==='Enter') checkPw(); });
 
-function getY(e){ return e.touches?e.touches[0].clientY:e.clientY; }
-
-function onDragStart(e){ dragging=true; dragStartY=getY(e); lockEl.style.transition='none'; }
-function onDragMove(e){
-  if(!dragging) return;
-  dragDelta = getY(e) - dragStartY;
-  if(dragDelta>0) dragDelta=0;
-  const clamped=Math.max(dragDelta,-500);
-  lockEl.style.transform=`translateY(${clamped}px)`;
-  lockEl.style.opacity = Math.max(0.15, 1 + clamped/500);
-  e.preventDefault();
+function checkPw(){
+  const val=pwInput.value.trim().toLowerCase().replace(/\s+/g,' ');
+  if(val==='te amo'){
+    pwInput.style.borderColor='rgba(80,255,120,.7)';
+    pwInput.style.boxShadow='0 0 30px rgba(80,255,120,.3)';
+    setTimeout(completeUnlock,360);
+  } else {
+    const err=document.getElementById('pwErr');
+    err.textContent='💔 Esa no es... intenta con el corazón mi amor';
+    const bottom=document.querySelector('.lock-bottom');
+    bottom.style.animation='shakeX .4s ease';
+    setTimeout(()=>{ bottom.style.animation=''; err.textContent=''; },3200);
+    pwInput.value='';
+  }
 }
-function onDragEnd(){
-  if(!dragging) return; dragging=false;
-  lockEl.style.transition='transform .45s cubic-bezier(.25,.46,.45,.94), opacity .45s ease';
-  if(dragDelta < -90){ completeUnlock(); }
-  else { lockEl.style.transform='translateY(0)'; lockEl.style.opacity='1'; }
-}
-lockEl.addEventListener('touchstart',onDragStart,{passive:true});
-lockEl.addEventListener('touchmove',onDragMove,{passive:false});
-lockEl.addEventListener('touchend',onDragEnd);
-lockEl.addEventListener('mousedown',onDragStart);
-window.addEventListener('mousemove',onDragMove);
-window.addEventListener('mouseup',onDragEnd);
-lockEl.addEventListener('click', ()=>{ if(!dragging && Math.abs(dragDelta)<5) completeUnlock(); });
 
 function completeUnlock(){
   lockEl.style.transition='transform .5s cubic-bezier(.25,.46,.45,.94), opacity .5s ease';
@@ -684,12 +691,22 @@ audio.volume=0.32;
 let musicStarted=false;
 function startMusicOnce(){
   if(musicStarted) return; musicStarted=true;
-  audio.play().then(()=>updateIslandPlaying(true)).catch(()=>{ musicStarted=false; });
+  try{
+    const p=audio.play();
+    if(p && typeof p.then==='function'){ p.then(()=>updateIslandPlaying(true)).catch(()=>{ musicStarted=false; }); }
+    else { updateIslandPlaying(true); }
+  }catch(e){ musicStarted=false; }
 }
 // Red de seguridad: si por cualquier motivo el swipe no la disparó, el primer toque en cualquier parte la inicia
 ['click','touchend'].forEach(evt=>document.addEventListener(evt, startMusicOnce));
 function toggleMusic(){
-  if(audio.paused){ audio.play().then(()=>updateIslandPlaying(true)).catch(()=>{}); }
+  if(audio.paused){
+    try{
+      const p=audio.play();
+      if(p && typeof p.then==='function'){ p.then(()=>updateIslandPlaying(true)).catch(()=>{}); }
+      else { updateIslandPlaying(true); }
+    }catch(e){}
+  }
   else { audio.pause(); updateIslandPlaying(false); }
 }
 function toggleMute(){
@@ -749,20 +766,21 @@ const LANGS=[
   {flag:'🇻🇳',lang:'Vietnamita',phrase:'Anh yêu em'},
   {flag:'🇹🇭',lang:'Tailandés',phrase:'ผมรักคุณ',translit:'Phom rak khun'},
 ];
-let langInterval=null;
+let langInterval=null, laneIdx=0;
+const LANES=[3,36,68];
 function spawnLangCard(c){
   const d=LANGS[Math.floor(Math.random()*LANGS.length)];
   const el=document.createElement('div'); el.className='lang-card';
-  el.style.left=(6+Math.random()*72)+'%';
-  const dur=10+Math.random()*7;
+  el.style.left=LANES[laneIdx%LANES.length]+'%'; laneIdx++;
+  const dur=10+Math.random()*3;
   el.style.animationDuration=dur+'s';
-  el.style.setProperty('--rot',(Math.random()*16-8)+'deg');
+  el.style.setProperty('--rot',(Math.random()*8-4)+'deg');
   el.innerHTML=`<span class="lang-flag">${d.flag}</span><span class="lang-name">${d.lang}</span><span class="lang-phrase">${d.phrase}</span>${d.translit?`<span class="lang-translit">${d.translit}</span>`:''}<span class="lang-heart">💗</span>`;
   c.appendChild(el);
   setTimeout(()=>el.remove(), dur*1000+600);
 }
 function startLangRain(){
-  const c=document.getElementById('langContainer'); c.innerHTML='';
+  const c=document.getElementById('langContainer'); c.innerHTML=''; laneIdx=0;
   const sc=document.getElementById('langStars');
   if(sc.children.length===0){
     for(let i=0;i<60;i++){
@@ -772,8 +790,8 @@ function startLangRain(){
       sc.appendChild(s);
     }
   }
-  for(let i=0;i<4;i++) setTimeout(()=>spawnLangCard(c), i*450);
-  langInterval=setInterval(()=>spawnLangCard(c), 950);
+  for(let i=0;i<3;i++) setTimeout(()=>spawnLangCard(c), i*600);
+  langInterval=setInterval(()=>spawnLangCard(c), 1700);
 }
 function stopLangRain(){ if(langInterval) clearInterval(langInterval); langInterval=null; }
 
@@ -781,16 +799,16 @@ function stopLangRain(){ if(langInterval) clearInterval(langInterval); langInter
 //   APP 2 — FRASES DE PELÍCULA
 // ══════════════════════════════════════
 const MOVIES=[
-  {q:'"As you wish."',attr:'Westley',meta:'La Princesa Prometida · 1987',icon:'⚔️'},
-  {q:'"I love you." — "I know."',attr:'Leia Organa & Han Solo',meta:'Star Wars: El Imperio Contraataca · 1980',icon:'✨'},
-  {q:'"You had me at hello."',attr:'Dorothy Boyd',meta:'Jerry Maguire · 1996',icon:'💼'},
-  {q:'"To me, you are perfect."',attr:'Mark',meta:'Love Actually (Realmente Amor) · 2003',icon:'🎄'},
-  {q:'"And so the lion fell in love with the lamb."',attr:'Edward Cullen',meta:'Crepúsculo · 2008',icon:'🌙'},
-  {q:'"Always."',attr:'Severus Snape',meta:'Harry Potter y las Reliquias de la Muerte: Parte 2 · 2011',icon:'⚡',hp:true},
-  {q:'"After all this time?" — "Always."',attr:'Albus Dumbledore & Severus Snape',meta:'Harry Potter y las Reliquias de la Muerte: Parte 2 · 2011',icon:'⚡',hp:true},
-  {q:'"Love means never having to say you\'re sorry."',attr:'Jennifer Cavalleri',meta:'Love Story (Historia de Amor) · 1970',icon:'❄️'},
-  {q:'"I\'m just a girl, standing in front of a boy, asking him to love her."',attr:'Anna Scott',meta:'Notting Hill · 1999',icon:'🎙️'},
-  {q:'"You make me want to be a better man."',attr:'Melvin Udall',meta:'As Good as It Gets (Mejor Imposible) · 1997',icon:'📖'},
+  {q:'"Como tú quieras."',o:'"As you wish."',attr:'Westley',meta:'La Princesa Prometida · 1987',icon:'⚔️'},
+  {q:'"Te amo." — "Lo sé."',o:'"I love you." — "I know."',attr:'Leia Organa & Han Solo',meta:'Star Wars: El Imperio Contraataca · 1980',icon:'✨'},
+  {q:'"Me conquistaste con un \'hola\'."',o:'"You had me at hello."',attr:'Dorothy Boyd',meta:'Jerry Maguire · 1996',icon:'💼'},
+  {q:'"Para mí, eres perfecta."',o:'"To me, you are perfect."',attr:'Mark',meta:'Love Actually (Realmente Amor) · 2003',icon:'🎄'},
+  {q:'"Y así, el león se enamoró del cordero."',o:'"And so the lion fell in love with the lamb."',attr:'Edward Cullen',meta:'Crepúsculo · 2008',icon:'🌙'},
+  {q:'"Siempre."',o:'"Always."',attr:'Severus Snape',meta:'Harry Potter y las Reliquias de la Muerte: Parte 2 · 2011',icon:'⚡',hp:true},
+  {q:'"¿Después de todo este tiempo?" — "Siempre."',o:'"After all this time?" — "Always."',attr:'Albus Dumbledore & Severus Snape',meta:'Harry Potter y las Reliquias de la Muerte: Parte 2 · 2011',icon:'⚡',hp:true},
+  {q:'"Amar significa nunca tener que decir lo siento."',o:'"Love means never having to say you\'re sorry."',attr:'Jennifer Cavalleri',meta:'Love Story (Historia de Amor) · 1970',icon:'❄️'},
+  {q:'"Solo soy una chica, parada frente a un chico, pidiéndole que la ame."',o:'"I\'m just a girl, standing in front of a boy, asking him to love her."',attr:'Anna Scott',meta:'Notting Hill · 1999',icon:'🎙️'},
+  {q:'"Me haces querer ser un mejor hombre."',o:'"You make me want to be a better man."',attr:'Melvin Udall',meta:'As Good as It Gets (Mejor Imposible) · 1997',icon:'📖'},
 ];
 function loadMovies(){
   const c=document.getElementById('movList'); if(c.children.length) return;
@@ -801,7 +819,8 @@ function loadMovies(){
       <span class="mov-icon">${m.icon}</span>
       <p class="mov-quote">${m.q}</p>
       <div class="mov-attr">— ${m.attr}</div>
-      <div class="mov-meta">${m.meta}</div>`;
+      <div class="mov-meta">${m.meta}</div>
+      <div class="mov-original">${m.o}</div>`;
     c.appendChild(card);
   });
 }
@@ -1048,6 +1067,9 @@ document.addEventListener('contextmenu',e=>e.preventDefault());
   lock.style.display='flex'; lock.classList.remove('hidden');
   home.style.display='none'; home.classList.add('hidden');
 })();
+
+// El reloj se arranca aquí al final, cuando todo (incluido CIELO_MSGS) ya existe
+updateClock(); setInterval(updateClock,15000);
 </script>
 </body>
 </html>
