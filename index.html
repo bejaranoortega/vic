@@ -76,7 +76,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
 
 /* ═══ SCREENS ═══ */
 .screen{position:absolute;inset:0;overflow:hidden}
-.screen.hidden{display:none}
+.screen.hidden{display:none!important;pointer-events:none!important}
 @keyframes glowPulse{0%,100%{text-shadow:0 0 15px rgba(255,179,198,.6),0 0 40px rgba(255,107,138,.3)}50%{text-shadow:0 0 30px rgba(255,179,198,1),0 0 60px rgba(255,107,138,.6)}}
 @keyframes heartbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.13)}28%{transform:scale(1)}42%{transform:scale(1.13)}70%{transform:scale(1)}}
 @keyframes floatUp{0%{opacity:0;transform:translateY(0) rotate(0deg) scale(.5)}8%{opacity:.8;transform:translateY(-60px) rotate(15deg) scale(1)}90%{opacity:.4}100%{opacity:0;transform:translateY(-900px) rotate(360deg) scale(.8)}}
@@ -87,9 +87,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
 @keyframes shakeX{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 
 /* ═══ LOCK SCREEN (SWIPE UP) ═══ */
-#lockscreen{background:url('https://images.unsplash.com/photo-1490750967868-88df5691cc64?w=2000&q=90') center/cover;
+#lockscreen{background:url('https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=2000&q=90') center/cover;
   display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:84px 28px 40px;
-  touch-action:none;transition:transform .45s cubic-bezier(.25,.46,.45,.94),opacity .45s ease}
+  touch-action:none;z-index:60;transition:transform .45s cubic-bezier(.25,.46,.45,.94),opacity .45s ease}
 .lock-overlay{position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(to bottom,rgba(0,0,0,.25) 0%,rgba(5,2,15,.06) 32%,rgba(5,2,15,.22) 60%,rgba(5,2,15,.78) 100%)}
 .hearts-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
@@ -110,7 +110,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
 .swipe-sub{font-family:'Outfit',sans-serif;font-size:10px;color:rgba(255,255,255,.4);margin-top:10px;letter-spacing:.5px}
 
 /* ═══ HOME SCREEN ═══ */
-#homescreen{background:url('https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=2400&q=92') center/cover;display:flex;flex-direction:column;padding-top:60px}
+#homescreen{background:url('https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=2400&q=92') center/cover;display:flex;flex-direction:column;padding-top:60px;z-index:5}
 .home-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,2,15,.42) 0%,rgba(5,2,15,.05) 22%,rgba(5,2,15,.12) 55%,rgba(5,2,15,.62) 100%)}
 .home-greeting{text-align:center;z-index:1;padding:8px 20px 2px}
 .home-greeting h2{font-family:'Dancing Script',cursive;font-size:24px;color:var(--blush);text-shadow:0 2px 20px rgba(255,107,138,.6),0 0 60px rgba(255,107,138,.3);animation:glowPulse 3s ease-in-out infinite}
@@ -637,15 +637,16 @@ lockEl.addEventListener('touchend',onDragEnd);
 lockEl.addEventListener('mousedown',onDragStart);
 window.addEventListener('mousemove',onDragMove);
 window.addEventListener('mouseup',onDragEnd);
-swipeZone.addEventListener('click', ()=>{ if(!dragging && Math.abs(dragDelta)<5) completeUnlock(); });
+lockEl.addEventListener('click', ()=>{ if(!dragging && Math.abs(dragDelta)<5) completeUnlock(); });
 
 function completeUnlock(){
   lockEl.style.transition='transform .5s cubic-bezier(.25,.46,.45,.94), opacity .5s ease';
   lockEl.style.transform='translateY(-110%)'; lockEl.style.opacity='0';
   startMusicOnce();
   setTimeout(()=>{
-    lockEl.classList.add('hidden');
-    document.getElementById('homescreen').classList.remove('hidden');
+    lockEl.classList.add('hidden'); lockEl.style.display='none';
+    const home=document.getElementById('homescreen');
+    home.classList.remove('hidden'); home.style.display='flex';
     loadMovies(); loadCapsulas(); loadEnvelopes();
     setTimeout(()=>showNotif('💕','¡Hola princesa! Qué bueno que estás aquí 🌹'),700);
   },480);
@@ -679,12 +680,14 @@ setInterval(()=>{
 //     MÚSICA DE FONDO — reina.mp3
 // ══════════════════════════════════════
 const audio=document.getElementById('bgMusic');
-audio.volume=0.4;
+audio.volume=0.32;
 let musicStarted=false;
 function startMusicOnce(){
   if(musicStarted) return; musicStarted=true;
   audio.play().then(()=>updateIslandPlaying(true)).catch(()=>{ musicStarted=false; });
 }
+// Red de seguridad: si por cualquier motivo el swipe no la disparó, el primer toque en cualquier parte la inicia
+['click','touchend'].forEach(evt=>document.addEventListener(evt, startMusicOnce));
 function toggleMusic(){
   if(audio.paused){ audio.play().then(()=>updateIslandPlaying(true)).catch(()=>{}); }
   else { audio.pause(); updateIslandPlaying(false); }
@@ -1037,6 +1040,14 @@ function closeLetter(){ document.getElementById('letterModal').classList.remove(
 //              INICIO
 // ══════════════════════════════════════
 document.addEventListener('contextmenu',e=>e.preventDefault());
+
+// Estado inicial forzado por JS — garantiza que solo se vea la pantalla de bloqueo al cargar
+(function initScreens(){
+  const lock=document.getElementById('lockscreen');
+  const home=document.getElementById('homescreen');
+  lock.style.display='flex'; lock.classList.remove('hidden');
+  home.style.display='none'; home.classList.add('hidden');
+})();
 </script>
 </body>
 </html>
