@@ -539,14 +539,21 @@ html.dark .jh{background:linear-gradient(160deg,#241a2e,#1a1626)}
 .bt2{background:var(--cd)!important;color:var(--wt)!important}
 kbd{background:var(--cd);border:1px solid var(--ln);border-radius:6px;padding:2px 8px;font-family:inherit;font-size:12.5px}
 .row input[type=text]{flex:0 0 220px}
+
+/* ===== FOTOS COMPLETAS COMO FONDO ===== */
+#wallf{position:fixed;inset:0;background:center/contain no-repeat;pointer-events:none;filter:drop-shadow(0 12px 40px #000a)}
+#lkfg{position:absolute;inset:0;background:center/contain no-repeat;filter:drop-shadow(0 12px 40px #000a);transition:filter .6s}
+#lkfg.on::after{content:'';position:absolute;inset:0;background:linear-gradient(#0002,#0008)}
+#lkbg.bl{filter:blur(36px) brightness(.8)}
+#lock.login #lkfg{filter:blur(18px) brightness(.75)}
 </style>
 </head>
 <body>
 
-<div id="wall" aria-hidden="true"></div><div id="dim" aria-hidden="true"></div>
+<div id="wall" aria-hidden="true"></div><div id="wallf" aria-hidden="true"></div><div id="dim" aria-hidden="true"></div>
 
 <section id="lock">
-  <div id="lkbg"></div>
+  <div id="lkbg"></div><div id="lkfg"></div>
   <div class="lk-st"><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></div>
   <div class="lk-main" id="lkm">
     <div id="lt"></div><div id="ld"></div><div id="lg"></div>
@@ -615,8 +622,8 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 const say=m=>{if(!S.toast)return;const e=$('#msg');e.textContent=m;e.style.display='block';clearTimeout(say.t);say.t=setTimeout(()=>e.style.display='none',4e3)};
 const emit=n=>dispatchEvent(new Event(n));
 const fs=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>say('No se pudo activar la pantalla completa'));
-const D={theme:'claro',acc:'#ff5c93',blur:30,anim:1,bright:100,wall:0,rand:0,fit:'cover',wblur:0,rot:0,dock:52,zoom:1,dots:1,dpos:'b',dhide:0,name:'Victoria',avatar:'',h24:1,sec:0,vol:1,toast:1,snd:1,pin:'',idle:0,lw:1};
-let S={...D};try{Object.assign(S,JSON.parse(localStorage.amorS||'{}'))}catch{}
+const D={theme:'claro',acc:'#ff5c93',blur:30,anim:1,bright:100,wall:0,rand:0,fit:'smart',wblur:0,rot:0,dock:52,zoom:1,dots:1,dpos:'b',dhide:0,name:'Victoria',avatar:'',h24:1,sec:0,vol:1,toast:1,snd:1,pin:'',idle:0,lw:1};
+let S={...D};try{const o=JSON.parse(localStorage.amorS||'{}');if((o.v||0)<2)o.fit='smart';o.v=2;Object.assign(S,o)}catch{}
 const save=()=>{try{localStorage.amorS=JSON.stringify(S)}catch{}};
 const A=new Audio();                      // reproductor único de música
 const dock=$('#dock');
@@ -633,7 +640,6 @@ function apply(){
   r.classList.toggle('dark',isDark());r.classList.toggle('noanim',!S.anim);r.classList.toggle('nodots',!S.dots);r.classList.toggle('dkhide',!!S.dhide);
   r.dataset.dp=S.dpos;
   $('#dim').style.opacity=1-S.bright/100;A.volume=S.vol;
-  const w=$('#wall');w.style.filter=S.wblur?`blur(${S.wblur}px)`:'';w.style.scale=S.wblur?'1.06':'';
   dock.querySelectorAll('.d').forEach(d=>d.style.width=d.style.height='');
   requestAnimationFrame(()=>{const d=dock.querySelector('.d');if(d&&d.offsetWidth)BASE=d.offsetWidth});
   paintWall();rotate();renderLock();clk();
@@ -722,15 +728,33 @@ const WP=[
 const presetBg=()=>WP[WP[S.wall]?S.wall:0][1];
 const FIT={cover:'cover',fit:'contain',center:'auto',tile:'auto'};
 let rt=null;
-function paintWall(){      // fondo de pantalla: preset, foto elegida, aleatoria o en rotación
-  let ph=null;
+const DIM={};      // tamaño real de cada foto (para saber si es vertical u horizontal)
+const dims=ph=>new Promise(r=>{if(DIM[ph.u])return r(DIM[ph.u]);const i=new Image(),t=setTimeout(()=>r(null),4e3);
+  i.onload=()=>{clearTimeout(t);r(DIM[ph.u]={w:i.naturalWidth,h:i.naturalHeight})};i.onerror=()=>{clearTimeout(t);r(null)};i.src=ph.u});
+const sameShape=d=>!d||!d.w||Math.abs((d.w/d.h)/(innerWidth/innerHeight)-1)<.25;   // ¿se parece a la pantalla?
+let wtk=0;
+async function paintWall(){      // fondo de pantalla: preset, foto elegida, aleatoria o en rotación
+  const tk=++wtk,w=$('#wall'),f=$('#wallf');let ph=null;
   if((S.rand||S.rot)&&PH.length)ph=RP&&PH.includes(RP)?RP:(RP=PH[Math.random()*PH.length|0]);
   else if(S.wall&&typeof S.wall=='object')ph=PH.find(x=>x.n==S.wall.p);
-  $('#wall').style.background=ph?`#000 center/${FIT[S.fit]||'cover'} ${S.fit=='tile'?'repeat':'no-repeat'} url("${ph.u}")`:presetBg();
+  const blur=S.wblur?`blur(${S.wblur}px)`:'',sc=S.wblur?'1.06':'';
+  if(!ph){w.style.background=presetBg();w.style.filter=blur;w.style.scale=sc;f.style.backgroundImage='none';return}
+  const url=`url("${ph.u}")`;let smart=false;
+  if(S.fit=='smart'){const d=await dims(ph);if(tk!=wtk)return;smart=!sameShape(d)}
+  if(smart){      // foto vertical o de otra forma: se ve completa y los lados se rellenan con la misma foto difuminada
+    w.style.background=`#000 center/cover no-repeat ${url}`;w.style.filter=`blur(${Math.max(S.wblur,36)}px) brightness(.75)`;w.style.scale='1.15';f.style.backgroundImage=url;
+  }else{
+    const m=S.fit=='smart'?'cover':S.fit;
+    w.style.background=`#000 center/${FIT[m]||'cover'} ${m=='tile'?'repeat':'no-repeat'} ${url}`;w.style.filter=blur;w.style.scale=sc;f.style.backgroundImage='none';
+  }
 }
 function rotate(){clearInterval(rt);rt=null;if(S.rot&&PH.length>1)rt=setInterval(()=>{RP=PH[(PH.indexOf(RP)+1)%PH.length];paintWall()},S.rot*6e4)}
-function paintLock(){      // la pantalla de bloqueo usa una foto cualquiera de la galería
-  $('#lkbg').style.background=PH.length?`center/cover url("${PH[Math.random()*PH.length|0].u}")`:presetBg();
+async function paintLock(){      // la pantalla de bloqueo usa una foto cualquiera de la galería (completa, sin recortar)
+  const bg=$('#lkbg'),fg=$('#lkfg'),ph=PH.length?PH[Math.random()*PH.length|0]:null;
+  if(!ph){bg.style.background=presetBg();bg.classList.remove('bl');fg.style.backgroundImage='none';fg.classList.remove('on');return}
+  const d=S.fit=='smart'?await dims(ph):null,smart=S.fit=='smart'&&!sameShape(d);
+  bg.style.background=`#000 center/cover no-repeat url("${ph.u}")`;bg.classList.toggle('bl',smart);
+  fg.style.backgroundImage=smart?`url("${ph.u}")`:'none';fg.classList.toggle('on',smart);
 }
 function setWall(w){S.wall=w;S.rand=0;S.rot=0;save();apply();emit('photos')}
 
@@ -1245,7 +1269,7 @@ const apps=[
    [0,'Brillo de pantalla','Oscurece toda la pantalla','range','bright',40,100,1,'%'],
    [0,'Animaciones','Efectos al abrir, cerrar y minimizar','check','anim'],
    [1,'Fondo de pantalla','Elige un fondo o una de tus fotos','walls'],
-   [1,'Ajuste de la imagen','Cómo se acomoda una foto en pantalla','seg','fit',[['cover','Rellenar'],['fit','Ajustar'],['center','Centrar'],['tile','Mosaico']]],
+   [1,'Ajuste de la imagen','Inteligente muestra la foto completa y rellena los lados con un fondo suave','seg','fit',[['smart','Inteligente'],['cover','Rellenar'],['fit','Ajustar'],['center','Centrar'],['tile','Mosaico']]],
    [1,'Desenfoque del fondo','Suaviza la imagen detrás de las ventanas','range','wblur',0,20,1,'px'],
    [1,'Cambiar de fondo automáticamente','Rota tus fotos cada cierto tiempo','seg','rot',[[0,'No'],[1,'1 min'],[5,'5 min'],[15,'15 min'],[60,'1 h']]],
    [1,'Foto aleatoria al iniciar','Usa una foto distinta cada vez','check','rand'],
@@ -1393,6 +1417,7 @@ let lastAct=Date.now();
 setInterval(()=>{if(S.idle&&!isLocked()&&Date.now()-lastAct>S.idle*6e4)lock()},1e4);
 
 setInterval(clk,1e3);
+let rzT;addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{paintWall();paintLock()},250)});
 apply();paintLock();lockWeather();
 loadPhotos().then(n=>{if(n)photosChanged()});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState=='visible'){const n0=PH.length;loadPhotos().then(n=>{if(n!=n0)photosChanged()})}});
