@@ -643,32 +643,54 @@ function apply(){
 const IMG=/\.(png|jpe?g|gif|webp|avif|bmp|svg|jfif)$/i;
 let PH=[],RP=null;
 const nat=(a,b)=>a.n.localeCompare(b.n,undefined,{numeric:true});
-function ghRepo(){      // en GitHub Pages deduce usuario/repositorio de la dirección
-  if(CFG.repo)return CFG.repo;
-  const h=location.hostname;if(!h.endsWith('.github.io'))return'';
-  const o=h.split('.')[0],r=location.pathname.split('/')[1];
-  return r&&!r.includes('.')?`${o}/${r}`:`${o}/${h}`;
+function ghInfo(){      // en GitHub Pages deduce usuario/repositorio (y la subcarpeta) de la dirección
+  if(CFG.repo)return{repo:CFG.repo,base:''};
+  const h=location.hostname;if(!h.endsWith('.github.io'))return null;
+  const o=h.split('.')[0],seg=location.pathname.split('/').filter(Boolean);
+  if(seg.length&&!seg[0].includes('.')){const rest=seg.slice(1);if(rest.length&&rest[rest.length-1].includes('.'))rest.pop();return{repo:`${o}/${seg[0]}`,base:rest.join('/')}}
+  return{repo:`${o}/${h}`,base:''};
+}
+let PHSRC='ninguna';
+const enc=p=>p.split('/').map(encodeURIComponent).join('/');
+function loadList(src){      // lista.js (la crea actualizar-fotos.bat): funciona incluso abriendo el archivo con doble clic
+  return new Promise(res=>{
+    const t=document.createElement('script'),end=l=>{clearTimeout(tm);t.remove();res(l)},tm=setTimeout(()=>end([]),4e3);
+    window.FOTOS=undefined;
+    t.onload=()=>end(Array.isArray(window.FOTOS)?window.FOTOS:[]);
+    t.onerror=()=>end([]);
+    t.src=src+'?'+Date.now();document.head.append(t);
+  });
 }
 async function loadPhotos(force){
-  const dedupe=l=>{const s={};return l.filter(x=>!s[x.n]&&(s[x.n]=1)).sort(nat)};
-  try{      // 1) servidor local con índice de carpeta (Live Server)
+  const dedupe=l=>{const s={};return l.filter(x=>!s[x.u]&&(s[x.u]=1)).sort(nat)};
+  const done=(l,src)=>{PH=l;PHSRC=src;console.info('[AmorOS] Fotos:',l.length,'desde',src);return l.length};
+  try{      // 1) servidor local con índice de la carpeta Fotos/ (si existe)
     const t=await(await fetch('Fotos/',{headers:{Accept:'text/html'}})).text(),base=new URL('Fotos/',location.href);
     const l=dedupe([...new DOMParser().parseFromString(t,'text/html').querySelectorAll('a[href]')].map(a=>a.getAttribute('href'))
       .filter(h=>IMG.test(decodeURIComponent(h.split('?')[0]))).map(h=>{const u=new URL(h,base);return{n:decodeURIComponent(u.pathname.split('/').pop()),u:u.href}}));
-    if(l.length)return(PH=l).length;
+    if(l.length)return done(l,'carpeta del servidor');
   }catch{}
-  const gh=ghRepo();      // 2) GitHub Pages: la API de GitHub lista la carpeta Fotos
+  const gh=ghInfo();      // 2) GitHub Pages: la API de GitHub lista los archivos junto al HTML (y Fotos/ si existe)
   if(gh){
     let c=null;try{c=JSON.parse(localStorage.amorGH||'null')}catch{}
-    if(!force&&c&&Date.now()-c.t<6e5&&c.l.length)return(PH=c.l).length;
-    for(const dir of['Fotos','fotos']){try{
-      const r=await fetch(`https://api.github.com/repos/${gh}/contents/${dir}`);if(!r.ok)continue;
-      const l=dedupe((await r.json()).filter(f=>f.type=='file'&&IMG.test(f.name)).map(f=>({n:f.name,u:`${dir}/${encodeURIComponent(f.name)}`})));
-      if(l.length){try{localStorage.amorGH=JSON.stringify({t:Date.now(),l})}catch{}return(PH=l).length}
-    }catch{}}
-    if(c&&c.l.length)return(PH=c.l).length;      // sin internet o límite de GitHub: usa la última lista
+    if(!force&&c&&Date.now()-c.t<6e5&&c.l.length)return done(c.l,'GitHub (guardado)');
+    let l=[];
+    for(const sub of['','Fotos','fotos']){
+      if(l.length)break;
+      try{const path=[gh.base,sub].filter(Boolean).join('/'),r=await fetch(`https://api.github.com/repos/${gh.repo}/contents${path?'/'+path:''}`);if(!r.ok)continue;
+        const j=await r.json();if(!Array.isArray(j))continue;
+        l=dedupe(j.filter(f=>f.type=='file'&&IMG.test(f.name)).map(f=>({n:f.name,u:(sub?sub+'/':'')+encodeURIComponent(f.name)})));
+      }catch{}
+    }
+    if(l.length){try{localStorage.amorGH=JSON.stringify({t:Date.now(),l})}catch{}return done(l,'GitHub')}
+    if(c&&c.l.length)return done(c.l,'GitHub (guardado)');
   }
-  PH=[];return 0;
+  for(const src of['lista.js','Fotos/lista.js']){      // 3) lista.js junto al HTML
+    const l=dedupe((await loadList(src)).filter(n=>typeof n=='string'&&IMG.test(n)).map(n=>({n:n.split('/').pop(),u:enc(n)})));
+    if(l.length)return done(l,src);
+  }
+  console.info('[AmorOS] Fotos: no se encontró ninguna imagen junto al HTML');
+  PH=[];PHSRC='ninguna';return 0;
 }
 function photosChanged(){paintLock();paintWall();emit('photos')}
 
@@ -1261,7 +1283,7 @@ const apps=[
     case'avatar':return`<div class=wp><button class="sw av0 ${S.avatar?'':'sel'}" data-av="">Sin foto</button>${PH.map(p=>`<img class="sw ${S.avatar==p.n?'sel':''}" data-av="${esc(p.n)}" src="${esc(p.u)}" title="${esc(p.n)}" loading=lazy alt="">`).join('')}</div>`}return''};
   const row=r=>{const wide=r[3]=='walls'||r[3]=='avatar';return`<div class="row ${wide?'wide':''}"><div class=rl><b>${r[1]}</b>${r[2]?`<small>${r[2]}</small>`:''}</div>${wide?'':`<div class=rc>${ctl(r)}</div>`}${wide?ctl(r):''}</div>`};
   const dataRows=()=>DATA.map(([n,ks],i)=>`<div class=row><div class=rl><b>${n}</b><small>${cnt(ks)} elemento${cnt(ks)==1?'':'s'}</small></div><div class=rc><button class="btn bt2" data-del=${i}><i data-lucide=trash-2></i>Borrar</button></div></div>`).join('')+`<div class=row><div class=rl><b>Restablecer todos los ajustes</b><small>Apariencia, dock, bloqueo y demás</small></div><div class=rc><button class="btn bt2" data-act=resetS><i data-lucide=rotate-ccw></i>Restablecer</button></div></div>`;
-  const about=()=>`<div class=card><h3>AmorOS 2.0</h3><br>Hecho con 💓 por Edier para Victoria.</div><div class=row><div class=rl><b>Sistema</b></div><div class=rc><small>${esc(navigator.platform||'')} · ${esc(navigator.language||'es')} · ${navigator.onLine?'con internet':'sin internet'}</small></div></div><div class=row><div class=rl><b>Pantalla</b></div><div class=rc><small>${innerWidth} x ${innerHeight}</small></div></div><div class=row><div class=rl><b>Apps instaladas</b></div><div class=rc><small>${apps.length}</small></div></div><div class=row><div class=rl><b>Fotos en la galería</b></div><div class=rc><small>${PH.length}</small></div></div><h3 style="margin-top:6px">Atajos de teclado</h3>${[['Alt + L','Bloquear la pantalla'],['Alt + W','Cerrar la ventana activa'],['Alt + M','Minimizar la ventana activa'],['Alt + Enter','Maximizar o restaurar'],['F11','Pantalla completa']].map(([k,d])=>`<div class=row><div class=rl><b>${d}</b></div><div class=rc><kbd>${k}</kbd></div></div>`).join('')}`;
+  const about=()=>`<div class=card><h3>AmorOS 2.0</h3><br>Hecho con 💓 por Edier para Victoria.</div><div class=row><div class=rl><b>Sistema</b></div><div class=rc><small>${esc(navigator.platform||'')} · ${esc(navigator.language||'es')} · ${navigator.onLine?'con internet':'sin internet'}</small></div></div><div class=row><div class=rl><b>Pantalla</b></div><div class=rc><small>${innerWidth} x ${innerHeight}</small></div></div><div class=row><div class=rl><b>Apps instaladas</b></div><div class=rc><small>${apps.length}</small></div></div><div class=row><div class=rl><b>Fotos en la galería</b></div><div class=rc><small>${PH.length} · ${PHSRC}</small></div></div><h3 style="margin-top:6px">Atajos de teclado</h3>${[['Alt + L','Bloquear la pantalla'],['Alt + W','Cerrar la ventana activa'],['Alt + M','Minimizar la ventana activa'],['Alt + Enter','Maximizar o restaurar'],['F11','Pantalla completa']].map(([k,d])=>`<div class=row><div class=rl><b>${d}</b></div><div class=rc><kbd>${k}</kbd></div></div>`).join('')}`;
   const content=()=>{
     if(q){const L=R.filter(r=>(r[1]+' '+r[2]).toLowerCase().includes(q)),D=DATA.map((d,i)=>[d,i]).filter(([d])=>d[0].toLowerCase().includes(q));
       return`<h2>Resultados</h2>${L.map(row).join('')}${D.map(([d,i])=>`<div class=row><div class=rl><b>${d[0]}</b><small>Datos</small></div><div class=rc><button class="btn bt2" data-del=${i}><i data-lucide=trash-2></i>Borrar</button></div></div>`).join('')||''}${L.length||D.length?'':'<div class=em><i data-lucide=search-x></i><p>No hay ajustes con ese nombre</p></div>'}`}
@@ -1373,6 +1395,7 @@ setInterval(()=>{if(S.idle&&!isLocked()&&Date.now()-lastAct>S.idle*6e4)lock()},1
 setInterval(clk,1e3);
 apply();paintLock();lockWeather();
 loadPhotos().then(n=>{if(n)photosChanged()});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState=='visible'){const n0=PH.length;loadPhotos().then(n=>{if(n!=n0)photosChanged()})}});
 })();
 </script>
 </body>
