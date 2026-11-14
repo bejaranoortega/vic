@@ -546,6 +546,18 @@ kbd{background:var(--cd);border:1px solid var(--ln);border-radius:6px;padding:2p
 #lkfg.on::after{content:'';position:absolute;inset:0;background:linear-gradient(#0002,#0008)}
 #lkbg.bl{filter:blur(36px) brightness(.8)}
 #lock.login #lkfg{filter:blur(18px) brightness(.75)}
+
+/* ===== ARREGLOS DE AJUSTES, CONFIRMACIONES Y REINICIO ===== */
+.sw{overflow:hidden}
+#dlg{position:fixed;inset:0;z-index:9400;background:#0007;backdrop-filter:blur(6px);display:grid;place-items:center;animation:fade .2s}
+.dbox{width:min(380px,92vw);background:var(--wb);color:var(--wt);border:1px solid var(--ln);border-radius:16px;padding:22px;box-shadow:0 20px 60px #0008;backdrop-filter:blur(30px)}
+.dbox h3{margin-bottom:8px}.dbox p{opacity:.75;line-height:1.5;margin-bottom:18px;font-size:14px}
+.dbt{display:flex;gap:8px;justify-content:flex-end}
+#boot{position:fixed;inset:0;z-index:9500;background:#000;color:#fff;display:grid;place-content:center;justify-items:center;gap:20px}
+.bh{font-size:4rem}.bb{width:220px;height:4px;border-radius:4px;background:#ffffff33;overflow:hidden}
+.bb i{display:block;height:100%;width:0;background:#fff;border-radius:4px}
+#boot small{opacity:.7}
+@keyframes bload{to{width:100%}}
 </style>
 </head>
 <body>
@@ -575,6 +587,8 @@ kbd{background:var(--cd);border:1px solid var(--ln);border-radius:6px;padding:2p
 <main id="wins"></main>
 <nav id="dock" aria-label="Aplicaciones"></nav>
 <div id="msg" role="status"></div>
+<div id="dlg" hidden><div class="dbox"><h3 id="dt"></h3><p id="dp"></p><div class="dbt"><button id="dn" class="btn bt2">Cancelar</button><button id="dy" class="btn">Aceptar</button></div></div></div>
+<div id="boot" hidden><div class="bh hb">💓</div><div class="bb"><i></i></div><small id="bs"></small></div>
 
 <section id="err" role="alert">
   <h1>:(</h1>
@@ -614,15 +628,30 @@ const CFG={
 const VID={
   'Peppa Pig':[['list:UUrreHSUa5rnuCVDeO8dX4eA','Todos los episodios (canal oficial)'],['danJ90bO90g','Cerdita al agua'],['q9YOzk-I_Bs','La cabaña de palos más grande'],['xSD8QC7g0XY','Peppa nada con Baby Evie'],['DLPkGGJ_anI','Peppa imagina ser adulta'],['cx5In4asWhQ','El pastel perdido'],['pw4nl8t9sxw','Primer chequeo médico'],['yr-sivEm4UA','Museo de ciencias'],['hX1YqQ3TDao','Lavando el auto']],
   'Ladybug':[['list:UUlO_ni5PslPD9LsfZiyfcyA','Miraculous: todos los episodios (canal oficial)']],
-  'My Little Pony':[['list:UUavwStVQoAroamzC1lPQmyg','My Little Pony: todos los videos (canal oficial)'],['cgI0rNiAxrE','My Little Pony en español: 1 hora de recopilación']]
+  'My Little Pony':[['list:UUavwStVQoAroamzC1lPQmyg','My Little Pony: todos los videos (canal oficial)'],['list:UU781RqY0cfcRqlTQTb1XZFQ','La Magia de la Amistad: episodios completos'],['cgI0rNiAxrE','My Little Pony en español: 1 hora de recopilación'],['IngxmxUcOss','Glow Up de las Princesas: los mejores episodios'],['Js1J2ZCb2dA','La hermandad de los cascos (episodio 19)'],['SvxD0yepWCs','Todas las aventuras de los ponis en una colección'],['wEwu8uE9BXU','My Little Pony en español']],
+  'Harry Potter':[['list:PL31HXB4RE3G3C_kVRfINtuH773vsVnzSJ','Tráilers de la saga en español latino'],['list:PLzII6nnISuJmojL5MV8M5p0I9COAeMpMr','Escenas de las películas (español)'],['NXa8cUIv7GA','Las mejores escenas del Misterio del Príncipe (latino)'],['zNm2HTVRFNA','El Misterio del Príncipe Mestizo: tráiler oficial latino'],['RYJPdC2ERjY','Escenas eliminadas de todas las películas'],['ek6VVIUvARo','Escena de "Leviosa" para doblar entre dos'],['njZxv2gPk40','Detrás de cámaras y entrevistas (parte 7A)']],
+  'Edits de Harry Potter':[['list:UUixSx-fpmRQMHxdVBdjA8NQ','Hogwarts Edits: todos los edits'],['list:UUQxZnG1L2CDye3oJsGPJlzw','Harry Potter fan edits'],['list:UUbJstMsq7H4NTYdJMzAknKQ','Harry Potter edits'],['list:PLLpNwZOKY84hxJ3ezWTCGgA-_dlOKz3im','Los edits más populares'],['DyOlODInhjc','Hogwarts: edit'],['Z04yq6KOLcc','Harry Potter edit'],['gF73MVls3Rw','The Hunt for Horcruxes: tráiler de fan edit']]
 };
 
 /* ============ 2. UTILIDADES, AJUSTES Y ESTADO ============ */
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const say=m=>{if(!S.toast)return;const e=$('#msg');e.textContent=m;e.style.display='block';clearTimeout(say.t);say.t=setTimeout(()=>e.style.display='none',4e3)};
 const emit=n=>dispatchEvent(new Event(n));
-const fs=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>say('No se pudo activar la pantalla completa'));
-const D={theme:'claro',acc:'#ff5c93',blur:30,anim:1,bright:100,wall:0,rand:0,fit:'smart',wblur:0,rot:0,dock:52,zoom:1,dots:1,dpos:'b',dhide:0,name:'Victoria',avatar:'',h24:1,sec:0,vol:1,toast:1,snd:1,pin:'',idle:0,lw:1};
+const inFS=()=>document.fullscreenElement||document.webkitFullscreenElement;
+const goFull=()=>{if(inFS())return;const e=document.documentElement,r=e.requestFullscreen||e.webkitRequestFullscreen;try{const p=r&&r.call(e,{navigationUI:'hide'});p&&p.catch&&p.catch(()=>{})}catch{}};
+const fs=()=>{if(inFS())(document.exitFullscreen||document.webkitExitFullscreen).call(document);else goFull()};
+const ask=(t,p,ok='Aceptar')=>new Promise(res=>{      // cuadro de confirmación propio del sistema
+  const d=$('#dlg');$('#dt').textContent=t;$('#dp').textContent=p;$('#dy').textContent=ok;d.hidden=false;
+  const done=v=>{d.hidden=true;d.onclick=null;$('#dy').onclick=$('#dn').onclick=null;res(v)};
+  $('#dy').onclick=()=>done(true);$('#dn').onclick=()=>done(false);d.onclick=e=>{if(e.target==d)done(false)}});
+function reboot(wipe){      // reinicia el sistema; con wipe borra todo y queda como nuevo
+  const b=$('#boot');b.hidden=false;$('#bs').textContent=wipe?'Restableciendo AmorOS…':'Reiniciando…';
+  try{A.pause()}catch{}
+  if(wipe){try{Object.keys(localStorage).filter(k=>k.startsWith('amor')||k=='wall').forEach(k=>localStorage.removeItem(k));sessionStorage.clear();indexedDB.deleteDatabase&&indexedDB.deleteDatabase('amor')}catch{}}
+  const bar=b.querySelector('.bb i');bar.style.animation='bload 1.5s linear forwards';
+  setTimeout(()=>location.reload(),1650);
+}
+const D={theme:'claro',acc:'#ff5c93',blur:30,anim:1,bright:100,wall:0,rand:0,fit:'smart',autofs:1,wblur:0,rot:0,dock:52,zoom:1,dots:1,dpos:'b',dhide:0,name:'Victoria',avatar:'',h24:1,sec:0,vol:1,toast:1,snd:1,pin:'',idle:0,lw:1};
 let S={...D};try{const o=JSON.parse(localStorage.amorS||'{}');if((o.v||0)<2)o.fit='smart';o.v=2;Object.assign(S,o)}catch{}
 const save=()=>{try{localStorage.amorS=JSON.stringify(S)}catch{}};
 const A=new Audio();                      // reproductor único de música
@@ -1290,7 +1319,8 @@ const apps=[
    [4,'Sonidos de los juegos','','check','snd'],
    [4,'Avisos en pantalla','Mensajes cortos arriba','check','toast'],
    [4,'Pantalla completa','También con F11','btn','fs','Alternar','maximize'],
-   [4,'Reiniciar AmorOS','Vuelve a cargar el sistema','btn','reload','Reiniciar','rotate-ccw']];
+   [4,'Pantalla completa automática','Se activa con el primer clic o tecla al abrir','check','autofs'],
+   [4,'Reiniciar AmorOS','Borra todo y lo deja como nuevo','btn','reload','Reiniciar','rotate-ccw']];
   const DATA=[['Notas','amorNotas'],['Eventos del calendario','amorEv'],['Búsquedas recientes','amorBusq'],['Videos guardados, me gusta e historial','amorVL,amorVS,amorVH,amorVT,amorMyVid'],['Cartas leídas y destacadas','amorLeidas,amorStar'],['Música: canciones que te gustan','amorLikes'],['Récords de los juegos','*']];
   let tab=SETTAB,q='';SETTAB=0;
   const cnt=ks=>{if(ks=='*')return Object.keys(localStorage).filter(k=>/^amor(HS_|GT_|PW)/.test(k)).length;
@@ -1303,7 +1333,7 @@ const apps=[
     case'text':return`<input type=text data-t=${k} value="${esc(S[k])}">`;
     case'btn':return`<button class=btn data-act=${k}><i data-lucide=${b2}></i>${a}</button>`;
     case'pin':return`<span class=pinr><input type=password inputmode=numeric maxlength=8 placeholder="4 a 8 dígitos" data-pin><button class=btn data-act=setpin>${S.pin?'Cambiar':'Guardar'}</button>${S.pin?'<button class="btn bt2" data-act=clrpin>Quitar</button>':''}</span>`;
-    case'walls':return`<div class=wp>${WP.map(([n,bg],i)=>`<button class="sw ${S.wall===i&&!S.rand&&!S.rot?'sel':''}" title="${n}" data-w="${i}" style="background:${bg}"></button>`).join('')}${PH.map(p=>`<img class="sw ${S.wall&&S.wall.p==p.n&&!S.rand&&!S.rot?'sel':''}" data-p="${esc(p.n)}" src="${esc(p.u)}" title="${esc(p.n)}" loading=lazy alt="">`).join('')}</div>`;
+    case'walls':return`<div class=wp>${WP.map(([n,bg],i)=>`<button class="sw ${S.wall===i&&!S.rand&&!S.rot?'sel':''}" title="${n}" data-w="${i}"></button>`).join('')}${PH.map(p=>`<img class="sw ${S.wall&&S.wall.p==p.n&&!S.rand&&!S.rot?'sel':''}" data-p="${esc(p.n)}" src="${esc(p.u)}" title="${esc(p.n)}" loading=lazy alt="">`).join('')}</div>`;
     case'avatar':return`<div class=wp><button class="sw av0 ${S.avatar?'':'sel'}" data-av="">Sin foto</button>${PH.map(p=>`<img class="sw ${S.avatar==p.n?'sel':''}" data-av="${esc(p.n)}" src="${esc(p.u)}" title="${esc(p.n)}" loading=lazy alt="">`).join('')}</div>`}return''};
   const row=r=>{const wide=r[3]=='walls'||r[3]=='avatar';return`<div class="row ${wide?'wide':''}"><div class=rl><b>${r[1]}</b>${r[2]?`<small>${r[2]}</small>`:''}</div>${wide?'':`<div class=rc>${ctl(r)}</div>`}${wide?ctl(r):''}</div>`};
   const dataRows=()=>DATA.map(([n,ks],i)=>`<div class=row><div class=rl><b>${n}</b><small>${cnt(ks)} elemento${cnt(ks)==1?'':'s'}</small></div><div class=rc><button class="btn bt2" data-del=${i}><i data-lucide=trash-2></i>Borrar</button></div></div>`).join('')+`<div class=row><div class=rl><b>Restablecer todos los ajustes</b><small>Apariencia, dock, bloqueo y demás</small></div><div class=rc><button class="btn bt2" data-act=resetS><i data-lucide=rotate-ccw></i>Restablecer</button></div></div>`;
@@ -1312,10 +1342,12 @@ const apps=[
     if(q){const L=R.filter(r=>(r[1]+' '+r[2]).toLowerCase().includes(q)),D=DATA.map((d,i)=>[d,i]).filter(([d])=>d[0].toLowerCase().includes(q));
       return`<h2>Resultados</h2>${L.map(row).join('')}${D.map(([d,i])=>`<div class=row><div class=rl><b>${d[0]}</b><small>Datos</small></div><div class=rc><button class="btn bt2" data-del=${i}><i data-lucide=trash-2></i>Borrar</button></div></div>`).join('')||''}${L.length||D.length?'':'<div class=em><i data-lucide=search-x></i><p>No hay ajustes con ese nombre</p></div>'}`}
     return`<h2>${T[tab][0]}</h2>${tab==5?dataRows():tab==6?about():R.filter(r=>r[0]==tab).map(row).join('')}`};
-  const f=()=>{const ph=S.avatar&&PH.find(p=>p.n==S.avatar);
+  const paintSw=()=>b.querySelectorAll('[data-w]').forEach(e=>e.style.background=WP[+e.dataset.w][1]);
+  const f=()=>{f0();paintSw()};
+  const f0=()=>{const ph=S.avatar&&PH.find(p=>p.n==S.avatar);
     b.innerHTML=`<div class=stg><nav><div class=prof><span class="pav ${ph?'':'hb'}" style="${ph?`background-image:url('${esc(ph.u)}')`:''}">${ph?'':'💓'}</span><div><b>${esc(S.name||'Victoria')}</b><small>Cuenta local</small></div></div><input class=ss placeholder="Buscar ajustes" value="${esc(q)}">${T.map(([t,ic],i)=>`<button data-tab=${i} class="${!q&&i==tab?'on':''}"><i data-lucide=${ic}></i>${t}</button>`).join('')}</nav><section>${content()}</section></div>`};
   b.oninput=e=>{const t=e.target;
-    if(t.classList.contains('ss')){q=t.value.trim().toLowerCase();b.querySelector('section').innerHTML=content();b.querySelectorAll('nav [data-tab]').forEach((x,i)=>x.classList.toggle('on',!q&&i==tab));return}
+    if(t.classList.contains('ss')){q=t.value.trim().toLowerCase();b.querySelector('section').innerHTML=content();paintSw();b.querySelectorAll('nav [data-tab]').forEach((x,i)=>x.classList.toggle('on',!q&&i==tab));return}
     const k=t.dataset.r||t.dataset.c||t.dataset.t;if(!k)return;
     S[k]=t.dataset.r?+t.value:t.dataset.c?+t.checked:t.value;
     const rv=t.closest('.row')&&t.closest('.row').querySelector('.rv');if(rv)rv.textContent=t.value+(t.dataset.u||'');
@@ -1326,15 +1358,15 @@ const apps=[
     else if(d.w!==undefined)setWall(+d.w);
     else if(d.p)setWall({p:d.p});
     else if(d.av!==undefined){S.avatar=d.av;save();apply();f()}
-    else if(d.del!==undefined){const[n,ks]=DATA[+d.del];if(confirm('¿Borrar '+n.toLowerCase()+'?')){
+    else if(d.del!==undefined){const[n,ks]=DATA[+d.del];ask('¿Borrar '+n.toLowerCase()+'?','Esta acción no se puede deshacer.','Borrar').then(y=>{if(!y)return;
       if(ks=='*')Object.keys(localStorage).filter(k=>/^amor(HS_|GT_|PW)/.test(k)).forEach(k=>localStorage.removeItem(k));else ks.split(',').forEach(k=>localStorage.removeItem(k));
-      say('Datos borrados');f()}}
+      say('Datos borrados');f()})}
     else if(d.act=='fs')fs();
     else if(d.act=='lock')lock();
-    else if(d.act=='reload')location.reload();
+    else if(d.act=='reload')ask('¿Reiniciar AmorOS?','Se borrarán tus ajustes, notas, eventos, videos guardados y récords. Quedará como nuevo.','Reiniciar').then(y=>y&&reboot(true));
     else if(d.act=='setpin'){const v=b.querySelector('[data-pin]').value;if(!/^\d{4,8}$/.test(v)){say('El PIN debe tener de 4 a 8 números');return}S.pin=v;save();say('PIN guardado');f()}
     else if(d.act=='clrpin'){S.pin='';save();say('PIN eliminado');f()}
-    else if(d.act=='resetS'&&confirm('¿Restablecer todos los ajustes?')){try{localStorage.removeItem('amorS')}catch{}location.reload()}};
+    else if(d.act=='resetS')ask('¿Restablecer los ajustes?','Apariencia, dock, bloqueo y demás volverán a su valor original.','Restablecer').then(y=>{if(y){try{localStorage.removeItem('amorS')}catch{}reboot(false)}})};
   addEventListener('photos',f);f();return()=>removeEventListener('photos',f)}}
 ];
 
@@ -1389,7 +1421,7 @@ const isLocked=()=>!$('#lock').classList.contains('off');
 function lock(){paintLock();renderLock();$('#lock').classList.remove('off','login');$('#lp').value='';$('#le').textContent=''}
 function enter(){$('#lock').classList.add('off');$('#lock').classList.remove('login');if(!PH.length)loadPhotos().then(n=>{if(n)photosChanged()})}
 function unlockStart(){
-  if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{});   // pantalla grande
+  if(S.autofs)goFull();   // pantalla grande
   if(S.pin){$('#lock').classList.add('login');setTimeout(()=>$('#lp').focus(),60)}else enter();
 }
 $('#lkm').onclick=unlockStart;
@@ -1417,6 +1449,7 @@ let lastAct=Date.now();
 setInterval(()=>{if(S.idle&&!isLocked()&&Date.now()-lastAct>S.idle*6e4)lock()},1e4);
 
 setInterval(clk,1e3);
+if(S.autofs){const ev=['pointerdown','click','keydown'],h=e=>{if(!S.autofs||(e.type=='keydown'&&e.key=='Escape'))return;goFull();setTimeout(()=>{if(inFS())ev.forEach(t=>removeEventListener(t,h,true))},400)};ev.forEach(t=>addEventListener(t,h,true))}
 let rzT;addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{paintWall();paintLock()},250)});
 apply();paintLock();lockWeather();
 loadPhotos().then(n=>{if(n)photosChanged()});
